@@ -1,0 +1,12 @@
+# 密钥/环境 —— 绝不提交
+.env
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 运行产物
+state_*.json
