@@ -55,4 +55,5 @@ def chat(sid=None):
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    # Sales Agent 默认 5001，避开车型对比的 5000；可用 PORT=xxxx 覆盖
+    app.run(host="127.0.0.1", port=int(os.getenv("PORT", "5001")), debug=True)
