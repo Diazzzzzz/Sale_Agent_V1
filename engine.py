@@ -48,9 +48,12 @@ def run_once(state, conversation, behaviors, profile):
     print(f"   → 目标：{plan['goal']}  用工具：{plan['need_tool']}({plan.get('tool') or '—'})")
 
     # 内容&工具：需要就调工具
+    # ⚠️ 工具入参由「状态」确定，不用 LLM 自由发挥的 tool_args——
+    #    模型可能编出对不上工具签名的参数名(如 models=)，直接 **kwargs 会崩；
+    #    而且入参来自状态更可信(同"话术只用工具数据"的防幻觉原则)。
     tool_result = None
     if plan.get("need_tool") and plan.get("tool") in TOOLS:
-        args = plan.get("tool_args") or {"budget": state.budget, "concerns": state.concerns}
+        args = {"budget": state.budget, "concerns": state.concerns}
         tool_result = TOOLS[plan["tool"]](**args)
         state.candidate_models = [c["model"] for c in tool_result.get("comparison", [])]
         print(f"   → 调用工具 {plan['tool']}，得到 {len(tool_result.get('comparison', []))} 款候选")
