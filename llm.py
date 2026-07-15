@@ -35,27 +35,26 @@ def chat(system, user, json_mode=False, mock_hint=None):
     return resp.choices[0].message.content
 
 
-# ---- mock：无 key 时的占位输出，仅为跑通链路 ----
+# ---- mock：无 key 时的占位输出，仅为跑通链路（对比竞品场景）----
 def _mock(hint):
     if hint == "perceive":
         return json.dumps({
-            "hwc": "W",
-            "node": "明确预算",
-            "evidence": "预算已明确(20万)但车型未定，属1~3月内考虑的温线索",
+            "hwc": "H",
+            "node": "对比竞品",
+            "evidence": "客户已在我方意向车与竞品之间比价，主动询问差异，属临近成交的热线索",
         }, ensure_ascii=False)
     if hint == "plan":
         return json.dumps({
-            "goal": "在20万预算内帮客户锁定1~2款家用SUV候选",
+            "goal": "用有取舍的对比帮客户坚定选我方，并邀约到店试驾",
             "need_tool": True,
             "tool": "model_comparison",
-            "tool_args": {"budget": "20万", "concerns": ["空间", "油耗"]},
-            "talking_points": ["聚焦空间和油耗", "给2款有取舍的候选", "用对比降低选择成本"],
+            "talking_points": ["针对客户在意点讲差异", "短板主动找补更可信", "落点邀约到店实车感受"],
         }, ensure_ascii=False)
     if hint == "generate":
         return (
-            "哥，按您说的20万预算、主要家里用，还看重空间和油耗，我给您圈了两款重点：\n"
-            "一款空间和舒适更好，接送孩子、周末出游都从容；另一款动力更足、配置更高，日常开着更带劲。\n"
-            "我把它俩的空间、油耗、用车成本摆一块儿做了个对比，您扫一眼就知道哪款更贴合，\n"
-            "要不我发您看看？省得您到处翻参数。"
+            "哥，您在这两款之间纠结我特别理解。我把咱们看的这款和您在比的那款，"
+            "按您最在意的几点做了个对比：该占优的地方咱们确实更强；有一两项对手稍好，"
+            "我也如实跟您说了，其实算上月供和质保是能找补回来的。\n"
+            "光看参数没感觉，不如您抽空来店里，两台车我都给您备着，实车一坐一开就清楚了。您看这周末方便吗？"
         )
     return "(mock)"

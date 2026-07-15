@@ -1,2 +1,4 @@
 # DeepSeek / 火山引擎都是 OpenAI 兼容格式，用这一个库即可
 openai>=1.0.0
+# 网页聊天演示 web.py 用
+Flask>=3.0.0

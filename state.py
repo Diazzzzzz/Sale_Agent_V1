@@ -12,6 +12,8 @@ class CustomerState:
     current_node: str = "未知"           # 当前八节点位置（感知判出）
     hwc: str = "C"                       # 热度 H/W/C/O/S（感知判出）
     budget: str = ""                     # 预算档位
+    intent_car: str = ""                 # 客户意向的我方车型（对比竞品节点要用）
+    rival_car: str = ""                  # 客户在纠结的竞品车型
     candidate_models: List[str] = field(default_factory=list)  # 候选车型
     concerns: List[str] = field(default_factory=list)          # 在意点
     history: List[str] = field(default_factory=list)           # 近几轮摘要

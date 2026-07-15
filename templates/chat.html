@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OmniSA · Sales Agent 演示</title>
+<style>
+  :root{
+    --bg:#F4F7FB; --surface:#fff; --ink:#0F1B2D; --ink-soft:#3C4A60; --muted:#6B7A93;
+    --line:#E1E8F1; --accent:#1E5AD6; --accent-soft:#EAF1FD;
+    --H:#E5484D; --W:#D8880B; --C:#2563C9; --O:#178A5A; --S:#7B4DD6;
+    --cust:#EEF1F6; --sales:#E7F0FD;
+    --sans:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+  .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  h1{font-size:19px;letter-spacing:-.01em}
+  .badge{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--accent-soft);color:var(--accent)}
+  .badge.mock{background:#fff4e5;color:#b26a00}
+  .sub{font-size:13px;color:var(--muted);margin:2px 0 16px}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .pill{font-size:12.5px;padding:6px 12px;border-radius:20px;background:#fff;border:1px solid var(--line);color:#556;text-decoration:none}
+  .pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  .perceive{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:14px;font-size:13px}
+  .perceive .lbl{color:var(--muted);font-size:11.5px}
+  .hwc{font-weight:800;color:#fff;border-radius:6px;padding:1px 9px;font-size:12.5px}
+  .hwc.H{background:var(--H)}.hwc.W{background:var(--W)}.hwc.C{background:var(--C)}.hwc.O{background:var(--O)}.hwc.S{background:var(--S)}
+  .nodechip{font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:1px 9px;font-size:12.5px}
+  .perceive .ev{color:var(--muted);flex:1 1 100%;font-size:12px}
+
+  .chat{display:flex;flex-direction:column;gap:10px;background:#fafbfd;border:1px solid var(--line);border-radius:16px;padding:16px;min-height:200px}
+  .bubble{max-width:86%;padding:9px 13px;border-radius:15px;font-size:14px}
+  .bubble .who{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
+  .bubble.cust{align-self:flex-start;background:var(--cust);border-top-left-radius:5px}
+  .bubble.sales{align-self:flex-end;background:var(--sales);border-top-right-radius:5px}
+  .bubble.sales .who{text-align:right}
+
+  .typing{align-self:flex-start;background:var(--cust);padding:11px 14px;border-radius:14px;display:flex;gap:4px;align-items:center}
+  .typing i{width:6px;height:6px;border-radius:50%;background:#b9c0d0;display:inline-block;animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .agent{align-self:stretch;width:100%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+  .agent .head{font-size:12.5px;color:var(--accent);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .vs{font-size:15px;font-weight:800;margin-bottom:6px}
+  .vs .o{color:var(--accent)} .vs .x{color:var(--muted);font-size:12px;margin:0 8px} .vs .r{color:#556}
+  .summary{font-size:13.5px;color:var(--ink-soft);margin-bottom:12px}
+  .stub{font-size:11px;color:#b26a00;background:#fff4e5;border-radius:5px;padding:1px 7px;margin-left:6px;font-weight:700}
+  .dims{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:560px){.dims{grid-template-columns:1fr}}
+  .dcard{border:1px solid var(--line);border-radius:12px;padding:12px}
+  .dcard.win{border-color:#bcd3f6;background:#f7faff}
+  .dcard.weak{background:#fffdf7}
+  .drow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .dname{font-weight:700;font-size:14px}
+  .tag{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px}
+  .tag.ok{background:var(--accent);color:#fff}
+  .tag.fb{background:#f6e2c2;color:#8a5a12}
+  .dv{font-size:12.5px;padding:5px 9px;border-radius:8px;background:#fafbfd;margin-bottom:5px}
+  .dv.ours{background:var(--accent-soft)}
+  .dcmt{font-size:12px;color:#5a606e;margin-top:6px}
+  .fbtag{color:#c77700;font-weight:700;font-size:11px;background:#fff2d9;padding:1px 6px;border-radius:5px;margin-right:4px}
+
+  .talkwrap{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+  .talkwrap .head{color:var(--ink);font-weight:700;font-size:13px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .talk{background:#fbfaf6;border:1px dashed #e3d9b8;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;white-space:pre-wrap}
+  .gate{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .gate button{border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  .gate .confirm{background:var(--accent);color:#fff}
+  .gate .edit{background:#fff;border:1px solid var(--line);color:#445}
+  .gate .note{font-size:12px;color:var(--muted)}
+
+  .ctrls{display:flex;gap:10px;justify-content:center;margin-top:18px}
+  .ctrls button{border:1px solid var(--line);background:#fff;color:#445;border-radius:9px;padding:9px 18px;font-size:14px;cursor:pointer}
+  .ctrls .primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:16px}
+
+  .reveal{opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
+  .reveal.show{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>🤖 OmniSA · Sales Agent 演示</h1>
+    {% if mock_mode %}<span class="badge mock">演示模式(mock)</span>{% else %}<span class="badge">{{ provider }} 实时</span>{% endif %}
+  </div>
+  <p class="sub">真·Sales Agent 在跑：对话 → 感知 HWC/节点 → 到「对比竞品」节点调用车型对比工具 → 生成话术，停在销售确认。车型对比只是它调的一个工具。</p>
+
+  <div class="pills">
+    {% for s in scenarios %}
+    <a class="pill {{ 'active' if s.id == current else '' }}" href="/s/{{ s.id }}">{{ s.title }}</a>
+    {% endfor %}
+  </div>
+
+  <!-- 感知结果 -->
+  <div class="perceive reveal" id="perceive" style="display:none">
+    <span class="lbl">① 感知</span>
+    <span class="hwc {{ r.perceive.hwc }}">{{ r.perceive.hwc }}</span>
+    <span class="nodechip">{{ r.perceive.node }}</span>
+    <span class="ev">依据：{{ r.perceive.evidence }}</span>
+  </div>
+
+  <div class="chat" id="chat">
+    {% for line in dialogue %}
+    <div class="bubble {{ 'sales' if line.who == '销售' else 'cust' }} reveal">
+      <span class="who">{{ line.who }}</span><span>{{ line.text }}</span>
+    </div>
+    {% endfor %}
+
+    <div class="typing reveal" id="typing" style="display:none"><i></i><i></i><i></i></div>
+
+    <div class="agent reveal">
+      <div class="head">🤖 到「对比竞品」节点 · 调用车型对比工具</div>
+      {% if r.tool_result %}
+      <div class="vs"><span class="o">{{ r.tool_result.our_car }}</span><span class="x">VS</span><span class="r">{{ r.tool_result.rival_car }}</span></div>
+      <div class="summary">💡 {{ r.tool_result.summary }}{% if r.tool_result._stub %}<span class="stub">桩数据·接真口子后替换</span>{% endif %}</div>
+      <div class="dims">
+        {% for d in r.tool_result.dimensions %}
+        <div class="dcard {{ 'win' if d.winner=='ours' else ('weak' if d.winner=='rival' else '') }}">
+          <div class="drow">
+            <span class="dname">{{ d.name }}</span>
+            {% if d.winner=='ours' %}<span class="tag ok">✓ 我方占优</span>{% elif d.winner=='rival' %}<span class="tag fb">对手更强</span>{% endif %}
+          </div>
+          <div class="dv ours">{{ d.ours }}</div>
+          <div class="dv">{{ d.rival }}</div>
+          <div class="dcmt">{% if d.winner=='rival' %}<span class="fbtag">找补</span>{% endif %}{{ d.comment }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="talkwrap">
+        <div class="head">🗣️ 生成话术 · 待销售确认</div>
+        <div class="talk">{{ r.message }}</div>
+        <div class="gate">
+          <button class="confirm" onclick="alert('阶段一(增强人)：这里销售点确认后才真正发送。MVP 未接真实发送通道。')">✅ 确认并发送</button>
+          <button class="edit" onclick="alert('可让销售改一版，或让 Agent 重生成。MVP 里先占位。')">✎ 改一版</button>
+          <span class="note">阶段一：Agent 只做到"生成+暂存"，销售确认才触达</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ctrls">
+    <button id="replay">↻ 重播对话</button>
+    <button class="primary" id="skip">⤓ 直接看结果</button>
+  </div>
+  <p class="foot">数据均为模拟 · 车型对比为工具桩(接 Model_Comparison_Agent 的 /api/compare 后替换)</p>
+</div>
+
+<script>
+(function(){
+  var perceive = document.getElementById('perceive');
+  var chat = document.getElementById('chat');
+  var typing = document.getElementById('typing');
+  var bubbles = Array.prototype.slice.call(chat.querySelectorAll('.bubble.reveal'));
+  var agent = chat.querySelector('.agent');
+  var timers = [];
+  function clear(){ timers.forEach(clearTimeout); timers=[]; }
+  function to(el){ el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+
+  function reset(){
+    clear();
+    perceive.classList.remove('show'); perceive.style.display='none';
+    bubbles.forEach(function(b){ b.classList.remove('show'); });
+    typing.classList.remove('show'); typing.style.display='none';
+    agent.classList.remove('show');
+  }
+  function play(){
+    reset();
+    var delay=350;
+    // 先亮"感知"
+    timers.push(setTimeout(function(){ perceive.style.display='flex'; perceive.classList.add('show'); }, delay));
+    delay+=650;
+    // 逐条对话
+    bubbles.forEach(function(b){
+      timers.push(setTimeout(function(){ b.classList.add('show'); to(b); }, delay));
+      delay += Math.min(2200, 650 + (b.textContent||'').length*55);
+    });
+    // typing → agent
+    timers.push(setTimeout(function(){ typing.style.display='flex'; typing.classList.add('show'); to(typing); }, delay));
+    delay+=1300;
+    timers.push(setTimeout(function(){ typing.style.display='none'; agent.classList.add('show'); to(agent); }, delay));
+  }
+  function skip(){
+    clear();
+    perceive.style.display='flex'; perceive.classList.add('show');
+    bubbles.forEach(function(b){ b.classList.add('show'); });
+    typing.style.display='none';
+    agent.classList.add('show'); to(agent);
+  }
+  document.getElementById('replay').addEventListener('click', play);
+  document.getElementById('skip').addEventListener('click', skip);
+  play();
+})();
+</script>
+</body>
+</html>
