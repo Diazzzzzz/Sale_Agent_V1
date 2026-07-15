@@ -41,8 +41,9 @@ def chat(sid=None):
     )
 
     mock = _mock_mode()
-    perceived = sc.get("perceived") if mock else None
-    result = run_engine(state, sc["transcript"], sc.get("behaviors", ""), PROFILE, perceived=perceived)
+    # 只有输入(聊天记录/客户标签)是模拟的。感知/分级/策略/话术都由引擎【基于输入】生成：
+    # 配了 key → 全部由 DeepSeek 实时算(真)；没 key → 落 llm 的占位(网页会明确标注)。
+    result = run_engine(state, sc["transcript"], sc.get("behaviors", ""), PROFILE, perceived=None)
 
     return render_template(
         "chat.html",
