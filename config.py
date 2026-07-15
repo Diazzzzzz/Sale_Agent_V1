@@ -21,3 +21,6 @@ ACTIVE_PROVIDER = os.getenv("LLM_PROVIDER", "deepseek")
 
 # 阶段：'1'=增强人(生成后停下等销售确认，不自动触达)；'2'=端到端自动
 PHASE = os.getenv("SA_PHASE", "1")
+
+# 温度：低(0.2~0.5)=稳定、话术不乱飘；高(0.8~1.0)=更发散、每次不同
+TEMPERATURE = float(os.getenv("SA_TEMPERATURE", "0.7"))

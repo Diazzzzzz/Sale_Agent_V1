@@ -2,7 +2,7 @@
 无 API key 时自动降级为 mock，逻辑照样跑通(方便先看流程，再接真模型)。"""
 import os
 import json
-from config import PROVIDERS, ACTIVE_PROVIDER
+from config import PROVIDERS, ACTIVE_PROVIDER, TEMPERATURE
 
 
 def _client():
@@ -27,7 +27,7 @@ def chat(system, user, json_mode=False, mock_hint=None):
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
-        "temperature": 0.4,
+        "temperature": TEMPERATURE,
     }
     if json_mode:
         kwargs["response_format"] = {"type": "json_object"}
