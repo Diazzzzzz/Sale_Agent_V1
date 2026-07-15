@@ -45,10 +45,11 @@ def _mock(hint):
         }, ensure_ascii=False)
     if hint == "plan":
         return json.dumps({
-            "goal": "用有取舍的对比帮客户坚定选我方，并邀约到店试驾",
-            "need_tool": True,
-            "tool": "model_comparison",
-            "talking_points": ["针对客户在意点讲差异", "短板主动找补更可信", "落点邀约到店实车感受"],
+            "goal": "帮客户在意向车与竞品之间坚定选我方，并邀约到店试驾",
+            "actions": [{"tool": "model_comparison", "why": "客户在比价，需要有取舍的对比数据支撑"}],
+            "deliverables": ["一条邀约到店试驾的微信话术"],
+            "timing": "2天内跟进，有互动即时响应",
+            "talking_points": ["紧扣客户在意点讲差异", "主动认短板并找补", "落点邀约到店实车感受"],
         }, ensure_ascii=False)
     if hint == "generate":
         return (

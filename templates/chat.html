@@ -56,10 +56,14 @@
   .hwc.H{background:var(--H)}.hwc.W{background:var(--W)}.hwc.C{background:var(--C)}.hwc.O{background:var(--O)}.hwc.S{background:var(--S)}
   .nodechip{font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:1px 9px;font-size:12.5px}
   .ev{color:var(--muted);font-size:12px;margin-top:8px}
-  .goal{font-size:13.5px;font-weight:600;color:var(--ink-soft);margin-bottom:9px}
+  .goal{font-size:13.5px;font-weight:600;color:var(--ink-soft);margin-bottom:10px}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
   .chip{font-size:11.5px;background:var(--accent-soft);color:var(--accent);border-radius:20px;padding:3px 10px;font-weight:600}
+  .chip.out{background:#eef7ee;color:#2e7d32}
   .tooldec{font-size:12.5px;color:var(--ink-soft)}
+  .plan-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;margin-bottom:7px}
+  .plan-row .k{flex:0 0 68px;font-size:11px;color:var(--muted);font-weight:700}
+  .plan-row .dim{font-size:12px;color:var(--muted)}
 
   .vs{font-size:14.5px;font-weight:800;margin-bottom:6px}
   .vs .o{color:var(--accent)} .vs .x{color:var(--muted);font-size:12px;margin:0 8px} .vs .r{color:#556}
@@ -146,19 +150,26 @@
   </div>
 
   <div class="step reveal">
-    <div class="steplbl">② 策略</div>
-    <div class="goal">🎯 {{ r.plan.goal }}</div>
-    {% if r.plan.talking_points %}<div class="chips">{% for t in r.plan.talking_points %}<span class="chip">{{ t }}</span>{% endfor %}</div>{% endif %}
-    <div class="tooldec">{% if r.plan.need_tool %}🔧 决定调用工具：<b>{{ r.plan.tool }}</b>{% else %}本轮不调用工具{% endif %}</div>
+    <div class="steplbl">② 策略 · 军师（只决策，不写话术）</div>
+    <div class="goal">🎯 目标：{{ r.plan.goal }}</div>
+    <div class="plan-row"><span class="k">调用子agent</span>
+      {% if r.plan.actions %}{% for a in r.plan.actions %}<span class="chip">🔧 {{ a.tool }}{% if a.why %} · {{ a.why }}{% endif %}</span>{% endfor %}{% else %}<span class="dim">本轮不调用</span>{% endif %}
+    </div>
+    <div class="plan-row"><span class="k">要产出</span>
+      {% for d in r.plan.deliverables %}<span class="chip out">📦 {{ d }}</span>{% endfor %}
+    </div>
+    {% if r.plan.timing %}<div class="plan-row"><span class="k">时机</span><span class="dim">{{ r.plan.timing }}</span></div>{% endif %}
+    {% if r.plan.talking_points %}<div class="plan-row"><span class="k">要点角度</span>{% for t in r.plan.talking_points %}<span class="chip">{{ t }}</span>{% endfor %}</div>{% endif %}
   </div>
 
   <div class="step reveal">
-    <div class="steplbl">③ 车型对比工具</div>
-    {% if r.tool_result %}
-    <div class="vs"><span class="o">{{ r.tool_result.our_car }}</span><span class="x">VS</span><span class="r">{{ r.tool_result.rival_car }}</span></div>
-    <div class="summary">💡 {{ r.tool_result.summary }}{% if r.tool_result._stub %}<span class="stub">桩数据·接真口子后替换</span>{% endif %}</div>
+    <div class="steplbl">③ 执行 · 调用子agent（军师点名的）</div>
+    {% if r.tool_results %}
+    {% for x in r.tool_results %}
+    <div class="vs"><span class="o">{{ x.result.our_car }}</span><span class="x">VS</span><span class="r">{{ x.result.rival_car }}</span></div>
+    <div class="summary">💡 {{ x.result.summary }}{% if x.result._stub %}<span class="stub">桩数据·接真口子后替换</span>{% endif %}</div>
     <div class="dims">
-      {% for d in r.tool_result.dimensions %}
+      {% for d in x.result.dimensions %}
       <div class="dcard {{ 'win' if d.winner=='ours' else ('weak' if d.winner=='rival' else '') }}">
         <div class="drow">
           <span class="dname">{{ d.name }}</span>
@@ -170,11 +181,12 @@
       </div>
       {% endfor %}
     </div>
+    {% endfor %}
     {% else %}<div class="tooldec">本轮未调用工具</div>{% endif %}
   </div>
 
   <div class="step reveal">
-    <div class="steplbl">④ 生成话术</div>
+    <div class="steplbl">④ 执行 · 生成话术（这一步才动笔）</div>
     <div class="talk">{{ r.message }}</div>
   </div>
 
