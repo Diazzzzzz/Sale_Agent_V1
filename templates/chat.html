@@ -205,7 +205,7 @@
         {% if x.result.card_type == 'comparison' %}
           <!-- 对比卡 -->
           <div class="vs"><span class="o">{{ x.result.our_car }}</span><span class="x">VS</span><span class="r">{{ x.result.rival_car }}</span></div>
-          <div class="summary">💡 {{ x.result.summary }}{% if x.result._stub %}<span class="stub">桩数据·接真口子后替换</span>{% endif %}</div>
+          <div class="summary">💡 {{ x.result.summary }}{% if x.result._stub %}<span class="stub">示例数据</span>{% endif %}</div>
           <div class="dims">
             {% for d in x.result.dimensions %}
             <div class="dcard {{ 'win' if d.winner=='ours' else ('weak' if d.winner=='rival' else '') }}">
@@ -227,7 +227,7 @@
                  onerror="this.closest('.gimg').remove()"></div>
             {% endif %}
             <div class="gbody">
-              <div class="gtitle">🔧 {{ x.result.title }}{% if x.result._stub %}<span class="stub">桩</span>{% endif %}</div>
+              <div class="gtitle">🔧 {{ x.result.title }}{% if x.result._stub %}<span class="stub">示例数据</span>{% endif %}</div>
               <div class="gsub">{{ x.result.subtitle }}</div>
               {% for it in x.result['items'] %}
               <div class="gi"><span class="gk">{{ it.label }}</span>
@@ -269,7 +269,7 @@
     <button id="replay">↻ 重播</button>
     <button class="primary" id="skip">⤓ 直接看结果</button>
   </div>
-  <p class="foot">数据均为模拟输入 · 工具为桩(接内容库/画像库后替换)</p>
+  <p class="foot">卡片内数字为示例数据 · 接入真实内容库 / 画像库后自动替换</p>
 </div>
 
 <script>
