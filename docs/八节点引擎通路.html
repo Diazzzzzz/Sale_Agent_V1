@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OmniSA · Sales Agent 八节点引擎通路</title>
+<style>
+  :root{--bg:#F4F7FB;--ink:#0F1B2D;--soft:#3C4A60;--muted:#6B7A93;--line:#E1E8F1;
+    --accent:#1E5AD6;--accent-soft:#EAF1FD;--sans:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.65}
+  .wrap{max-width:880px;margin:0 auto;padding:28px 18px 70px}
+  h1{font-size:23px;margin-bottom:6px}
+  .lead{color:var(--muted);font-size:14px;margin-bottom:18px}
+  .overview{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:20px}
+  .overview h2{font-size:15px;color:var(--accent);margin-bottom:8px}
+  .flow{font-size:13.5px;color:var(--soft);line-height:2}
+  .flow code{background:var(--accent-soft);color:var(--accent);border-radius:5px;padding:1px 6px;font-size:12.5px}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+  .toc a{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);
+    border-radius:20px;padding:6px 13px;text-decoration:none;color:var(--soft);font-size:13px}
+  .toc a span{width:19px;height:19px;border-radius:50%;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+
+  .node{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:22px}
+  .nhd{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .nn{width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex:0 0 auto}
+  .ntitle{font-size:18px;font-weight:800}
+  .nsub{font-size:13px;color:var(--muted)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .tags .t{font-size:12.5px;background:var(--accent-soft);border:1px solid #cfe0fb;border-radius:20px;
+    padding:4px 11px;color:var(--soft)}
+  .tags .t b{color:var(--accent)}
+
+  .step{border-left:3px solid var(--accent-soft);padding:2px 0 4px 16px;margin:0 0 14px 6px}
+  .sl{font-size:15.5px;font-weight:800;color:var(--accent);margin-bottom:9px}
+  .hwc{font-weight:800;color:#fff;border-radius:6px;padding:1px 9px;font-size:12.5px;margin-right:6px}
+  .nodechip{font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:1px 9px;font-size:12.5px}
+  .ev{color:var(--muted);font-size:12.5px;margin-top:8px}
+  .dim{color:var(--muted);font-size:12.5px}
+  .mid{background:#f7f9fc;border:1px dashed var(--line);border-radius:10px;padding:9px 13px;
+    font-size:12.5px;color:var(--soft);margin:0 0 14px 6px}
+  .mid b{color:var(--accent)}
+  .row{display:flex;gap:8px;margin-bottom:7px;align-items:baseline}
+  .row .k{flex:0 0 62px;font-size:11.5px;color:var(--muted);font-weight:700}
+  .row .v{flex:1}
+  .chip{display:inline-block;font-size:11.5px;background:var(--accent-soft);color:var(--accent);
+    border-radius:20px;padding:3px 10px;margin:2px 4px 2px 0;font-weight:600}
+  .chip.out{background:#eef7ee;color:#2e7d32}
+  .chip.tool{background:#fff}
+
+  .tool{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+  .tt{font-weight:800;font-size:13.5px}
+  .ex{font-size:10.5px;color:#b26a00;background:#fff4e5;border-radius:5px;padding:1px 7px;margin-left:7px;font-weight:700}
+  .ts{font-size:12.5px;color:var(--muted);margin:3px 0 9px}
+  .imgtag{font-size:11.5px;color:#8a5a12;background:#fff7ea;border-radius:5px;padding:2px 8px;display:inline-block;margin-bottom:8px}
+  .gi{display:flex;gap:8px;font-size:13px;margin-bottom:5px}
+  .gi .gk{flex:0 0 84px;color:var(--muted)}
+  .gi .gv b{color:var(--ink)}
+  .gi .nt{color:#c77700;font-size:11.5px}
+  .cmp{width:100%;border-collapse:collapse;margin-top:4px;font-size:12.5px}
+  .cmp th,.cmp td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+  .cmp th{background:#f7f9fc}
+  .cmp .win{background:var(--accent-soft)}
+  .cmp .weak{background:#fffdf7}
+  .cmp .dn{font-weight:700;white-space:nowrap}
+  .cmp .cmt{color:var(--muted);font-size:11.5px;margin-top:4px}
+  .tag{font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:4px}
+  .tag.ok{background:var(--accent);color:#fff} .tag.fb{background:#f6e2c2;color:#8a5a12}
+
+  .talk{background:#fbfaf6;border:1px dashed #e3d9b8;border-radius:12px;padding:13px;font-size:13.5px;line-height:1.85}
+  code{background:#eef1f6;border-radius:5px;padding:1px 6px;font-size:12px;color:#445}
+  .adv{margin-top:9px;font-size:13px;color:var(--accent)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:10px}
+</style></head>
+<body><div class="wrap">
+  <h1>🤖 OmniSA · Sales Agent 八节点引擎通路</h1>
+  <p class="lead">同一个引擎，跑八个节点 —— 每个节点从「感知」到「回写」的完整通路。数据取自演示剧本，与代码一致。</p>
+
+  <div class="overview">
+    <h2>引擎五步（八节点共用同一套）</h2>
+    <div class="flow">
+      <b>①感知</b> 读对话/行为 → 判 HWC 热度 + 在哪个节点 →
+      <b>选档案</b>（该节点的目标/可调工具/时机）→
+      <b>②军师</b> 只决策：定目标、选工具、定生成物（不写话术）→
+      <b>③执行·调用</b> 按军师点名调工具，产出卡 →
+      <b>④执行·生成</b> 照卡+要点写客户话术（这才动笔）→
+      <b>⑤回写</b> 阶段一挂起 <code>pending_action</code>，销售确认才发。<br>
+      八节点通路完全一样，差异只在「选档案」换了哪份档案、②军师据此选的工具不同。
+    </div>
+  </div>
+
+  <div class="toc"><a href="#n1"><span>1</span>认可品牌</a><a href="#n2"><span>2</span>了解产品</a><a href="#n3"><span>3</span>明确预算</a><a href="#n4"><span>4</span>明确车型</a><a href="#n5"><span>5</span>对比竞品</a><a href="#n6"><span>6</span>到店试驾</a><a href="#n7"><span>7</span>商务谈判</a><a href="#n8"><span>8</span>已提车</a></div>
+  
+<section class="node" id="n1">
+  <div class="nhd"><span class="nn">1</span>
+    <div><div class="ntitle">认可品牌</div>
+    <div class="nsub">张先生 · 还信不过国产越野</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 张先生 · 还信不过国产越野</span><span class="t"><b>意向车</b> 长城坦克300</span><span class="t"><b>竞品</b> Jeep牧马人</span><span class="t"><b>预算</b> 20万左右</span><span class="t"><b>在意</b> 品牌信任、越野</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#2563C9">C 冷线索</span>
+      <span class="nodechip">认可品牌</span>
+      <span class="dim">（3 月+/未明确）</span></div>
+    <div class="ev">依据：客户拿牧马人做锚、反复质疑国产越野，尚未认可品牌，属早期冷线索</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>认可品牌</b> ｜ 目标：客户尚未认可品牌、常拿合资或大牌做对比；目标是用硬事实打消“不如它”的顾虑，建立对品牌的初步信任，让他愿意进一步了解产品。 ｜ 时机：冷线索，3~5 天轻触一次，不逼单，先建立信任。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>打消“国产越野不如合资”的顾虑，建立对坦克品牌的初步信任</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 brand_proof · 客户不信任品牌，需要销量/口碑/奖项等硬事实背书</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一段建立品牌信任的微信话术 + 1 张品牌实力图</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">冷线索，3~5 天轻触一次，不逼单</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">坦克是独立越野品牌、不是杂牌</span><span class="chip">销量/保有量背书</span><span class="chip">真实车主口碑</span><span class="chip">邀到店眼见为实</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 长城坦克300 · 品牌实力背书<span class="ex">示例数据</span></div><div class="ts">用硬事实回应“国产越野行不行”</div><div class="imgtag">配图：tank300.jpg</div><div class="gi"><span class="gk">品类地位</span><span class="gv"><b>国产硬派越野销量领先</b> <span class="nt">· 专业越野品牌，非杂牌</span></span></div><div class="gi"><span class="gk">保有量</span><span class="gv"><b>坦克品牌全球用户 XX 万</b> <span class="nt">· 占位：填真实数字</span></span></div><div class="gi"><span class="gk">权威认可</span><span class="gv"><b>多项越野车型大奖</b> <span class="nt">· 占位：填真实奖项</span></span></div><div class="gi"><span class="gk">车主口碑</span><span class="gv"><b>满意度 XX%，真实穿越作业 N 篇</b> <span class="nt">· 占位：挂口碑素材</span></span></div></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">张哥，您这个顾虑我特别理解，换我买 20 万的车也会反复掂量。坦克其实不是“便宜的替代”，它是长城单独做越野的品牌——销量、保有量都摆在这，越野这块口碑是真车主一趟趟跑出来的。<br>小毛病和保值您担心得对，这两点我不跟您嘴上打包票，您来店里，我把真实的车主反馈和保值数据摊给您看，再上车摸一摸，行不行您自己判断。这周末我给您留台实车？</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>了解产品</b></div>
+  </div>
+</section>
+<section class="node" id="n2">
+  <div class="nhd"><span class="nn">2</span>
+    <div><div class="ntitle">了解产品</div>
+    <div class="nsub">陈女士 · 认牌了但不懂好在哪</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 陈女士 · 认牌了但不懂好在哪</span><span class="t"><b>意向车</b> 长城哈弗H6</span><span class="t"><b>预算</b> 15万内</span><span class="t"><b>在意</b> 安全、空间</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#D8880B">W 温线索</span>
+      <span class="nodechip">了解产品</span>
+      <span class="dim">（1~3 月考虑期）</span></div>
+    <div class="ev">依据：客户已认可品牌，需要围绕安全/空间讲清核心卖点，属温线索</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>了解产品</b> ｜ 目标：客户已认可品牌但不了解这款车的优势；目标是围绕他的在意点讲清 2~3 个核心卖点，让他被种草、愿意深入了解。 ｜ 时机：温线索，2~4 天跟进一次，围绕在意点持续种草。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>围绕客户在意的安全、空间，讲清 H6 的 2~3 个核心卖点，让她种草</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 product_highlight · 按在意点(安全/空间)挑亮点，避免堆参数</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一段种草核心卖点的微信话术 + 1 张亮点图</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">温线索，2~4 天跟进一次</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">只讲安全/空间两点</span><span class="chip">场景化(带娃出行)</span><span class="chip">落点邀到店实车感受</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 长城哈弗H6 · 为您挑的核心亮点<span class="ex">示例数据</span></div><div class="ts">只讲您在意的安全 &amp; 空间</div><div class="imgtag">配图：havalh6.jpg</div><div class="gi"><span class="gk">安全</span><span class="gv"><b>全系 6 气囊 + L2 辅助驾驶</b> <span class="nt">· 带娃出行更放心</span></span></div><div class="gi"><span class="gk">空间</span><span class="gv"><b>同级更长轴距，后排 + 后备箱能装</b> <span class="nt">· 推车大件都塞得下</span></span></div></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">陈姐，您最看重的两点我直接给您说透：一是安全，H6 全系 6 个气囊、带 L2 辅助驾驶，带娃跑长途能省不少心；二是空间，它同级里轴距算长的，后排坐得开，后备箱推车、大件都装得下。<br>这些光看图没手感，您带孩子来店里，实车坐进去、后备箱塞一下，一下就清楚了。您这周哪天方便？</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>明确预算</b></div>
+  </div>
+</section>
+<section class="node" id="n3">
+  <div class="nhd"><span class="nn">3</span>
+    <div><div class="ntitle">明确预算</div>
+    <div class="nsub">赵先生 · 喜欢但纠结价格</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 赵先生 · 喜欢但纠结价格</span><span class="t"><b>意向车</b> 长城哈弗大狗</span><span class="t"><b>预算</b> 预算模糊</span><span class="t"><b>在意</b> 价格</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#D8880B">W 温线索</span>
+      <span class="nodechip">明确预算</span>
+      <span class="dim">（1~3 月考虑期）</span></div>
+    <div class="ev">依据：客户对车有意向但预算模糊、纠结价格，需把落地价/月供讲清，属温线索</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>明确预算</b> ｜ 目标：客户对车有意向但预算模糊或纠结价格；目标是把落地价/月供算清、降低价格顾虑，帮他把预算锚定下来。 ｜ 时机：温线索，2~3 天跟进；客户一问价立即响应。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>把落地价和月供算清、降低价格顾虑，帮客户锚定预算</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 finance_calc · 用落地价+分期把钱讲透明，弱化总价焦虑</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一段讲清落地价/月供的微信话术 + 1 张试算卡</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">温线索，2~3 天跟进</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">不逼问预算</span><span class="chip">强调月供可承受</span><span class="chip">给几档方案让他有掌控感</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 长城哈弗大狗 · 落地价 &amp; 分期试算<span class="ex">示例数据</span></div><div class="ts">把“钱的事”讲透明，弱化总价、看月供</div><div class="imgtag">配图：havaldog.jpg</div><div class="gi"><span class="gk">参考裸车价</span><span class="gv"><b>XX.XX 万</b> <span class="nt">· 占位：按实配置填</span></span></div><div class="gi"><span class="gk">落地价(含税险)</span><span class="gv"><b>约 XX.XX 万</b> <span class="nt">· 占位：一价清单</span></span></div><div class="gi"><span class="gk">首付方案</span><span class="gv"><b>低至 30% ≈ X.X 万</b> <span class="nt">· 门槛可再谈</span></span></div><div class="gi"><span class="gk">月供参考</span><span class="gv"><b>约 X,XXX 元 / 月</b> <span class="nt">· 分 36 期示例</span></span></div></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">赵哥，车您满意就好办，价的事咱摊开算，不含糊。我按大狗给您列了个明白账：落地大概多少、首付低能到多少、分 36 期一个月大概还多少，您一眼就知道扛不扛得住。<br>预算不用现在说死，您看着这个数心里先有个底。哪天来店里我把优惠和金融方案一起给您对一遍，能更省。</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>明确车型</b></div>
+  </div>
+</section>
+<section class="node" id="n4">
+  <div class="nhd"><span class="nn">4</span>
+    <div><div class="ntitle">明确车型</div>
+    <div class="nsub">孙女士 · 在自家两款里挑</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 孙女士 · 在自家两款里挑</span><span class="t"><b>意向车</b> 长城哈弗H6 / 哈弗大狗</span><span class="t"><b>预算</b> 15万内</span><span class="t"><b>在意</b> 空间、外观</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#D8880B">W 温线索</span>
+      <span class="nodechip">明确车型</span>
+      <span class="dim">（1~3 月考虑期）</span></div>
+    <div class="ev">依据：客户预算已定、在本品牌两款间犹豫，需按在意点缩到 1~2 款，属温线索</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>明确车型</b> ｜ 目标：客户预算已明确、车型未定；目标是结合在意点，在预算内把候选缩到 1~2 款本品牌车型。 ｜ 时机：比选期，2~3 天跟进一次；有新互动即时响应。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>结合在意点(空间/外观)，在预算内帮客户缩到 1~2 款候选</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 model_select · 在自家车型里做有取舍的推荐，不一次推太多</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一段帮客户缩范围的微信话术 + 1 张选型卡</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">比选期，2~3 天跟进</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">讲清两款差异</span><span class="chip">对上空间/外观</span><span class="chip">落点到店实车对比</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 为您在自家车型里缩个范围<span class="ex">示例数据</span></div><div class="ts">有取舍地推，不一次推太多</div><div class="imgtag">配图：havalh6.jpg</div><div class="gi"><span class="gk">候选1 · 哈弗H6</span><span class="gv"><b>空间更均衡、家用更稳</b> <span class="nt">· 看重能装、省心选它</span></span></div><div class="gi"><span class="gk">候选2 · 哈弗大狗</span><span class="gv"><b>外观更硬派个性、辨识度高</b> <span class="nt">· 看重颜值/态度选它</span></span></div><div class="gi"><span class="gk">选型建议</span><span class="gv"><b>15 万内先锁这两款</b> <span class="nt">· 到店实车对比最快拍板</span></span></div></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">孙姐，您这俩其实各有各的好，我给您掰开说：要是更看重空间均衡、家用省心，H6 更稳；要是想外观有个性、开出去有辨识度，那就是大狗。您在意的空间两款都够，差别主要在‘稳当’还是‘个性’。<br>别在图上纠结了，两台我都给您停一块儿，您来店里坐进去比一下，五分钟就有答案。周末给您留车？</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>对比竞品</b></div>
+  </div>
+</section>
+<section class="node" id="n5">
+  <div class="nhd"><span class="nn">5</span>
+    <div><div class="ntitle">对比竞品</div>
+    <div class="nsub">王先生 · 哈弗H6 比 RAV4</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 王先生 · 哈弗H6 比 RAV4</span><span class="t"><b>意向车</b> 长城哈弗H6</span><span class="t"><b>竞品</b> 丰田RAV4荣放</span><span class="t"><b>预算</b> 15万内</span><span class="t"><b>在意</b> 安全、空间、保值</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#E5484D">H 热线索</span>
+      <span class="nodechip">对比竞品</span>
+      <span class="dim">（1 周内可成交）</span></div>
+    <div class="ev">依据：客户已在哈弗H6与RAV4之间比价，最看重安全/空间，属临近成交的热线索</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>对比竞品</b> ｜ 目标：客户在我方意向车与竞品之间纠结；目标是用有取舍、可信的对比帮他坚定选我方，并邀约到店试驾。 ｜ 时机：客户处于比价决策期，节奏要快，2天内跟进一次；有新互动即时响应。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>用有取舍、可信的对比帮客户坚定选 H6，并邀约到店试驾</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 model_comparison · 客户在比价，需要针对在意点的对比数据支撑</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一条邀约到店试驾的微信话术 + 1 张对比卡</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">2 天内跟进，有互动即时响应</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">紧扣安全/空间/保值讲差异</span><span class="chip">保值短板主动认并找补</span><span class="chip">落点邀到店实车感受</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 车型对比 · 长城哈弗H6 vs 丰田RAV4荣放<span class="ex">示例数据</span></div><div class="ts">同价位下，哈弗H6 在您最看重的「安全/空间」上更占优；保值这个短板可用落地价差 + 长质保找补。</div><table class="cmp"><tr><th>维度</th><th>我方</th><th>竞品</th></tr><tr><td class="dn">安全 <span class="tag ok">我方占优</span></td><td class="win">哈弗H6：全系6气囊 + L2 辅助驾驶</td><td class="">RAV4：基础主动安全<div class="cmt">带两岁娃出行更放心</div></td></tr><tr><td class="dn">空间 <span class="tag ok">我方占优</span></td><td class="win">哈弗H6：轴距更长、后备箱更能装</td><td class="">RAV4：够用但偏小<div class="cmt">推车、大件都塞得下</div></td></tr><tr><td class="dn">保值 <span class="tag fb">对手更强</span></td><td class="">哈弗H6：国产保值率近年快速提升</td><td class="weak">RAV4：合资保值率偏高<div class="cmt">找补：找补：算上落地价差 + 长质保，几年持有成本反而更低</div></td></tr></table></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">王哥，您在这两款之间纠结我特别理解。我按您最在意的几点做了个实在对比：安全和空间，H6 确实更强，全系6气囊带 L2，后排和后备箱也更能装，带两岁娃出门省心。<br>保值这点我不跟您绕——RAV4 是稍好，但您别只看这一项：H6 落地价本来就低一截，再加上长质保，几年下来实际持有成本不见得吃亏。<br>光看参数没感觉，不如您抽空来店里，两台车我都给您备着，实车一坐一开就清楚了。这周末方便吗？</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>到店试驾</b></div>
+  </div>
+</section>
+<section class="node" id="n6">
+  <div class="nhd"><span class="nn">6</span>
+    <div><div class="ntitle">到店试驾</div>
+    <div class="nsub">李女士 · 有意向没到店</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 李女士 · 有意向没到店</span><span class="t"><b>意向车</b> 长城坦克300</span><span class="t"><b>预算</b> 20万左右</span><span class="t"><b>在意</b> 越野、配置</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#E5484D">H 热线索</span>
+      <span class="nodechip">到店试驾</span>
+      <span class="dim">（1 周内可成交）</span></div>
+    <div class="ev">依据：客户意向明确但一直没到店、以‘忙’推延，属需临门一脚的热线索</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>到店试驾</b> ｜ 目标：客户意向明确但一直没到店；目标是促成一次有具体时间的到店试驾。 ｜ 时机：热线索，快速跟进；约定后临期再提醒一次。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>促成一次有具体时间的到店试驾</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 test_drive_booking · 给具体时段+留车+到店礼，降低到店决策成本</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一段促成到店的微信话术 + 1 张试驾预约卡</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">热线索，快速跟进；约定后临期再提醒</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">给两三个时段二选一</span><span class="chip">强调已留实车</span><span class="chip">用到店礼制造理由</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 到店试驾 · 为您留车留时段<span class="ex">示例数据</span></div><div class="ts">两三个时段二选一，降低到店决策成本</div><div class="imgtag">配图：tank300.jpg</div><div class="gi"><span class="gk">试驾车型</span><span class="gv"><b>长城坦克300</b> <span class="nt">· 已为您备好实车</span></span></div><div class="gi"><span class="gk">推荐时段</span><span class="gv"><b>本周六 10:30 / 周日 15:00</b> <span class="nt">· 二选一即可</span></span></div><div class="gi"><span class="gk">门店</span><span class="gv"><b>XX 坦克中心(占位：门店名/地址)</b> <span class="nt">· 导航一键可达</span></span></div><div class="gi"><span class="gk">到店礼</span><span class="gv"><b>试驾即赠 XX(占位)</b> <span class="nt">· 制造到店理由</span></span></div></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">李姐，我懂您忙，那咱把事儿简化：不用您费神挑时间，我给您留了两个现成的——本周六上午 10:30、或者周日下午 3 点，您回我一个字母就行。实车我已经给您备好了，来了直接开。<br>对了，这两天到店试驾还有个小礼(占位)，正好一块儿领。周六还是周日，您定？</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>商务谈判</b></div>
+  </div>
+</section>
+<section class="node" id="n7">
+  <div class="nhd"><span class="nn">7</span>
+    <div><div class="ntitle">商务谈判</div>
+    <div class="nsub">周先生 · 试驾满意开始谈价</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 周先生 · 试驾满意开始谈价</span><span class="t"><b>意向车</b> 长城坦克300</span><span class="t"><b>预算</b> 20万出头</span><span class="t"><b>在意</b> 价格、优惠</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#E5484D">H 热线索</span>
+      <span class="nodechip">商务谈判</span>
+      <span class="dim">（1 周内可成交）</span></div>
+    <div class="ev">依据：客户试驾满意、主动谈价并释放‘今天能定’信号，属临门成交的热线索</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>商务谈判</b> ｜ 目标：客户试驾满意、进入谈价阶段；目标是给一版清晰报价 + 当期优惠，推进下订成交。 ｜ 时机：热线索，当日响应；优惠临期提醒，别拖凉。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>给一版透明报价 + 当期限时优惠，推进今日下订</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 quote_offer · 分项报价+限时政策，诚意透明地推进成交</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一段促成下订的微信话术 + 1 张报价单</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">热线索，当日响应，优惠临期提醒</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">分项列清诚意</span><span class="chip">限时政策制造合理紧迫</span><span class="chip">守底线也给足诚意</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 长城坦克300 · 本期报价单<span class="ex">示例数据</span></div><div class="ts">分项列清、限时政策，诚意透明</div><div class="imgtag">配图：tank300.jpg</div><div class="gi"><span class="gk">指导价</span><span class="gv"><b>XX.XX 万</b> <span class="nt">· 占位</span></span></div><div class="gi"><span class="gk">本期优惠</span><span class="gv"><b>综合优惠 X.X 万</b> <span class="nt">· 含厂家/门店政策</span></span></div><div class="gi"><span class="gk">金融贴息</span><span class="gv"><b>至高贴息 XXXX 元</b> <span class="nt">· 限本月</span></span></div><div class="gi"><span class="gk">赠品礼包</span><span class="gv"><b>贴膜/脚垫/首保等</b> <span class="nt">· 下订即享</span></span></div></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">周哥，痛快！我也不跟您绕弯子，直接把底摊给您：这台综合优惠能到 X.X 万，再加本月的金融贴息，还有贴膜脚垫首保这套礼包，下订就送。这价我尽力争的，诚意您能看出来。<br>这个政策是本月限时的，您今天定正好赶上。要不咱现在就把手续走了？</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>已提车</b></div>
+  </div>
+</section>
+<section class="node" id="n8">
+  <div class="nhd"><span class="nn">8</span>
+    <div><div class="ntitle">已提车</div>
+    <div class="nsub">吴女士 · 已提车，做关怀+转介绍</div></div>
+  </div>
+  <div class="tags"><span class="t"><b>客户</b> 吴女士 · 已提车，做关怀+转介绍</span><span class="t"><b>意向车</b> 长城哈弗H6</span><span class="t"><b>预算</b> 已成交</span><span class="t"><b>在意</b> 用车、转介绍</span></div>
+
+  <div class="step"><div class="sl">① 状态感知 · 客户分级</div>
+    <div><span class="hwc" style="background:#7B4DD6">S 已交付</span>
+      <span class="nodechip">已提车</span>
+      <span class="dim">（已提车交付）</span></div>
+    <div class="ev">依据：客户已交付用车一周、并透露身边有人在问，属交付关怀+转介绍时机</div>
+  </div>
+
+  <div class="mid">选中节点档案 · <b>已提车</b> ｜ 目标：客户已成交提车；目标是做好交付关怀、提升满意度，并自然邀约转介绍。 ｜ 时机：提车后 3 天回访，首保前提醒，做节点式长期关怀。</div>
+
+  <div class="step"><div class="sl">② 策略制定（决策本轮引擎动作，只决策不写话术）</div>
+    <div class="row"><span class="k">目标</span><span class="v"><b>做好交付关怀提升满意度，并自然邀约转介绍</b></span></div>
+    <div class="row"><span class="k">工具选择</span><span class="v"><span class="chip tool">🔧 care_referral · 先关怀(用车/首保)再自然引出转介绍激励</span></span></div>
+    <div class="row"><span class="k">生成物</span><span class="v"><span class="chip out">一段关怀+转介绍的微信话术 + 1 张关怀卡</span></span></div>
+    <div class="row"><span class="k">时机</span><span class="v dim">提车后 3 天回访、首保前提醒，节点式关怀</span></div>
+    <div class="row"><span class="k">要点</span><span class="v"><span class="chip">先真诚关怀</span><span class="chip">答疑到位</span><span class="chip">自然带出老带新、不逼推</span></span></div>
+  </div>
+
+  <div class="step"><div class="sl">③ 执行 · 调用工具agent</div><div class="tool"><div class="tt">🔧 交付关怀 + 转介绍<span class="ex">示例数据</span></div><div class="ts">先关怀、后转介绍，不功利</div><div class="imgtag">配图：havalh6.jpg</div><div class="gi"><span class="gk">用车关怀</span><span class="gv"><b>3 天回访 + 首保提醒</b> <span class="nt">· 提升满意度</span></span></div><div class="gi"><span class="gk">答疑通道</span><span class="gv"><b>功能不懂随时问我</b> <span class="nt">· 用车无忧</span></span></div><div class="gi"><span class="gk">转介绍礼</span><span class="gv"><b>老带新各得 XX(占位)</b> <span class="nt">· 自然引出，不逼推</span></span></div></div></div>
+
+  <div class="step"><div class="sl">④ 执行 · 生成话术（这一步才动笔）</div>
+    <div class="talk">吴姐，用着顺手就好！您说没摸透的功能，我整理个两分钟的小视频发您，照着点一遍就会了，首保时间到我也会提前提醒您，不用您记。<br>对了，您朋友要是真有意向，直接让他报您名字来找我，我给他按您这个待遇走，而且咱俩老带新各有一份礼(占位)。您帮我引荐，我一定把人服务好，不给您丢面子。</div>
+  </div>
+
+  <div class="step"><div class="sl">⑤ 回写 · 待销售确认</div>
+    <div>阶段一（增强人）：话术不自动发，写入 <code>pending_action</code>（渠道：微信），
+      <b>销售确认才触达</b>；<code>history</code> 记一笔本轮。</div>
+    <div class="adv">达成后推进 → <b>售后关怀(闭环)</b></div>
+  </div>
+</section>
+  <p class="foot">由 scripts/gen_paths_doc.py 从代码自动生成 · 卡片内数字为示例数据，接真实内容库/画像库后替换</p>
+</div></body></html>
