@@ -14,7 +14,7 @@
 import json
 from llm import chat
 from perceive import perceive
-from tools.model_comparison import REGISTRY as TOOLS
+from tools import ALL_TOOLS as TOOLS
 from config import PHASE
 
 # ② 军师：只决策，不写话术

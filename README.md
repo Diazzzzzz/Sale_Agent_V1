@@ -7,7 +7,7 @@
 ## 核心架构
 
 ```
-循环(loop) · 引擎五步：感知 → 策划 → 生成 → 执行 → 回写
+循环(loop) · 引擎五步：感知 → 策略(军师·只决策) → 执行·调工具 → 执行·生成话术 → 待确认
       +  状态/记忆(state)   ← Sales Agent 的"人"
       +  节点档案(profile)  ← 底座上长出的"分支"，是配置不是代码
       +  工具箱(tools)      ← 车型对比等子能力
@@ -29,30 +29,41 @@
 | `state.py` | 客户工作态（薄契约，画像库定稿后插进来） |
 | `perceive.py` | 状态感知：对话/行为 → HWC + 节点 |
 | `engine.py` | 引擎五步循环（共同底座） |
-| `nodes/budget_to_model.py` | 节点档案 #1：明确预算 → 明确车型 |
-| `tools/model_comparison.py` | 车型对比工具（桩，任务2替换成真的） |
-| `run_demo.py` | 跑一个客户案例看完整链路 |
+| `nodes/` | **八份节点档案**（认可品牌…已提车），`nodes/__init__.py` 是有序注册表 |
+| `tools/model_comparison.py` | 车型对比工具（真桩，任务2替换成真的） |
+| `tools/stubs.py` | 其余七节点的演示工具桩（接真内容库/画像库时替换） |
+| `demo_scenarios.py` | 八节点演示剧本：每节点一个客户故事 + **预置引擎五步输出** |
+| `web.py` + `templates/chat.html` | **八节点演示网页**（顶部节点导航 + 引擎五步 + 现场跑） |
+| `static/images/` | 车型图放这里（缺图自动占位，见该目录 README） |
+| `run_demo.py` | 命令行跑一个客户案例看完整链路 |
+
+## 八节点（购车旅程）
+
+认可品牌 → 了解产品 → 明确预算 → 明确车型 → 对比竞品 → 到店试驾 → 商务谈判 → 已提车
+
+每个节点共用**同一个引擎**，差异只是各自的节点档案（目标/话术指引/可调工具/时机）。
 
 ## 运行
 
+### 演示网页（推荐）
 ```bash
-# 1) 无 key 也能跑（走 mock，看流程）
-python run_demo.py
-
-# 2) 接真模型
 pip install -r requirements.txt
-cp .env.example .env        # 填入 DEEPSEEK_API_KEY，或 LLM_PROVIDER=volcano + VOLCANO_*
-# 让 .env 生效（任选）：export $(grep -v '^#' .env | xargs)
-python run_demo.py
+python web.py            # → http://127.0.0.1:5001  （PORT=xxxx 可改）
 ```
+- **静态演示（无 key）**：八节点各走一遍预置好的引擎五步，稳定好看、不烧 token，适合发布传播。
+- **实时推理（配 key）**：`cp .env.example .env` 填入 `DEEPSEEK_API_KEY`（或火山），
+  感知/军师/话术改由真模型现算；页面「▶ 现场跑」可输入客户对话现场跑一遍。
 
-演示会：喂一段客户对话 → 感知判「温线索 / 明确预算节点」→ 引擎决定推车型对比 →
-调 `model_comparison` 工具 → 生成一条微信话术 → **停在「待销售确认」**（阶段一不真发）。
+### 命令行
+```bash
+python run_demo.py       # 无 key 走 mock，照样看完整链路
+```
 
 ## 路线图
 
-- [x] 状态感知 + 引擎骨架 + 1 节点 + 1 工具桩 + 人工闸（本 MVP）
+- [x] 状态感知 + 引擎骨架 + 人工闸（MVP）
+- [x] **八节点档案补齐 + 八节点演示网页 + 现场跑**
 - [ ] 车型对比工具接真实内容库（**任务2**）
-- [ ] 补齐其余 7 个节点档案
+- [ ] 其余七个工具桩接真数据（内容库/金融/DMS 排期）
 - [ ] 客户工作态对接画像库正式 schema
 - [ ] 阶段二：端到端自动触达通道
