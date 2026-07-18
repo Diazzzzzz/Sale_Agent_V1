@@ -70,6 +70,20 @@ def _generate(state, plan, tool_results) -> str:
     return chat(GEN_SYSTEM, user, mock_hint="generate")
 
 
+def regenerate(state, plan, tool_results, prev_message, instruction) -> str:
+    """⑤『改一版』：按销售的自然语言修改意见，重写一版话术（只重跑④生成）。"""
+    payload = [x["result"] for x in tool_results]
+    user = (
+        f"客户在意点：{state.concerns}\n本轮目标：{plan.get('goal')}\n"
+        f"要点角度：{plan.get('talking_points')}\n"
+        f"工具结果：{json.dumps(payload, ensure_ascii=False)}\n\n"
+        f"上一版话术：\n{prev_message}\n\n"
+        f"销售的修改意见：{instruction}\n"
+        f"请据此重写这条话术，保持真诚、口语、针对在意点，只输出话术正文。"
+    )
+    return chat(GEN_SYSTEM, user, mock_hint="generate")
+
+
 def run_engine(state, conversation, behaviors, profile, perceived=None) -> dict:
     """跑引擎，返回结构化结果(不打印)。
     perceived 传入时跳过①感知(用于无 key 的占位演示)。"""

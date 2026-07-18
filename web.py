@@ -10,10 +10,10 @@
 运行：  python web.py  →  http://127.0.0.1:5001   （PORT=xxxx 可改）
 """
 import os
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, request, jsonify, abort
 
 from state import CustomerState
-from engine import run_engine
+from engine import run_engine, regenerate
 from nodes import get_profile
 from demo_scenarios import SCENARIOS, list_scenarios, parse_dialogue
 from config import PROVIDERS, ACTIVE_PROVIDER
@@ -26,6 +26,15 @@ def _mock_mode() -> bool:
     return not os.getenv(PROVIDERS[ACTIVE_PROVIDER]["api_key_env"])
 
 
+def _state_of(sc) -> CustomerState:
+    st = CustomerState(
+        customer_id=sc["customer_id"], budget=sc.get("budget", ""),
+        intent_car=sc.get("intent_car", ""), rival_car=sc.get("rival_car", ""),
+        concerns=sc.get("concerns", []))
+    st.image = sc.get("image")
+    return st
+
+
 def _result_for(sc, mock: bool) -> dict:
     """产出统一的引擎五步结果。mock→用剧本预置 demo；真跑→跑引擎。"""
     if mock:
@@ -33,12 +42,7 @@ def _result_for(sc, mock: bool) -> dict:
         return {"perceive": d["perceive"], "plan": d["plan"],
                 "tool_results": d["tool_results"], "message": d["message"],
                 "phase": os.getenv("SA_PHASE", "1")}
-    state = CustomerState(
-        customer_id=sc["customer_id"], budget=sc.get("budget", ""),
-        intent_car=sc.get("intent_car", ""), rival_car=sc.get("rival_car", ""),
-        concerns=sc.get("concerns", []))
-    state.image = sc.get("image")
-    return run_engine(state, sc["transcript"], sc.get("behaviors", ""),
+    return run_engine(_state_of(sc), sc["transcript"], sc.get("behaviors", ""),
                       get_profile(sc["node_id"]), perceived=None)
 
 
@@ -60,6 +64,30 @@ def chat(sid=None):
         r=_result_for(sc, mock),
         mock_mode=mock, provider=ACTIVE_PROVIDER,
     )
+
+
+@app.route("/api/revise", methods=["POST"])
+def api_revise():
+    """⑤『改一版』：销售用自然语言提修改意见 → Agent 重写一版话术（只改④，不重播）。"""
+    data = request.get_json(force=True, silent=True) or {}
+    sid = data.get("sid")
+    instruction = (data.get("instruction") or "").strip()
+    sc = SCENARIOS.get(sid)
+    if not sc:
+        return jsonify({"error": "未知场景"}), 400
+    if not instruction:
+        return jsonify({"error": "请先输入修改意见"}), 400
+
+    if _mock_mode():
+        return jsonify({
+            "live": False,
+            "notice": "当前是静态演示模式：配置模型 key(DEEPSEEK_API_KEY 或火山)后，"
+                      "这里会按您的修改意见让 Agent 现场重写一版话术。",
+        })
+
+    d = sc["demo"]
+    msg = regenerate(_state_of(sc), d["plan"], d["tool_results"], d["message"], instruction)
+    return jsonify({"live": True, "message": msg})
 
 
 if __name__ == "__main__":

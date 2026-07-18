@@ -52,8 +52,25 @@
 
   .engine-lbl{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--accent);font-weight:700;margin:16px 0 8px}
   .engine-lbl .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-  .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:10px}
-  .steplbl{font-size:12px;font-weight:800;color:var(--accent);margin-bottom:9px;letter-spacing:.01em}
+  .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+  .steplbl{font-size:16px;font-weight:800;color:var(--accent);margin-bottom:11px;letter-spacing:.01em}
+  /* ①里的客户标签（醒目） */
+  .cust-tags{margin-top:11px}
+  .cust-tags .t{font-size:12.5px;background:var(--accent-soft);border-color:#cfe0fb;color:var(--ink-soft);padding:4px 11px}
+  .cust-tags .t b{color:var(--accent)}
+  /* ③④ 同一行 */
+  .exec-row{display:flex;gap:10px;flex-wrap:wrap}
+  .exec-row .step{flex:1;min-width:288px;margin-bottom:10px}
+  @media(max-width:560px){.exec-row .step{min-width:100%}}
+  /* ⑤ 改一版 */
+  .revise{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
+  .revise textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font-family:inherit;font-size:13.5px;resize:vertical;min-height:60px}
+  .revise-bar{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .revise-bar button{border:none;border-radius:10px;padding:8px 15px;font-size:13px;font-weight:700;cursor:pointer}
+  .revise-spin{font-size:12px;color:var(--muted)}
+  .revise-notice{background:#fff4e5;border:1px solid #f0d9a8;color:#8a5a12;border-radius:10px;padding:9px 12px;font-size:12.5px;margin-top:9px}
+  .talk.flash{animation:flash 1s ease}
+  @keyframes flash{0%{background:#fef7dd}100%{background:#fbfaf6}}
   .hwc{font-weight:800;color:#fff;border-radius:6px;padding:1px 9px;font-size:12.5px;margin-right:6px}
   .hwc.H{background:var(--H)}.hwc.W{background:var(--W)}.hwc.C{background:var(--C)}.hwc.O{background:var(--O)}.hwc.S{background:var(--S)}
   .nodechip{font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:1px 9px;font-size:12.5px}
@@ -72,8 +89,7 @@
   .vs .o{color:var(--accent)} .vs .x{color:var(--muted);font-size:12px;margin:0 8px} .vs .r{color:#556}
   .summary{font-size:13px;color:var(--ink-soft);margin-bottom:10px}
   .stub{font-size:11px;color:#b26a00;background:#fff4e5;border-radius:5px;padding:1px 7px;margin-left:6px;font-weight:700}
-  .dims{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  @media(max-width:560px){.dims{grid-template-columns:1fr}}
+  .dims{display:grid;grid-template-columns:1fr;gap:10px}
   .dcard{border:1px solid var(--line);border-radius:12px;padding:11px}
   .dcard.win{border-color:#bcd3f6;background:#f7faff}
   .dcard.weak{background:#fffdf7}
@@ -139,15 +155,7 @@
   <div class="banner ok">✅ 感知/策略/话术 均由 <b>{{ provider }}</b> 基于这段输入<b>实时生成</b>；只有聊天记录/客户标签是模拟输入。</div>
   {% endif %}
 
-  <!-- 模拟输入 -->
-  <div class="io-tag"><span class="dot"></span>模拟输入 · 客户标签</div>
-  <div class="tags">
-    <span class="t"><b>客户</b> {{ sc.title }}</span>
-    <span class="t"><b>意向车</b> {{ sc.intent_car }}</span>
-    {% if sc.rival_car %}<span class="t"><b>竞品</b> {{ sc.rival_car }}</span>{% endif %}
-    <span class="t"><b>预算</b> {{ sc.budget }}</span>
-    <span class="t"><b>在意</b> {{ sc.concerns|join('、') }}</span>
-  </div>
+  <!-- 模拟输入 · 聊天记录 -->
   <div class="io-tag"><span class="dot"></span>模拟输入 · 聊天记录</div>
 
   <div class="chat" id="chat">
@@ -167,23 +175,31 @@
     <div class="steplbl">① 状态感知 · 客户分级(HWC)</div>
     <div><span class="hwc {{ r.perceive.hwc }}">{{ r.perceive.hwc }}</span><span class="nodechip">{{ r.perceive.node }}</span></div>
     <div class="ev">依据：{{ r.perceive.evidence }}</div>
+    <div class="tags cust-tags">
+      <span class="t"><b>客户</b> {{ sc.title }}</span>
+      <span class="t"><b>意向车</b> {{ sc.intent_car }}</span>
+      {% if sc.rival_car %}<span class="t"><b>竞品</b> {{ sc.rival_car }}</span>{% endif %}
+      <span class="t"><b>预算</b> {{ sc.budget }}</span>
+      <span class="t"><b>在意</b> {{ sc.concerns|join('、') }}</span>
+    </div>
   </div>
 
   <div class="step reveal">
-    <div class="steplbl">② 策略 · 军师（只决策，不写话术）</div>
+    <div class="steplbl">② 策略制定（决策本轮引擎动作）</div>
     <div class="goal">🎯 目标：{{ r.plan.goal }}</div>
-    <div class="plan-row"><span class="k">调用</span>
+    <div class="plan-row"><span class="k">工具选择</span>
       {% if r.plan.actions %}{% for a in r.plan.actions %}<span class="chip">🔧 {{ a.tool }}{% if a.why %} · {{ a.why }}{% endif %}</span>{% endfor %}{% else %}<span class="dim">本轮不调用工具</span>{% endif %}
     </div>
-    <div class="plan-row"><span class="k">要产出</span>
+    <div class="plan-row"><span class="k">生成物</span>
       {% for d in r.plan.deliverables %}<span class="chip out">📦 {{ d }}</span>{% endfor %}
     </div>
     {% if r.plan.timing %}<div class="plan-row"><span class="k">时机</span><span class="dim">{{ r.plan.timing }}</span></div>{% endif %}
     {% if r.plan.talking_points %}<div class="plan-row"><span class="k">要点</span>{% for t in r.plan.talking_points %}<span class="chip">{{ t }}</span>{% endfor %}</div>{% endif %}
   </div>
 
+  <div class="exec-row">
   <div class="step reveal">
-    <div class="steplbl">③ 执行 · 调用子agent / 工具</div>
+    <div class="steplbl">③ 执行 · 调用 工具agent</div>
     {% if r.tool_results %}
       {% for x in r.tool_results %}
         {% if x.result.card_type == 'comparison' %}
@@ -206,12 +222,10 @@
         {% else %}
           <!-- 通用工具卡 -->
           <div class="gcard">
-            <div class="gimg">
-              {% if x.result.image %}
-                <img src="/static/images/{{ x.result.image }}" alt=""
-                     onerror="this.parentNode.innerHTML='&lt;div class=\'gph\'&gt;车型图位&lt;br&gt;{{ x.result.image }}&lt;/div&gt;'">
-              {% else %}<div class="gph">图位</div>{% endif %}
-            </div>
+            {% if x.result.image %}
+            <div class="gimg"><img src="/static/images/{{ x.result.image }}" alt=""
+                 onerror="this.closest('.gimg').remove()"></div>
+            {% endif %}
             <div class="gbody">
               <div class="gtitle">🔧 {{ x.result.title }}{% if x.result._stub %}<span class="stub">桩</span>{% endif %}</div>
               <div class="gsub">{{ x.result.subtitle }}</div>
@@ -228,16 +242,26 @@
   </div>
 
   <div class="step reveal">
-    <div class="steplbl">④ 执行 · 生成话术（这一步才动笔）</div>
-    <div class="talk">{{ r.message }}</div>
+    <div class="steplbl">④ 执行 · 生成话术</div>
+    <div class="talk" id="talk">{{ r.message }}</div>
   </div>
+  </div><!-- /exec-row（③④同属“执行”，并排）-->
 
   <div class="step reveal">
     <div class="steplbl">⑤ 待销售确认（阶段一）</div>
     <div class="gate">
       <button class="confirm" onclick="alert('阶段一(增强人)：销售点确认后才真正发送。')">✅ 确认并发送</button>
-      <button class="edit" onclick="alert('可让销售改一版，或让 Agent 重生成。')">✎ 改一版</button>
+      <button class="edit" id="reviseBtn">✎ 改一版</button>
       <span class="note">Agent 只做到“生成+暂存”，销售确认才触达</span>
+    </div>
+    <div class="revise" id="reviseBox" style="display:none">
+      <textarea id="reviseInput" placeholder="用一句话告诉 Agent 怎么改。例：语气更亲切些 / 强调周末有活动 / 别提竞品 / 再短一点"></textarea>
+      <div class="revise-bar">
+        <button class="confirm" id="reviseSubmit">让 Agent 重写一版</button>
+        <button class="edit" id="reviseCancel">取消</button>
+        <span class="revise-spin" id="reviseSpin" style="display:none">Agent 重写中…</span>
+      </div>
+      <div class="revise-notice" id="reviseNotice" style="display:none"></div>
     </div>
   </div>
 
@@ -293,6 +317,41 @@
   document.getElementById('replay').addEventListener('click', play);
   document.getElementById('skip').addEventListener('click', skip);
   play();
+})();
+
+// ⑤ 改一版：自然语言让 Agent 重写话术，直接替换第④步，不重播动画
+(function(){
+  var SID = "{{ current }}";
+  var box=document.getElementById('reviseBox'), inp=document.getElementById('reviseInput');
+  var notice=document.getElementById('reviseNotice'), spin=document.getElementById('reviseSpin');
+  var talk=document.getElementById('talk');
+  document.getElementById('reviseBtn').addEventListener('click', function(){
+    box.style.display = box.style.display==='none' ? 'block' : 'none';
+    if(box.style.display==='block'){ inp.focus(); box.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  });
+  document.getElementById('reviseCancel').addEventListener('click', function(){
+    box.style.display='none'; notice.style.display='none';
+  });
+  document.getElementById('reviseSubmit').addEventListener('click', async function(){
+    var instruction=inp.value.trim();
+    if(!instruction){ inp.focus(); return; }
+    notice.style.display='none'; spin.style.display='inline';
+    try{
+      var resp=await fetch('/api/revise',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({sid:SID, instruction:instruction})});
+      var data=await resp.json();
+      if(data.message){
+        talk.textContent=data.message;
+        talk.classList.remove('flash'); void talk.offsetWidth; talk.classList.add('flash');
+        box.style.display='none';
+      } else if(data.notice){
+        notice.textContent=data.notice; notice.style.display='block';
+      } else if(data.error){
+        notice.textContent=data.error; notice.style.display='block';
+      }
+    }catch(e){ notice.textContent='请求失败：'+e; notice.style.display='block'; }
+    finally{ spin.style.display='none'; }
+  });
 })();
 </script>
 </body>
