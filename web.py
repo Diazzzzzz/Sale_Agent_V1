@@ -16,9 +16,15 @@ from state import CustomerState
 from engine import run_engine, regenerate
 from nodes import get_profile
 from demo_scenarios import SCENARIOS, list_scenarios, parse_dialogue
-from config import PROVIDERS, ACTIVE_PROVIDER
+from config import PROVIDERS, ACTIVE_PROVIDER, LANGUAGES, DEFAULT_LANG
 
 app = Flask(__name__)
+
+
+def _lang_of(req) -> str:
+    """从 ?lang= / POST lang 取语言，非法值回落默认。"""
+    lang = (req.args.get("lang") if req.method == "GET" else (req.get_json(silent=True) or {}).get("lang")) or DEFAULT_LANG
+    return lang if lang in LANGUAGES else DEFAULT_LANG
 
 
 def _mock_mode() -> bool:
@@ -35,15 +41,15 @@ def _state_of(sc) -> CustomerState:
     return st
 
 
-def _result_for(sc, mock: bool) -> dict:
-    """产出统一的引擎五步结果。mock→用剧本预置 demo；真跑→跑引擎。"""
+def _result_for(sc, mock: bool, lang: str = DEFAULT_LANG) -> dict:
+    """产出统一的引擎五步结果。mock→用剧本预置 demo(中文)；真跑→按 lang 跑引擎。"""
     if mock:
         d = sc["demo"]
         return {"perceive": d["perceive"], "plan": d["plan"],
                 "tool_results": d["tool_results"], "message": d["message"],
                 "phase": os.getenv("SA_PHASE", "1")}
     return run_engine(_state_of(sc), sc["transcript"], sc.get("behaviors", ""),
-                      get_profile(sc["node_id"]), perceived=None)
+                      get_profile(sc["node_id"]), perceived=None, lang=lang)
 
 
 @app.route("/")
@@ -57,12 +63,14 @@ def chat(sid=None):
         abort(404)
 
     mock = _mock_mode()
+    lang = _lang_of(request)
     return render_template(
         "chat.html",
         scenarios=scenarios, current=sid, sc=sc,
         dialogue=parse_dialogue(sc["transcript"]),
-        r=_result_for(sc, mock),
+        r=_result_for(sc, mock, lang),
         mock_mode=mock, provider=ACTIVE_PROVIDER,
+        languages=LANGUAGES, current_lang=lang,
     )
 
 
@@ -85,8 +93,9 @@ def api_revise():
                       "这里会按您的修改意见让 Agent 现场重写一版话术。",
         })
 
+    lang = _lang_of(request)
     d = sc["demo"]
-    msg = regenerate(_state_of(sc), d["plan"], d["tool_results"], d["message"], instruction)
+    msg = regenerate(_state_of(sc), d["plan"], d["tool_results"], d["message"], instruction, lang)
     return jsonify({"live": True, "message": msg})
 
 

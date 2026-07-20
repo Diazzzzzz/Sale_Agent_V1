@@ -140,10 +140,26 @@
   </div>
   <p class="sub">八节点智能跟进 · 一个引擎 + 八份节点档案。点上面的节点，看 Agent 在该节点一步步跑。</p>
 
+  <!-- 语言 / 目标市场 -->
+  <div class="langs" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:12px 0 2px">
+    <span style="font-size:12px;color:#8a94a6;margin-right:2px">🌐 语言 / Language</span>
+    {% for code, L in languages.items() %}
+    <a href="/s/{{ current }}?lang={{ code }}" title="{{ L.country }}"
+       style="text-decoration:none;font-size:12.5px;padding:4px 11px;border-radius:16px;transition:.15s;
+              border:1px solid {{ '#1E5AD6' if code==current_lang else '#e1e8f1' }};
+              background:{{ '#1E5AD6' if code==current_lang else '#fff' }};
+              color:{{ '#fff' if code==current_lang else '#3c4a60' }};
+              font-weight:{{ '700' if code==current_lang else '500' }}">{{ L.flag }} {{ L.name }}</a>
+    {% endfor %}
+    {% if mock_mode and current_lang != 'zh' %}
+    <span style="font-size:11.5px;color:#b26a00">（非中文在真跑模式配 key 后按该语言 + 当地商务风格生成）</span>
+    {% endif %}
+  </div>
+
   <!-- 八节点导航 -->
   <div class="nodes">
     {% for s in scenarios %}
-    <a class="{{ 'active' if s.id == current else '' }}" href="/s/{{ s.id }}">
+    <a class="{{ 'active' if s.id == current else '' }}" href="/s/{{ s.id }}?lang={{ current_lang }}">
       <span class="i">{{ loop.index }}</span>{{ s.node_name }}
     </a>
     {% endfor %}
@@ -322,6 +338,7 @@
 // ⑤ 改一版：自然语言让 Agent 重写话术，直接替换第④步，不重播动画
 (function(){
   var SID = "{{ current }}";
+  var LANG = "{{ current_lang }}";
   var box=document.getElementById('reviseBox'), inp=document.getElementById('reviseInput');
   var notice=document.getElementById('reviseNotice'), spin=document.getElementById('reviseSpin');
   var talk=document.getElementById('talk');
@@ -338,7 +355,7 @@
     notice.style.display='none'; spin.style.display='inline';
     try{
       var resp=await fetch('/api/revise',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({sid:SID, instruction:instruction})});
+        body:JSON.stringify({sid:SID, instruction:instruction, lang:LANG})});
       var data=await resp.json();
       if(data.message){
         talk.textContent=data.message;

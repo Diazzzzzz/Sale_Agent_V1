@@ -2,6 +2,7 @@
 是引擎五步的第一步『感知』，也可独立调用(先把这块跑通是最正确的第一块积木)。"""
 import json
 from llm import chat
+from config import DEFAULT_LANG, lang_directive
 
 SYSTEM = """你是汽车销售 SCRM 的客户状态分析器。依据 HWC 模型判定客户热度与购车节点。
 
@@ -14,11 +15,13 @@ HWC 热度：H 热(1周内成交)/W 温(1~3月考虑)/C 冷(3月+或未明确)/O
 只输出 JSON：{"hwc":"H/W/C/O/S","node":"节点名","evidence":"一句话依据"}"""
 
 
-def perceive(conversation: str, behaviors: str = None) -> dict:
+def perceive(conversation: str, behaviors: str = None, lang: str = DEFAULT_LANG) -> dict:
+    # node 字段必须保持中文枚举（与界面节点一一对应）；只有 evidence 跟随目标语言。
+    node_note = "" if lang == "zh" else "\n注意：JSON 的 node 字段仍用上面列出的中文节点名不变，仅 evidence 用目标语言书写。"
     user = (
         f"对话记录：\n{conversation}\n\n"
         f"行为信号：\n{behaviors or '无'}\n\n"
         f"请判定该客户的 HWC 热度与所处节点。"
     )
-    raw = chat(SYSTEM, user, json_mode=True, mock_hint="perceive")
+    raw = chat(SYSTEM + lang_directive(lang) + node_note, user, json_mode=True, mock_hint="perceive")
     return json.loads(raw)
