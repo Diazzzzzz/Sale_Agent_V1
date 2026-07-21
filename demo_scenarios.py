@@ -26,7 +26,9 @@ def parse_dialogue(transcript: str):
             who, text = raw.split(":", 1)
         else:
             who, text = "客户", raw
-        out.append({"who": who.strip(), "text": text.strip()})
+        who = who.strip()
+        role = "sales" if "销" in who else "cust"
+        out.append({"who": who, "role": role, "text": text.strip()})
     return out
 
 

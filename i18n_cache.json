@@ -1,0 +1,83 @@
+{
+ "en": {
+  "wang": {
+   "title": "Thabo · Haval H6 vs RAV4",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "Toyota RAV4",
+   "budget": "Under R550k",
+   "concerns": ["Safety", "Space", "Resale value"],
+   "dialogue": [
+    {"role": "sales", "who": "Sales", "text": "Hi Thabo, you seemed keen on the Haval H6 last time — shall we take another look today?"},
+    {"role": "cust", "who": "Customer", "text": "Yeah, I'm a bit torn. A mate told me to check the Toyota RAV4 — says it holds its value better."},
+    {"role": "cust", "who": "Customer", "text": "My little one is only two, so safety matters most to me, and I need enough space."},
+    {"role": "cust", "who": "Customer", "text": "I'm just worried a Chinese car might have niggles and lose value fast when I resell."}
+   ],
+   "demo": {
+    "perceive": {"hwc": "H", "node": "对比竞品",
+                 "evidence": "The customer is already comparing the Haval H6 with the RAV4 and cares most about safety and space — a hot lead close to buying."},
+    "plan": {
+     "goal": "Use an honest, credible comparison to help the customer commit to the H6, and invite them for a test drive.",
+     "actions": [{"tool": "model_comparison", "why": "The customer is comparing — needs comparison data tailored to their concerns."}],
+     "deliverables": ["A WhatsApp message inviting a test drive + 1 comparison card"],
+     "timing": "Follow up within 2 days; respond instantly to any reply.",
+     "talking_points": ["Speak to the safety / space / resale differences", "Own the resale gap and offset it", "Land on inviting them to feel the real car in-store"]
+    },
+    "tool_results": [{
+     "tool": "model_comparison", "why": "The customer is comparing — needs an honest, give-and-take comparison",
+     "result": {
+      "card_type": "comparison",
+      "our_car": "GWM Haval H6", "rival_car": "Toyota RAV4", "image": "havalh6.jpg",
+      "summary": "At the same price, the Haval H6 wins on the safety and space you care about most; the resale gap can be offset with a lower on-road price + a long warranty.",
+      "dimensions": [
+       {"name": "Safety", "ours": "Haval H6: 6 airbags across the range + L2 driver assist", "rival": "RAV4: basic active safety", "winner": "ours", "comment": "More peace of mind with a two-year-old on board"},
+       {"name": "Space", "ours": "Haval H6: longer wheelbase, bigger boot", "rival": "RAV4: fine but a bit tight", "winner": "ours", "comment": "Pram and bulky items all fit"},
+       {"name": "Resale value", "ours": "Haval H6: local resale has climbed fast in recent years", "rival": "RAV4: higher resale as an established brand", "winner": "rival", "comment": "offset: factor in the lower on-road price + long warranty, and the few-year cost of ownership actually comes out lower"}
+      ],
+      "_stub": true
+     }
+    }],
+    "message": "Thabo, I completely get why you're torn between these two. I put together a straight comparison on the points you care about most: on safety and space, the H6 really is stronger — 6 airbags with L2 across the range, and more room in the back and boot, so it's easy going out with a two-year-old.\nOn resale I won't spin you — the RAV4 is a touch better, but don't look at that alone: the H6's on-road price is already lower, and with the long warranty, your real cost of ownership over a few years isn't worse.\nSpecs only tell you so much — why not pop into the showroom? I'll have both cars ready for you; one sit and one drive and it'll be clear. Are you free this weekend?"
+   }
+  },
+  "brand": {
+   "title": "Sizwe · Not yet sold on a Chinese 4x4",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "Jeep Wrangler",
+   "budget": "Around R750k",
+   "concerns": ["Brand trust", "Off-road"],
+   "dialogue": [
+    {"role": "sales", "who": "Sales", "text": "Hi Sizwe, you were looking at the Tank 300 last time — did you give it any more thought?"},
+    {"role": "cust", "who": "Customer", "text": "I did, but I'm still unsure. At this price, why not stretch to a Jeep Wrangler?"},
+    {"role": "cust", "who": "Customer", "text": "A Chinese 4x4… I worry about little faults, and about losing value."}
+   ],
+   "demo": {
+    "perceive": {"hwc": "C", "node": "认可品牌",
+                 "evidence": "The customer anchors on the Wrangler and keeps doubting Chinese off-roaders — the brand isn't trusted yet, an early cold lead."},
+    "plan": {
+     "goal": "Dispel the 'Chinese off-roaders aren't as good' worry and build initial trust in the Tank brand.",
+     "actions": [{"tool": "brand_proof", "why": "The customer doesn't trust the brand yet — needs hard facts: sales, reviews, awards."}],
+     "deliverables": ["A WhatsApp message that builds brand trust + 1 brand-strength image"],
+     "timing": "Cold lead — a light touch every 3–5 days, no pressure.",
+     "talking_points": ["Tank is a dedicated off-road brand, not a no-name", "Back it with sales / parc volume", "Real owner reviews", "Invite them to see it in person"]
+    },
+    "tool_results": [{
+     "tool": "brand_proof", "why": "Use hard facts to dispel the doubt",
+     "result": {
+      "card_type": "generic",
+      "title": "GWM Tank 300 · Brand-strength proof",
+      "subtitle": "Answering 'can a Chinese 4x4 cut it?' with hard facts",
+      "image": "tank300.jpg",
+      "items": [
+       {"label": "Category standing", "value": "A sales leader among rugged 4x4s", "note": "A dedicated off-road brand, not a no-name"},
+       {"label": "Parc volume", "value": "XX,000 Tank owners worldwide", "note": "placeholder: put the real figure"},
+       {"label": "Awards", "value": "Multiple off-road vehicle awards", "note": "placeholder: put the real awards"},
+       {"label": "Owner reviews", "value": "XX% satisfaction, N real trail write-ups", "note": "placeholder: attach review content"}
+      ],
+      "_stub": true
+     }
+    }],
+    "message": "Sizwe, I completely understand the hesitation — I'd weigh it up carefully too at this price. The Tank isn't a 'cheap alternative' — it's GWM's dedicated off-road brand. The sales and owner base speak for themselves, and the off-road reputation was earned by real owners, trail after trail.\nYou're right to think about niggles and resale — I won't just make promises there. Come into the showroom and I'll lay out real owner feedback and resale data, and you can get behind the wheel and judge for yourself. Shall I hold a demo unit for you this weekend?"
+   }
+  }
+ }
+}

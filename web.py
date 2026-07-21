@@ -10,6 +10,7 @@
 运行：  python web.py  →  http://127.0.0.1:5001   （PORT=xxxx 可改）
 """
 import os
+import json
 from flask import Flask, render_template, request, jsonify, abort
 
 from state import CustomerState
@@ -17,8 +18,24 @@ from engine import run_engine, regenerate
 from nodes import get_profile
 from demo_scenarios import SCENARIOS, list_scenarios, parse_dialogue
 from config import PROVIDERS, ACTIVE_PROVIDER, LANGUAGES, DEFAULT_LANG
+from i18n import ui as ui_strings, NODE_NAMES, node_name
 
 app = Flask(__name__)
+
+# 场景译文缓存（scripts/build_i18n.py 生成）：{lang: {sid: {title,intent_car,...,dialogue,demo}}}
+_CACHE_PATH = os.path.join(os.path.dirname(__file__), "i18n_cache.json")
+try:
+    with open(_CACHE_PATH, encoding="utf-8") as _f:
+        I18N_CACHE = json.load(_f)
+except (FileNotFoundError, ValueError):
+    I18N_CACHE = {}
+
+
+def _loc(sid, lang):
+    """取某语言某场景的译文；中文或无缓存返回 None。"""
+    if lang == "zh":
+        return None
+    return I18N_CACHE.get(lang, {}).get(sid)
 
 
 def _lang_of(req) -> str:
@@ -27,9 +44,15 @@ def _lang_of(req) -> str:
     return lang if lang in LANGUAGES else DEFAULT_LANG
 
 
-def _mock_mode() -> bool:
-    """没配当前供应商的 key → 静态/mock 模式。"""
-    return not os.getenv(PROVIDERS[ACTIVE_PROVIDER]["api_key_env"])
+def _mode(req):
+    """决定这次请求走占位还是真跑。
+    真跑 = 顶部开关打开(live=1) 且 配了 key。默认关(占位)，安全、不烧 token。
+    返回 (mock, live, has_key)。"""
+    has_key = bool(os.getenv(PROVIDERS[ACTIVE_PROVIDER]["api_key_env"]))
+    lp = req.args.get("live") if req.method == "GET" else (req.get_json(silent=True) or {}).get("live")
+    live = (str(lp) == "1")          # 默认 OFF；显式 live=1 才开
+    mock = not (live and has_key)
+    return mock, live, has_key
 
 
 def _state_of(sc) -> CustomerState:
@@ -41,15 +64,27 @@ def _state_of(sc) -> CustomerState:
     return st
 
 
-def _result_for(sc, mock: bool, lang: str = DEFAULT_LANG) -> dict:
-    """产出统一的引擎五步结果。mock→用剧本预置 demo(中文)；真跑→按 lang 跑引擎。"""
+def _result_for(sc, mock: bool, lang: str, loc) -> dict:
+    """产出引擎五步结果。
+    占位：用预置 demo——非中文且有译文缓存则用译文；真跑：按 lang 现跑引擎。"""
     if mock:
-        d = sc["demo"]
+        d = (loc or sc)["demo"]
         return {"perceive": d["perceive"], "plan": d["plan"],
                 "tool_results": d["tool_results"], "message": d["message"],
                 "phase": os.getenv("SA_PHASE", "1")}
     return run_engine(_state_of(sc), sc["transcript"], sc.get("behaviors", ""),
                       get_profile(sc["node_id"]), perceived=None, lang=lang)
+
+
+def _sc_view(sc, loc):
+    """给模板用的场景视图：非中文且有译文则覆盖显示字段。"""
+    if not loc:
+        return sc
+    v = dict(sc)
+    for k in ("title", "intent_car", "rival_car", "budget", "concerns"):
+        if k in loc:
+            v[k] = loc[k]
+    return v
 
 
 @app.route("/")
@@ -62,15 +97,20 @@ def chat(sid=None):
     if not sc:
         abort(404)
 
-    mock = _mock_mode()
+    mock, live, has_key = _mode(request)
     lang = _lang_of(request)
+    loc = _loc(sid, lang)
+    dialogue = loc["dialogue"] if (loc and loc.get("dialogue")) else parse_dialogue(sc["transcript"])
     return render_template(
         "chat.html",
-        scenarios=scenarios, current=sid, sc=sc,
-        dialogue=parse_dialogue(sc["transcript"]),
-        r=_result_for(sc, mock, lang),
-        mock_mode=mock, provider=ACTIVE_PROVIDER,
+        scenarios=scenarios, current=sid, sc=_sc_view(sc, loc),
+        dialogue=dialogue,
+        r=_result_for(sc, mock, lang, loc),
+        mock_mode=mock, live=live, has_key=has_key, provider=ACTIVE_PROVIDER,
         languages=LANGUAGES, current_lang=lang,
+        t=ui_strings(lang),
+        nn=(lambda zh: node_name(lang, zh)),
+        i18n_ready=list(I18N_CACHE.keys()),
     )
 
 
@@ -86,12 +126,13 @@ def api_revise():
     if not instruction:
         return jsonify({"error": "请先输入修改意见"}), 400
 
-    if _mock_mode():
-        return jsonify({
-            "live": False,
-            "notice": "当前是静态演示模式：配置模型 key(DEEPSEEK_API_KEY 或火山)后，"
-                      "这里会按您的修改意见让 Agent 现场重写一版话术。",
-        })
+    mock, live, has_key = _mode(request)
+    if mock:
+        if not has_key:
+            notice = "未检测到模型 key：请在 .env 填 DEEPSEEK_API_KEY（或火山）并重启，再打开顶部『真跑模型』开关。"
+        else:
+            notice = "当前是占位演示：打开顶部『真跑模型』开关后，Agent 会按您的修改意见现场重写一版话术。"
+        return jsonify({"live": False, "notice": notice})
 
     lang = _lang_of(request)
     d = sc["demo"]

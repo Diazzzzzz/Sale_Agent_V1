@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OmniSA · Sales Agent 演示</title>
+<title>OmniSA · Sales Agent</title>
 <style>
   :root{
     --bg:#F4F7FB; --surface:#fff; --ink:#0F1B2D; --ink-soft:#3C4A60; --muted:#6B7A93;
@@ -135,48 +135,57 @@
 <body>
 <div class="wrap">
   <div class="top">
-    <h1>🤖 OmniSA · Sales Agent 演示</h1>
-    {% if mock_mode %}<span class="badge mock">占位模式(未配key)</span>{% else %}<span class="badge">{{ provider }} 实时</span>{% endif %}
+    <h1>🤖 OmniSA · Sales Agent {{ {'zh':'演示','en':'Demo','ru':'Демо','es':'Demo','fr':'Démo'}.get(current_lang,'Demo') }}</h1>
+    <a href="/s/{{ current }}?lang={{ current_lang }}&live={{ 0 if live else 1 }}" title="{{ t.toggle_tip }}"
+       style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:12.5px;font-weight:800">
+      <span style="position:relative;width:40px;height:23px;border-radius:23px;display:inline-block;transition:.2s;
+                   background:{{ '#1F9E6B' if live else '#c7ced9' }}">
+        <span style="position:absolute;top:2px;left:{{ '19px' if live else '2px' }};width:19px;height:19px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span>
+      </span>
+      <span style="color:{{ '#1F9E6B' if live else '#7a879c' }}">{{ t.toggle_on if live else t.toggle_off }}</span>
+    </a>
   </div>
-  <p class="sub">八节点智能跟进 · 一个引擎 + 八份节点档案。点上面的节点，看 Agent 在该节点一步步跑。</p>
+  <p class="sub">{{ t.sub }}</p>
 
   <!-- 语言 / 目标市场 -->
   <div class="langs" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:12px 0 2px">
-    <span style="font-size:12px;color:#8a94a6;margin-right:2px">🌐 语言 / Language</span>
+    <span style="font-size:12px;color:#8a94a6;margin-right:2px">{{ t.lang_label }}</span>
     {% for code, L in languages.items() %}
-    <a href="/s/{{ current }}?lang={{ code }}" title="{{ L.country }}"
+    <a href="/s/{{ current }}?lang={{ code }}&live={{ 1 if live else 0 }}" title="{{ L.country }}"
        style="text-decoration:none;font-size:12.5px;padding:4px 11px;border-radius:16px;transition:.15s;
               border:1px solid {{ '#1E5AD6' if code==current_lang else '#e1e8f1' }};
               background:{{ '#1E5AD6' if code==current_lang else '#fff' }};
               color:{{ '#fff' if code==current_lang else '#3c4a60' }};
               font-weight:{{ '700' if code==current_lang else '500' }}">{{ L.flag }} {{ L.name }}</a>
     {% endfor %}
-    {% if mock_mode and current_lang != 'zh' %}
-    <span style="font-size:11.5px;color:#b26a00">（非中文在真跑模式配 key 后按该语言 + 当地商务风格生成）</span>
+    {% if current_lang != 'zh' and not current_lang in i18n_ready %}
+    <span style="font-size:11.5px;color:#b26a00">{{ t.lang_hint }}</span>
     {% endif %}
   </div>
 
   <!-- 八节点导航 -->
   <div class="nodes">
     {% for s in scenarios %}
-    <a class="{{ 'active' if s.id == current else '' }}" href="/s/{{ s.id }}?lang={{ current_lang }}">
-      <span class="i">{{ loop.index }}</span>{{ s.node_name }}
+    <a class="{{ 'active' if s.id == current else '' }}" href="/s/{{ s.id }}?lang={{ current_lang }}&live={{ 1 if live else 0 }}">
+      <span class="i">{{ loop.index }}</span>{{ nn(s.node_name) }}
     </a>
     {% endfor %}
   </div>
 
-  {% if mock_mode %}
-  <div class="banner warn">⚠️ 未配 key：下面的感知/策略/话术是<b>预置示例</b>；配上 DeepSeek/火山 key 再跑，它们就是模型<b>基于输入的实时推理</b>——聊天记录/客户标签始终是模拟输入。</div>
+  {% if live and not has_key %}
+  <div class="banner warn">⚠️ {{ t.banner_nokey }}</div>
+  {% elif mock_mode %}
+  <div class="banner warn">⚠️ {{ t.banner_mock }}</div>
   {% else %}
-  <div class="banner ok">✅ 感知/策略/话术 均由 <b>{{ provider }}</b> 基于这段输入<b>实时生成</b>；只有聊天记录/客户标签是模拟输入。</div>
+  <div class="banner ok">✅ {{ t.banner_live }}</div>
   {% endif %}
 
   <!-- 模拟输入 · 聊天记录 -->
-  <div class="io-tag"><span class="dot"></span>模拟输入 · 聊天记录</div>
+  <div class="io-tag"><span class="dot"></span>{{ t.sim_input }}</div>
 
   <div class="chat" id="chat">
     {% for line in dialogue %}
-    <div class="bubble {{ 'sales' if '销' in line.who else 'cust' }} reveal">
+    <div class="bubble {{ 'sales' if line.role=='sales' else 'cust' }} reveal">
       <span class="who">{{ line.who }}</span><span>{{ line.text }}</span>
     </div>
     {% endfor %}
@@ -185,53 +194,53 @@
   <div class="typing reveal" id="typing" style="display:none"><i></i><i></i><i></i></div>
 
   <!-- 引擎五步 -->
-  <div class="engine-lbl reveal" id="englbl" style="display:none"><span class="dot"></span>Sales Agent 引擎 · 基于以上输入运行</div>
+  <div class="engine-lbl reveal" id="englbl" style="display:none"><span class="dot"></span>{{ t.engine_run }}</div>
 
   <div class="step reveal">
-    <div class="steplbl">① 状态感知 · 客户分级(HWC)</div>
-    <div><span class="hwc {{ r.perceive.hwc }}">{{ r.perceive.hwc }}</span><span class="nodechip">{{ r.perceive.node }}</span></div>
-    <div class="ev">依据：{{ r.perceive.evidence }}</div>
+    <div class="steplbl">{{ t.step1 }}</div>
+    <div><span class="hwc {{ r.perceive.hwc }}">{{ r.perceive.hwc }}</span><span class="nodechip">{{ nn(r.perceive.node) }}</span></div>
+    <div class="ev">{{ t.ev_prefix }}{{ r.perceive.evidence }}</div>
     <div class="tags cust-tags">
-      <span class="t"><b>客户</b> {{ sc.title }}</span>
-      <span class="t"><b>意向车</b> {{ sc.intent_car }}</span>
-      {% if sc.rival_car %}<span class="t"><b>竞品</b> {{ sc.rival_car }}</span>{% endif %}
-      <span class="t"><b>预算</b> {{ sc.budget }}</span>
-      <span class="t"><b>在意</b> {{ sc.concerns|join('、') }}</span>
+      <span class="t"><b>{{ t.tag_customer }}</b> {{ sc.title }}</span>
+      <span class="t"><b>{{ t.tag_intent }}</b> {{ sc.intent_car }}</span>
+      {% if sc.rival_car %}<span class="t"><b>{{ t.tag_rival }}</b> {{ sc.rival_car }}</span>{% endif %}
+      <span class="t"><b>{{ t.tag_budget }}</b> {{ sc.budget }}</span>
+      <span class="t"><b>{{ t.tag_concern }}</b> {{ sc.concerns|join('、' if current_lang=='zh' else ', ') }}</span>
     </div>
   </div>
 
   <div class="step reveal">
-    <div class="steplbl">② 策略制定（决策本轮引擎动作）</div>
-    <div class="goal">🎯 目标：{{ r.plan.goal }}</div>
-    <div class="plan-row"><span class="k">工具选择</span>
-      {% if r.plan.actions %}{% for a in r.plan.actions %}<span class="chip">🔧 {{ a.tool }}{% if a.why %} · {{ a.why }}{% endif %}</span>{% endfor %}{% else %}<span class="dim">本轮不调用工具</span>{% endif %}
+    <div class="steplbl">{{ t.step2 }}</div>
+    <div class="goal">{{ t.goal_prefix }}{{ r.plan.goal }}</div>
+    <div class="plan-row"><span class="k">{{ t.tool_select }}</span>
+      {% if r.plan.actions %}{% for a in r.plan.actions %}<span class="chip">🔧 {{ a.tool }}{% if a.why %} · {{ a.why }}{% endif %}</span>{% endfor %}{% else %}<span class="dim">{{ t.no_tool }}</span>{% endif %}
     </div>
-    <div class="plan-row"><span class="k">生成物</span>
+    <div class="plan-row"><span class="k">{{ t.deliverables }}</span>
       {% for d in r.plan.deliverables %}<span class="chip out">📦 {{ d }}</span>{% endfor %}
     </div>
-    {% if r.plan.timing %}<div class="plan-row"><span class="k">时机</span><span class="dim">{{ r.plan.timing }}</span></div>{% endif %}
-    {% if r.plan.talking_points %}<div class="plan-row"><span class="k">要点</span>{% for t in r.plan.talking_points %}<span class="chip">{{ t }}</span>{% endfor %}</div>{% endif %}
+    {% if r.plan.timing %}<div class="plan-row"><span class="k">{{ t.timing }}</span><span class="dim">{{ r.plan.timing }}</span></div>{% endif %}
+    {% if r.plan.talking_points %}<div class="plan-row"><span class="k">{{ t.points }}</span>{% for tp in r.plan.talking_points %}<span class="chip">{{ tp }}</span>{% endfor %}</div>{% endif %}
   </div>
 
   <div class="exec-row">
   <div class="step reveal">
-    <div class="steplbl">③ 执行 · 调用 工具agent</div>
+    <div class="steplbl">{{ t.step3 }}</div>
     {% if r.tool_results %}
       {% for x in r.tool_results %}
         {% if x.result.card_type == 'comparison' %}
           <!-- 对比卡 -->
-          <div class="vs"><span class="o">{{ x.result.our_car }}</span><span class="x">VS</span><span class="r">{{ x.result.rival_car }}</span></div>
-          <div class="summary">💡 {{ x.result.summary }}{% if x.result._stub %}<span class="stub">示例数据</span>{% endif %}</div>
+          <div class="vs"><span class="o">{{ x.result.our_car }}</span><span class="x">{{ t.vs }}</span><span class="r">{{ x.result.rival_car }}</span></div>
+          <div class="summary">💡 {{ x.result.summary }}{% if x.result._stub %}<span class="stub">{{ t.stub }}</span>{% endif %}</div>
           <div class="dims">
             {% for d in x.result.dimensions %}
             <div class="dcard {{ 'win' if d.winner=='ours' else ('weak' if d.winner=='rival' else '') }}">
               <div class="drow">
                 <span class="dname">{{ d.name }}</span>
-                {% if d.winner=='ours' %}<span class="tag2 ok">✓ 我方占优</span>{% elif d.winner=='rival' %}<span class="tag2 fb">对手更强</span>{% endif %}
+                {% if d.winner=='ours' %}<span class="tag2 ok">{{ t.win_ours }}</span>{% elif d.winner=='rival' %}<span class="tag2 fb">{{ t.win_rival }}</span>{% endif %}
               </div>
               <div class="dv ours">{{ d.ours }}</div>
               <div class="dv">{{ d.rival }}</div>
-              <div class="dcmt">{% if d.winner=='rival' %}<span class="fbtag">找补</span>{% endif %}{{ d.comment }}</div>
+              <div class="dcmt">{% if d.winner=='rival' %}<span class="fbtag">{{ t.fanbu }}</span>{% endif %}{{ d.comment }}</div>
             </div>
             {% endfor %}
           </div>
@@ -243,7 +252,7 @@
                  onerror="this.closest('.gimg').remove()"></div>
             {% endif %}
             <div class="gbody">
-              <div class="gtitle">🔧 {{ x.result.title }}{% if x.result._stub %}<span class="stub">示例数据</span>{% endif %}</div>
+              <div class="gtitle">🔧 {{ x.result.title }}{% if x.result._stub %}<span class="stub">{{ t.stub }}</span>{% endif %}</div>
               <div class="gsub">{{ x.result.subtitle }}</div>
               {% for it in x.result['items'] %}
               <div class="gi"><span class="gk">{{ it.label }}</span>
@@ -254,38 +263,38 @@
           </div>
         {% endif %}
       {% endfor %}
-    {% else %}<div class="tooldec">本节点本轮无工具调用（感知 → 军师 → 直接生成话术）</div>{% endif %}
+    {% else %}<div class="tooldec">{{ t.no_tool_call }}</div>{% endif %}
   </div>
 
   <div class="step reveal">
-    <div class="steplbl">④ 执行 · 生成话术</div>
+    <div class="steplbl">{{ t.step4 }}</div>
     <div class="talk" id="talk">{{ r.message }}</div>
   </div>
   </div><!-- /exec-row（③④同属“执行”，并排）-->
 
   <div class="step reveal">
-    <div class="steplbl">⑤ 待销售确认（阶段一）</div>
+    <div class="steplbl">{{ t.step5 }}</div>
     <div class="gate">
-      <button class="confirm" onclick="alert('阶段一(增强人)：销售点确认后才真正发送。')">✅ 确认并发送</button>
-      <button class="edit" id="reviseBtn">✎ 改一版</button>
-      <span class="note">Agent 只做到“生成+暂存”，销售确认才触达</span>
+      <button class="confirm" onclick='alert({{ t.confirm_alert|tojson }})'>{{ t.confirm_btn }}</button>
+      <button class="edit" id="reviseBtn">{{ t.revise_btn }}</button>
+      <span class="note">{{ t.gate_note }}</span>
     </div>
     <div class="revise" id="reviseBox" style="display:none">
-      <textarea id="reviseInput" placeholder="用一句话告诉 Agent 怎么改。例：语气更亲切些 / 强调周末有活动 / 别提竞品 / 再短一点"></textarea>
+      <textarea id="reviseInput" placeholder="{{ t.revise_ph }}"></textarea>
       <div class="revise-bar">
-        <button class="confirm" id="reviseSubmit">让 Agent 重写一版</button>
-        <button class="edit" id="reviseCancel">取消</button>
-        <span class="revise-spin" id="reviseSpin" style="display:none">Agent 重写中…</span>
+        <button class="confirm" id="reviseSubmit">{{ t.revise_submit }}</button>
+        <button class="edit" id="reviseCancel">{{ t.revise_cancel }}</button>
+        <span class="revise-spin" id="reviseSpin" style="display:none">{{ t.revise_spin }}</span>
       </div>
       <div class="revise-notice" id="reviseNotice" style="display:none"></div>
     </div>
   </div>
 
   <div class="ctrls">
-    <button id="replay">↻ 重播</button>
-    <button class="primary" id="skip">⤓ 直接看结果</button>
+    <button id="replay">{{ t.replay }}</button>
+    <button class="primary" id="skip">{{ t.skip }}</button>
   </div>
-  <p class="foot">卡片内数字为示例数据 · 接入真实内容库 / 画像库后自动替换</p>
+  <p class="foot">{{ t.footer }}</p>
 </div>
 
 <script>
@@ -339,6 +348,7 @@
 (function(){
   var SID = "{{ current }}";
   var LANG = "{{ current_lang }}";
+  var LIVE = "{{ 1 if live else 0 }}";
   var box=document.getElementById('reviseBox'), inp=document.getElementById('reviseInput');
   var notice=document.getElementById('reviseNotice'), spin=document.getElementById('reviseSpin');
   var talk=document.getElementById('talk');
@@ -355,7 +365,7 @@
     notice.style.display='none'; spin.style.display='inline';
     try{
       var resp=await fetch('/api/revise',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({sid:SID, instruction:instruction, lang:LANG})});
+        body:JSON.stringify({sid:SID, instruction:instruction, lang:LANG, live:LIVE})});
       var data=await resp.json();
       if(data.message){
         talk.textContent=data.message;
