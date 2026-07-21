@@ -1,82 +1,2779 @@
 {
  "en": {
-  "wang": {
-   "title": "Thabo · Haval H6 vs RAV4",
-   "intent_car": "GWM Haval H6",
-   "rival_car": "Toyota RAV4",
-   "budget": "Under R550k",
-   "concerns": ["Safety", "Space", "Resale value"],
-   "dialogue": [
-    {"role": "sales", "who": "Sales", "text": "Hi Thabo, you seemed keen on the Haval H6 last time — shall we take another look today?"},
-    {"role": "cust", "who": "Customer", "text": "Yeah, I'm a bit torn. A mate told me to check the Toyota RAV4 — says it holds its value better."},
-    {"role": "cust", "who": "Customer", "text": "My little one is only two, so safety matters most to me, and I need enough space."},
-    {"role": "cust", "who": "Customer", "text": "I'm just worried a Chinese car might have niggles and lose value fast when I resell."}
-   ],
-   "demo": {
-    "perceive": {"hwc": "H", "node": "对比竞品",
-                 "evidence": "The customer is already comparing the Haval H6 with the RAV4 and cares most about safety and space — a hot lead close to buying."},
-    "plan": {
-     "goal": "Use an honest, credible comparison to help the customer commit to the H6, and invite them for a test drive.",
-     "actions": [{"tool": "model_comparison", "why": "The customer is comparing — needs comparison data tailored to their concerns."}],
-     "deliverables": ["A WhatsApp message inviting a test drive + 1 comparison card"],
-     "timing": "Follow up within 2 days; respond instantly to any reply.",
-     "talking_points": ["Speak to the safety / space / resale differences", "Own the resale gap and offset it", "Land on inviting them to feel the real car in-store"]
-    },
-    "tool_results": [{
-     "tool": "model_comparison", "why": "The customer is comparing — needs an honest, give-and-take comparison",
-     "result": {
-      "card_type": "comparison",
-      "our_car": "GWM Haval H6", "rival_car": "Toyota RAV4", "image": "havalh6.jpg",
-      "summary": "At the same price, the Haval H6 wins on the safety and space you care about most; the resale gap can be offset with a lower on-road price + a long warranty.",
-      "dimensions": [
-       {"name": "Safety", "ours": "Haval H6: 6 airbags across the range + L2 driver assist", "rival": "RAV4: basic active safety", "winner": "ours", "comment": "More peace of mind with a two-year-old on board"},
-       {"name": "Space", "ours": "Haval H6: longer wheelbase, bigger boot", "rival": "RAV4: fine but a bit tight", "winner": "ours", "comment": "Pram and bulky items all fit"},
-       {"name": "Resale value", "ours": "Haval H6: local resale has climbed fast in recent years", "rival": "RAV4: higher resale as an established brand", "winner": "rival", "comment": "offset: factor in the lower on-road price + long warranty, and the few-year cost of ownership actually comes out lower"}
-      ],
-      "_stub": true
-     }
-    }],
-    "message": "Thabo, I completely get why you're torn between these two. I put together a straight comparison on the points you care about most: on safety and space, the H6 really is stronger — 6 airbags with L2 across the range, and more room in the back and boot, so it's easy going out with a two-year-old.\nOn resale I won't spin you — the RAV4 is a touch better, but don't look at that alone: the H6's on-road price is already lower, and with the long warranty, your real cost of ownership over a few years isn't worse.\nSpecs only tell you so much — why not pop into the showroom? I'll have both cars ready for you; one sit and one drive and it'll be clear. Are you free this weekend?"
-   }
-  },
   "brand": {
-   "title": "Sizwe · Not yet sold on a Chinese 4x4",
+   "title": "Mr. Dlamini · Still not convinced about local off-roaders",
    "intent_car": "GWM Tank 300",
    "rival_car": "Jeep Wrangler",
-   "budget": "Around R750k",
-   "concerns": ["Brand trust", "Off-road"],
+   "budget": "Around R400,000",
+   "concerns": [
+    "Brand trust",
+    "Off-road capability"
+   ],
    "dialogue": [
-    {"role": "sales", "who": "Sales", "text": "Hi Sizwe, you were looking at the Tank 300 last time — did you give it any more thought?"},
-    {"role": "cust", "who": "Customer", "text": "I did, but I'm still unsure. At this price, why not stretch to a Jeep Wrangler?"},
-    {"role": "cust", "who": "Customer", "text": "A Chinese 4x4… I worry about little faults, and about losing value."}
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Mr. Dlamini, after you saw the Tank 300 last time, have you had any more thoughts?"
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "I've thought about it, but I'm still not sure. For that price, why wouldn't I just add a bit more and get a Wrangler?"
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "A local off-roader... I'm worried about niggling problems and poor resale value."
+    }
    ],
    "demo": {
-    "perceive": {"hwc": "C", "node": "认可品牌",
-                 "evidence": "The customer anchors on the Wrangler and keeps doubting Chinese off-roaders — the brand isn't trusted yet, an early cold lead."},
-    "plan": {
-     "goal": "Dispel the 'Chinese off-roaders aren't as good' worry and build initial trust in the Tank brand.",
-     "actions": [{"tool": "brand_proof", "why": "The customer doesn't trust the brand yet — needs hard facts: sales, reviews, awards."}],
-     "deliverables": ["A WhatsApp message that builds brand trust + 1 brand-strength image"],
-     "timing": "Cold lead — a light touch every 3–5 days, no pressure.",
-     "talking_points": ["Tank is a dedicated off-road brand, not a no-name", "Back it with sales / parc volume", "Real owner reviews", "Invite them to see it in person"]
+    "perceive": {
+     "hwc": "C",
+     "node": "认可品牌",
+     "evidence": "Customer uses Wrangler as benchmark, repeatedly questions local off-roaders, hasn't accepted the brand yet – early cold lead"
     },
-    "tool_results": [{
-     "tool": "brand_proof", "why": "Use hard facts to dispel the doubt",
-     "result": {
-      "card_type": "generic",
-      "title": "GWM Tank 300 · Brand-strength proof",
-      "subtitle": "Answering 'can a Chinese 4x4 cut it?' with hard facts",
-      "image": "tank300.jpg",
-      "items": [
-       {"label": "Category standing", "value": "A sales leader among rugged 4x4s", "note": "A dedicated off-road brand, not a no-name"},
-       {"label": "Parc volume", "value": "XX,000 Tank owners worldwide", "note": "placeholder: put the real figure"},
-       {"label": "Awards", "value": "Multiple off-road vehicle awards", "note": "placeholder: put the real awards"},
-       {"label": "Owner reviews", "value": "XX% satisfaction, N real trail write-ups", "note": "placeholder: attach review content"}
-      ],
-      "_stub": true
+    "plan": {
+     "goal": "Overcome the 'local off-roaders are worse than imports' concern, build initial trust in the Tank brand",
+     "actions": [
+      {
+       "tool": "brand_proof",
+       "why": "Customer doesn't trust the brand, needs hard facts like sales, reputation, awards to back it up"
+      }
+     ],
+     "deliverables": [
+      "A WeChat message building brand trust + 1 brand strength infographic"
+     ],
+     "timing": "Cold lead, light touch every 3–5 days, no hard sell",
+     "talking_points": [
+      "Tank is an independent off-road brand, not a generic one",
+      "Sales volume / ownership numbers as proof",
+      "Real owner testimonials",
+      "Invite to store to see for themselves"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "brand_proof",
+      "why": "Use hard facts to back up and remove doubts",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Brand Strength Proof",
+       "subtitle": "Hard facts answer 'Can local off-roaders cut it?'",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Category Position",
+         "value": "Leading sales in local hardcore off-road segment",
+         "note": "Professional off-road brand, not generic"
+        },
+        {
+         "label": "Ownership Base",
+         "value": "Tank brand global users: XX",
+         "note": "Placeholder: fill in actual number"
+        },
+        {
+         "label": "Authoritative Recognition",
+         "value": "Multiple off-road vehicle model awards",
+         "note": "Placeholder: fill in actual awards"
+        },
+        {
+         "label": "Owner Satisfaction",
+         "value": "Satisfaction rate: XX%, real off-road testimonials: N",
+         "note": "Placeholder: attach testimonial materials"
+        }
+       ],
+       "_stub": true
+      }
      }
-    }],
-    "message": "Sizwe, I completely understand the hesitation — I'd weigh it up carefully too at this price. The Tank isn't a 'cheap alternative' — it's GWM's dedicated off-road brand. The sales and owner base speak for themselves, and the off-road reputation was earned by real owners, trail after trail.\nYou're right to think about niggles and resale — I won't just make promises there. Come into the showroom and I'll lay out real owner feedback and resale data, and you can get behind the wheel and judge for yourself. Shall I hold a demo unit for you this weekend?"
+    ],
+    "message": "Mr. Dlamini, I completely understand your concern – if I were buying a R400,000 car, I'd think twice too. The Tank isn't just a 'cheaper alternative'; it's a dedicated off-road brand from GWM – the sales numbers and ownership base speak for themselves, and its off-road reputation has been built by real owners on real trails.\nYou're right to worry about niggling problems and resale value – I won't give you empty promises. Come to the store, I'll show you real owner feedback and resale data, and you can get behind the wheel and decide for yourself. Can I set aside a demo unit for you this weekend?"
+   }
+  },
+  "product": {
+   "title": "Mrs. Dlamini · Brand Loyal but Unsure of Value",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "",
+   "budget": "Under R350,000",
+   "concerns": [
+    "Safety",
+    "Space"
+   ],
+   "dialogue": [
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Mrs. Dlamini, I see you're keen on the Haval H6. What aspects would you like to know more about?"
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "Yes, I trust the brand, but I'm not sure what makes it so good."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "I have young kids, so safety is a big priority, and I need enough space for everything."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "了解产品",
+     "evidence": "Customer trusts the brand; needs to highlight core selling points around safety/space. Warm lead."
+    },
+    "plan": {
+     "goal": "Focus on the customer's concerns (safety, space) and highlight 2-3 core selling points of the H6 to build interest.",
+     "actions": [
+      {
+       "tool": "product_highlight",
+       "why": "Highlight strengths based on concerns (safety/space) without overwhelming with specs."
+      }
+     ],
+     "deliverables": [
+      "A WhatsApp message with core selling points + one highlight image."
+     ],
+     "timing": "Warm lead, follow up every 2-4 days.",
+     "talking_points": [
+      "Focus only on safety and space.",
+      "Use scenarios like family trips with kids.",
+      "Invite for an in-person test drive."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "product_highlight",
+      "why": "Pick core selling points based on concerns.",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Haval H6 · Core Highlights for You",
+       "subtitle": "Focused on the safety & space you care about",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Safety",
+         "value": "6 airbags across the range + L2 driver assist",
+         "note": "Peace of mind when travelling with kids"
+        },
+        {
+         "label": "Space",
+         "value": "Longer wheelbase in its class, generous rear legroom & boot",
+         "note": "Fits prams and large items with ease"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Mrs. Dlamini, let me break down the two things you care about most: First, safety – the H6 comes with 6 airbags and L2 driver assist, so long trips with the kids are much less stressful. Second, space – it has one of the longest wheelbases in its class, giving you plenty of rear legroom and a boot that can handle prams and big items. \nPictures don't really do it justice – why not bring the kids and come test drive? You can feel the space and safety for yourself. Which day this week works for you?"
+   }
+  },
+  "budget": {
+   "title": "Thabo · Likes it but struggling with price",
+   "intent_car": "GWM Haval Dargo",
+   "rival_car": "",
+   "budget": "Vague budget",
+   "concerns": [
+    "Price"
+   ],
+   "dialogue": [
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Thabo, you really like the Dargo, it's just the price holding you back?"
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "Yes, I'm happy with the car, but I'm not sure what the total on-road cost is, or if I can manage the monthly payments."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "My budget isn't completely fixed either."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确预算",
+     "evidence": "Customer is interested in the car but has a vague budget and is struggling with price. Need to explain on-road cost and monthly payments clearly. This is a warm lead."
+    },
+    "plan": {
+     "goal": "Calculate the on-road cost and monthly payments clearly, reduce price concerns, and help the customer set a budget.",
+     "actions": [
+      {
+       "tool": "finance_calc",
+       "why": "Use on-road cost plus instalment plan to make the money side transparent and reduce total price anxiety."
+      }
+     ],
+     "deliverables": [
+      "A WeChat message explaining on-road cost and monthly payments, plus 1 calculation card."
+     ],
+     "timing": "Warm lead, follow up in 2-3 days.",
+     "talking_points": [
+      "Don't pressure for a budget.",
+      "Emphasise that monthly payments are manageable.",
+      "Offer a few options so he feels in control."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "finance_calc",
+      "why": "On-road cost + instalment calculation",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Haval Dargo · On-Road Cost & Instalment Calculation",
+       "subtitle": "Make the money side clear, focus on monthly payments rather than total price.",
+       "image": "havaldog.jpg",
+       "items": [
+        {
+         "label": "Reference Base Price",
+         "value": "R XX.XX",
+         "note": "Placeholder: fill in according to actual spec"
+        },
+        {
+         "label": "On-Road Price (incl. tax & insurance)",
+         "value": "Approx R XX.XX",
+         "note": "Placeholder: all-inclusive list"
+        },
+        {
+         "label": "Deposit Option",
+         "value": "From 30% ≈ R X.X",
+         "note": "Minimum can be negotiated"
+        },
+        {
+         "label": "Monthly Instalment (example)",
+         "value": "Approx R X,XXX / month",
+         "note": "36-month term example"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Thabo, since you're happy with the car, that's the main thing. Let's lay out the costs clearly – no hidden surprises. I've put together a clear breakdown for the Dargo: the approximate on-road price, the minimum deposit, and what your monthly payment would look like over 36 months. That way you can see at a glance if it's comfortable for you. You don't need to commit to a budget right now – just use these figures to get a sense. When you come to the dealership, I'll walk you through the specials and finance options personally, so you can get the best deal."
+   }
+  },
+  "model": {
+   "title": "Thandi · Choosing Between Two of Our Models",
+   "intent_car": "GWM Haval H6 / Haval Big Dog",
+   "rival_car": "",
+   "budget": "Under R300,000",
+   "concerns": [
+    "Space",
+    "Looks"
+   ],
+   "dialogue": [
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Thandi, budget is set, so it's between the H6 and the Big Dog, right?"
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "Yes, I feel the H6 is reliable, but the Big Dog looks great."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "I need enough space and also want a unique look. Can you help me decide?"
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确车型",
+     "evidence": "Customer budget is set, hesitating between two of our models; needs to narrow down to 1-2 based on concerns. This is a warm lead."
+    },
+    "plan": {
+     "goal": "Based on concerns (space/looks), help the customer narrow down to 1-2 options within budget.",
+     "actions": [
+      {
+       "tool": "model_select",
+       "why": "Make a selective recommendation among our models, not too many at once."
+      }
+     ],
+     "deliverables": [
+      "A WeChat message to help narrow down options + 1 selection card"
+     ],
+     "timing": "Comparison period, follow up in 2-3 days.",
+     "talking_points": [
+      "Explain the differences between the two models",
+      "Address space and looks concerns",
+      "Push for an in-person comparison test drive"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_select",
+      "why": "Internal model selection",
+      "result": {
+       "card_type": "generic",
+       "title": "Let me narrow it down for you among our models",
+       "subtitle": "A selective recommendation, not too many at once",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Option 1 · Haval H6",
+         "value": "More balanced space, more reliable for family use",
+         "note": "Choose this if you value practicality and peace of mind"
+        },
+        {
+         "label": "Option 2 · Haval Big Dog",
+         "value": "More rugged and个性 look, high recognition",
+         "note": "Choose this if looks and attitude matter more"
+        },
+        {
+         "label": "Recommendation",
+         "value": "Stick with these two under R300,000",
+         "note": "Quickest decision by comparing both in person"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Thandi, both have their strengths. Let me break it down: if you care more about balanced space and family practicality, the H6 is the safer bet. If you want a unique look that stands out on the road, then the Big Dog is for you. Space-wise, both have enough – the real difference is 'reliable' vs 'personality'. Don't just look at pictures; I'll have both parked side by side at the dealership. Come in, sit in them, and you'll know in five minutes. Shall I set aside a test drive for you this weekend?"
+   }
+  },
+  "wang": {
+   "title": "Mr. Ndlovu · Haval H6 vs RAV4",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "Toyota RAV4",
+   "budget": "Under R300,000",
+   "concerns": [
+    "Safety",
+    "Space",
+    "Resale value"
+   ],
+   "dialogue": [
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Good day, Mr. Ndlovu. I saw you were quite interested in the Haval H6 before. Would you like to take another look today?"
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "Yes, I'm a bit torn. My friend told me to check out the Toyota RAV4, saying it holds its value better."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "My child is only two years old, so safety is my top priority. And I need enough space for everything."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "I'm just worried that Chinese cars might have more niggles, be harder to sell later, and depreciate quickly."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "对比竞品",
+     "evidence": "Customer is already comparing Haval H6 and RAV4, prioritising safety/space – a hot lead close to closing."
+    },
+    "plan": {
+     "goal": "Help the customer confidently choose the H6 with a credible, balanced comparison, and invite them for a test drive.",
+     "actions": [
+      {
+       "tool": "model_comparison",
+       "why": "Customer is comparing cars and needs data on their key concerns."
+      }
+     ],
+     "deliverables": [
+      "A WhatsApp message inviting for a test drive + 1 comparison card"
+     ],
+     "timing": "Follow up within 2 days; respond immediately if there is interaction.",
+     "talking_points": [
+      "Emphasise differences in safety, space, and resale value.",
+      "Acknowledge the resale value shortfall and offset it.",
+      "End with an invitation to experience the car in person."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_comparison",
+      "why": "Customer is comparing cars and needs a balanced comparison.",
+      "result": {
+       "card_type": "comparison",
+       "our_car": "GWM Haval H6",
+       "rival_car": "Toyota RAV4",
+       "image": "havalh6.jpg",
+       "summary": "At the same price point, the Haval H6 outperforms on the safety and space that matter most to you. The resale value gap can be offset by the lower purchase price and extended warranty.",
+       "dimensions": [
+        {
+         "name": "Safety",
+         "ours": "Haval H6: 6 airbags standard + Level 2 driver assist",
+         "rival": "RAV4: Basic active safety",
+         "winner": "ours",
+         "comment": "More peace of mind when travelling with a two-year-old."
+        },
+        {
+         "name": "Space",
+         "ours": "Haval H6: Longer wheelbase, bigger boot",
+         "rival": "RAV4: Adequate but smaller",
+         "winner": "ours",
+         "comment": "Fits the pram and bulky items easily."
+        },
+        {
+         "name": "Resale value",
+         "ours": "Haval H6: Resale value improving rapidly in recent years",
+         "rival": "RAV4: Higher resale value",
+         "winner": "rival",
+         "comment": "Offset: factoring in the lower purchase price and extended warranty, the total cost of ownership over a few years is actually lower."
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Mr. Ndlovu, I completely understand your dilemma between these two. I've put together an honest comparison based on what matters most to you: on safety and space, the H6 is clearly stronger – it comes with 6 airbags and Level 2 assist, and the rear seat and boot are more spacious, making life easier with your little one.\nAs for resale value, I won't beat around the bush – the RAV4 does hold its value a bit better. But don't look at that in isolation: the H6's on-road price is already lower, and with its extended warranty, the actual cost of ownership over a few years may not be any worse.\nSpecs on paper don't tell the whole story. Why not pop into the showroom? I'll have both cars ready for you – a quick sit and drive will make it clear. Are you free this weekend?"
+   }
+  },
+  "testdrive": {
+   "title": "Mrs. Dlamini · Interested but hasn't visited",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "Around R250,000",
+   "concerns": [
+    "Off-road capability",
+    "Features"
+   ],
+   "dialogue": [
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Mrs. Dlamini, you've set your sights on the Tank 300, you just need to come in for a test drive."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "I do want to, but I've been really busy lately and can't seem to find the time."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "When I have some free time, I'll let you know and we can set something up."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "到店试驾",
+     "evidence": "Customer shows clear interest but hasn't visited the dealership, keeps postponing due to being 'busy' – a hot lead that needs a final push."
+    },
+    "plan": {
+     "goal": "Arrange a test drive with a confirmed time slot",
+     "actions": [
+      {
+       "tool": "test_drive_booking",
+       "why": "Offering specific time slots, reserving the car, and a showroom gift to lower the customer's decision-making cost."
+      }
+     ],
+     "deliverables": [
+      "A WeChat message to encourage a visit, plus one test drive booking card"
+     ],
+     "timing": "Hot lead, follow up quickly; send a reminder closer to the appointment time.",
+     "talking_points": [
+      "Offer two or three time slots for the customer to choose from.",
+      "Emphasise that the car is already reserved for them.",
+      "Use the showroom gift as a reason to visit."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "test_drive_booking",
+      "why": "Encourage a test drive visit",
+      "result": {
+       "card_type": "generic",
+       "title": "Test Drive · Car and Time Slot Reserved for You",
+       "subtitle": "Choose from two or three time slots to make the decision easier",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Test Drive Model",
+         "value": "GWM Tank 300",
+         "note": "Car is ready for you"
+        },
+        {
+         "label": "Recommended Time Slots",
+         "value": "This Saturday 10:30 / Sunday 15:00",
+         "note": "Just pick one"
+        },
+        {
+         "label": "Dealership",
+         "value": "XX Tank Centre (placeholder: name/address)",
+         "note": "Easy navigation"
+        },
+        {
+         "label": "Showroom Gift",
+         "value": "Free gift with test drive (placeholder)",
+         "note": "A reason to visit"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Mrs. Dlamini, I understand you're busy, so let's keep it simple: no need to stress about picking a time – I've set aside two slots for you – this Saturday at 10:30 am or Sunday at 3 pm. Just reply with one letter. The car is ready and waiting for you to drive. Also, if you come in these two days, there's a small gift (placeholder) waiting for you. So, Saturday or Sunday – what do you say?"
+   }
+  },
+  "deal": {
+   "title": "Mr. Botha · Satisfied with Test Drive, Ready to Negotiate",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "Around R400,000",
+   "concerns": [
+    "Price",
+    "Discount"
+   ],
+   "dialogue": [
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Mr. Botha, since you were happy with yesterday's test drive, let's talk numbers."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "The car is fine. It all depends on what final price you can offer."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "Give me a good deal, and I can sign today."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "商务谈判",
+     "evidence": "Customer satisfied with test drive, proactively negotiating and signaling 'can sign today' – a hot lead close to conversion"
+    },
+    "plan": {
+     "goal": "Provide a transparent quote with current limited-time offer to secure an order today",
+     "actions": [
+      {
+       "tool": "quote_offer",
+       "why": "Itemised quote with time-limited policy to close the deal transparently and sincerely"
+      }
+     ],
+     "deliverables": [
+      "A WhatsApp message to encourage order + 1 quote sheet"
+     ],
+     "timing": "Hot lead, same-day response, remind of offer expiry",
+     "talking_points": [
+      "Break down the offer clearly",
+      "Create reasonable urgency with limited-time policy",
+      "Stand firm on bottom line but show goodwill"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "quote_offer",
+      "why": "Provide quote + discount to close the deal",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Current Quote",
+       "subtitle": "Itemised, limited-time policy, transparent and sincere",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "List Price",
+         "value": "R XX.XX",
+         "note": "Placeholder"
+        },
+        {
+         "label": "Current Discount",
+         "value": "Package discount of R X.X",
+         "note": "Includes manufacturer/dealer incentives"
+        },
+        {
+         "label": "Finance Subsidy",
+         "value": "Up to R XXXX off",
+         "note": "Limited to this month"
+        },
+        {
+         "label": "Gift Package",
+         "value": "Window tint, floor mats, first service, etc.",
+         "note": "Free with order"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Mr. Botha, I'll be straight with you. Here's the best I can do: a package discount of R X.X on this model, plus this month's finance subsidy, and a gift set including window tint, floor mats, and first service – all free when you order today. I fought hard for this price, and I hope you can see the value. This offer is only valid this month, so if you decide today, you'll lock it in. Shall we get the paperwork started?"
+   }
+  },
+  "delivered": {
+   "title": "Nomsa · Vehicle collected, doing care + referral",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "",
+   "budget": "Deal closed",
+   "concerns": [
+    "Vehicle usage",
+    "Referral"
+   ],
+   "dialogue": [
+    {
+     "who": "Sales",
+     "role": "sales",
+     "text": "Nomsa, you've had the new car for a week now, how's it treating you?"
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "It's great, but there are a few features I haven't quite figured out yet."
+    },
+    {
+     "who": "Customer",
+     "role": "cust",
+     "text": "Actually, a couple of friends saw my new car and have been asking about it."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "S",
+     "node": "已提车",
+     "evidence": "Customer has had the car for a week and mentioned friends inquiring, indicating post-delivery care + referral opportunity."
+    },
+    "plan": {
+     "goal": "Provide excellent post-delivery care to boost satisfaction, and naturally invite referrals.",
+     "actions": [
+      {
+       "tool": "care_referral",
+       "why": "First care (vehicle usage/first service), then naturally introduce referral incentives."
+      }
+     ],
+     "deliverables": [
+      "A WeChat message combining care and referral + 1 care card"
+     ],
+     "timing": "Follow-up 3 days after delivery, remind before first service – timely care.",
+     "talking_points": [
+      "Start with genuine care",
+      "Answer all questions thoroughly",
+      "Naturally bring up the referral programme without pressure"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "care_referral",
+      "why": "Care + referral",
+      "result": {
+       "card_type": "generic",
+       "title": "Post-Delivery Care + Referral",
+       "subtitle": "Care first, referral second – no hard sell.",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Vehicle Care",
+         "value": "3-day follow-up + first service reminder",
+         "note": "Boosts satisfaction"
+        },
+        {
+         "label": "Q&A Channel",
+         "value": "Message me anytime for feature help",
+         "note": "Peace of mind"
+        },
+        {
+         "label": "Referral Reward",
+         "value": "Both you and your friend get RXX (placeholder)",
+         "note": "Naturally mentioned, no pressure"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Nomsa, glad to hear the car's treating you well! For the features you're unsure about, I'll put together a short 2-minute video for you – follow along and you'll get the hang of it. I'll also remind you when your first service is due, so no need to keep track yourself.\n\nOh, and if your friends are genuinely interested, just have them mention your name when they contact me. I'll give them the same deal you got, and both of you will receive a referral gift (placeholder). If you refer them, I promise to take excellent care of them – I won't let you down."
+   }
+  }
+ },
+ "ru": {
+  "brand": {
+   "title": "Алексей · не доверяет китайскому внедорожнику",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "Jeep Wrangler",
+   "budget": "около 3 500 000 ₽",
+   "concerns": [
+    "доверие к бренду",
+    "внедорожные качества"
+   ],
+   "dialogue": [
+    {
+     "who": "Менеджер",
+     "role": "sales",
+     "text": "Алексей, Вы смотрели Tank 300 в прошлый раз. Думали ещё?"
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Думал, но не уверен. За эти деньги почему бы не взять Wrangler?"
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Китайский внедорожник... боюсь, будет много мелких проблем и потеря в цене."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "C",
+     "node": "认可品牌",
+     "evidence": "Клиент сравнивает с Wrangler, сомневается в китайском внедорожнике, не доверяет бренду — ранний холодный контакт"
+    },
+    "plan": {
+     "goal": "Развеять сомнения «китайский внедорожник хуже импортного», заложить начальное доверие к бренду Tank",
+     "actions": [
+      {
+       "tool": "brand_proof",
+       "why": "Клиент не доверяет бренду, нужны объективные факты: продажи, отзывы, награды"
+      }
+     ],
+     "deliverables": [
+      "Текст для WeChat, укрепляющий доверие к бренду + 1 карточка с сильными сторонами бренда"
+     ],
+     "timing": "Холодный контакт, лёгкое касание раз в 3–5 дней, без давления",
+     "talking_points": [
+      "Tank — самостоятельный внедорожный бренд, а не «no-name»",
+      "Объёмы продаж и парк автомобилей — доказательство надёжности",
+      "Реальные отзывы владельцев",
+      "Приглашение в салон, чтобы увидеть всё своими глазами"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "brand_proof",
+      "why": "Объективные факты развеют сомнения",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Сильные стороны бренда",
+       "subtitle": "Объективные факты в ответ на вопрос «стоит ли китайский внедорожник?»",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Позиция в сегменте",
+         "value": "Лидер продаж среди китайских рамных внедорожников",
+         "note": "Профессиональный внедорожный бренд, а не «no-name»"
+        },
+        {
+         "label": "Парк автомобилей",
+         "value": "Глобальные продажи Tank — XX тыс. шт.",
+         "note": "Заполнить реальную цифру"
+        },
+        {
+         "label": "Признание экспертов",
+         "value": "Множество наград за внедорожные качества",
+         "note": "Заполнить реальные награды"
+        },
+        {
+         "label": "Отзывы владельцев",
+         "value": "Удовлетворённость XX%, N реальных отчётов о поездках",
+         "note": "Заполнить ссылками на отзывы"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Алексей, я прекрасно понимаю Ваши сомнения. На Вашем месте я бы тоже всё перепроверил, покупая автомобиль за 3,5 млн. Tank — это не «дешёвая альтернатива», а отдельный внедорожный бренд GWM. Объёмы продаж и парк машин говорят сами за себя, а внедорожные качества подтверждены реальными поездками владельцев.\nПо поводу мелких проблем и остаточной стоимости — Вы правы, это важные вопросы. Я не буду обещать на словах. Приезжайте в салон: я покажу Вам реальные отзывы владельцев и данные по остаточной стоимости, дам пощупать машину. Решение примете сами. Забронировать для Вас тест-драйв на эти выходные?"
+   }
+  },
+  "product": {
+   "title": "Анна · Бренд знаком, но преимущества неясны",
+   "intent_car": "Great Wall Haval H6",
+   "rival_car": "",
+   "budget": "до 1,5 млн ₽",
+   "concerns": [
+    "безопасность",
+    "пространство"
+   ],
+   "dialogue": [
+    {
+     "who": "Продавец",
+     "role": "sales",
+     "text": "Анна, Haval H6 вам явно нравится. Что именно хотите узнать о нём подробнее?"
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Да, бренду доверяю, но не совсем понимаю, в чём его сильные стороны."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "У меня ребёнок, поэтому важны безопасность и вместительность."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "了解产品",
+     "evidence": "Клиент уже доверяет бренду, нужно раскрыть ключевые преимущества по безопасности и пространству — тёплый лид."
+    },
+    "plan": {
+     "goal": "Акцентировать внимание на безопасности и пространстве, выделить 2–3 ключевых преимущества H6, чтобы заинтересовать клиента.",
+     "actions": [
+      {
+       "tool": "product_highlight",
+       "why": "Выделить преимущества по важным для клиента критериям (безопасность, пространство), избегая перечисления всех характеристик."
+      }
+     ],
+     "deliverables": [
+      "Текст сообщения в мессенджере с акцентом на ключевые преимущества + 1 изображение с выделенными фишками."
+     ],
+     "timing": "Тёплый лид, связь раз в 2–4 дня.",
+     "talking_points": [
+      "Говорить только о безопасности и пространстве.",
+      "Использовать сценарий (поездка с ребёнком).",
+      "Пригласить на тест-драйв для личного знакомства."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "product_highlight",
+      "why": "Выделение ключевых преимуществ по запросу клиента.",
+      "result": {
+       "card_type": "generic",
+       "title": "Great Wall Haval H6 · Ключевые преимущества для вас",
+       "subtitle": "Только то, что важно: безопасность и пространство",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Безопасность",
+         "value": "6 подушек безопасности в базе + ассистент L2",
+         "note": "С ребёнком в дороге спокойнее"
+        },
+        {
+         "label": "Пространство",
+         "value": "Увеличенная колёсная база, просторный задний ряд и багажник",
+         "note": "Коляска и крупные вещи помещаются"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Анна, по вашим ключевым запросам расскажу прямо: безопасность — в H6 базово 6 подушек и система L2, с ребёнком в дальней поездке гораздо спокойнее. Пространство — колёсная база увеличенная, задний ряд просторный, багажник вмещает коляску и крупные вещи.\nНо лучше один раз увидеть — приходите с ребёнком в автосалон, посадите его, проверьте багажник, и всё станет ясно. На этой неделе когда вам удобно?"
+   }
+  },
+  "budget": {
+   "title": "Антон · Нравится, но смущает цена",
+   "intent_car": "Great Wall Haval Dargo",
+   "rival_car": "",
+   "budget": "Бюджет неопределенный",
+   "concerns": [
+    "Цена"
+   ],
+   "dialogue": [
+    {
+     "who": "Продавец",
+     "role": "sales",
+     "text": "Антон, Dargo Вам действительно нравится, но вопрос в цене?"
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Да, машина устраивает, но не знаю точную стоимость с учётом всех расходов и выдержу ли ежемесячный платёж."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "И бюджет пока окончательно не определён."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确预算",
+     "evidence": "Клиент заинтересован в автомобиле, но бюджет неопределён, сомневается в цене. Нужно чётко объяснить стоимость с учётом всех расходов и ежемесячный платёж. Тёплый лид."
+    },
+    "plan": {
+     "goal": "Рассчитать полную стоимость и ежемесячный платёж, снизить ценовые опасения, помочь клиенту определиться с бюджетом",
+     "actions": [
+      {
+       "tool": "finance_calc",
+       "why": "Прозрачно показать полную стоимость и рассрочку, снизить тревогу по общей сумме"
+      }
+     ],
+     "deliverables": [
+      "Сообщение в WhatsApp с расчётом полной стоимости и ежемесячного платежа + 1 карточка с расчётом"
+     ],
+     "timing": "Тёплый лид, связаться через 2-3 дня",
+     "talking_points": [
+      "Не давить с вопросом о бюджете",
+      "Подчеркнуть доступность ежемесячного платежа",
+      "Предложить несколько вариантов для ощущения контроля"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "finance_calc",
+      "why": "Расчёт полной стоимости и рассрочки",
+      "result": {
+       "card_type": "generic",
+       "title": "Great Wall Haval Dargo · Полная стоимость и расчёт рассрочки",
+       "subtitle": "Прозрачно о деньгах: снижаем акцент на общей сумме, показываем ежемесячный платёж",
+       "image": "havaldog.jpg",
+       "items": [
+        {
+         "label": "Рекомендованная цена без допов",
+         "value": "XX.XX млн ₽",
+         "note": "Заполнить по факту"
+        },
+        {
+         "label": "Полная стоимость (с налогами и страховкой)",
+         "value": "≈ XX.XX млн ₽",
+         "note": "Полный прайс"
+        },
+        {
+         "label": "Первоначальный взнос",
+         "value": "от 30% ≈ X.X млн ₽",
+         "note": "Возможно обсудить"
+        },
+        {
+         "label": "Ежемесячный платёж (пример)",
+         "value": "≈ X,XXX ₽ / мес.",
+         "note": "На 36 месяцев"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Антон, раз машина Вас устраивает, вопрос цены решаем. Давайте посчитаем прозрачно. Я подготовил для Вас по Dargo понятный расчёт: примерная полная стоимость, минимальный первоначальный взнос и ежемесячный платёж на 36 месяцев — сразу видно, потянете или нет.\nБюджет сейчас называть не обязательно, просто прикиньте по этим цифрам. Как будет удобно, приезжайте в салон — я сверю для Вас все акции и условия кредита, чтобы вышло выгоднее."
+   }
+  },
+  "model": {
+   "title": "Елена · выбирает между двумя моделями бренда",
+   "intent_car": "Great Wall Haval H6 / Haval Big Dog",
+   "rival_car": "",
+   "budget": "до 1,5 млн ₽",
+   "concerns": [
+    "пространство",
+    "внешний вид"
+   ],
+   "dialogue": [
+    {
+     "who": "Менеджер",
+     "role": "sales",
+     "text": "Елена, с бюджетом определились, теперь выбираете между H6 и Big Dog?"
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Да, H6 кажется надёжным, а Big Dog привлекает внешне."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Мне нужно достаточно пространства и в то же время хочется индивидуальности во внешности. Посоветуйте."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确车型",
+     "evidence": "Бюджет определён, клиент колеблется между двумя моделями бренда. Требуется сузить до 1–2 вариантов с учётом предпочтений. Тёплый лид."
+    },
+    "plan": {
+     "goal": "С учётом предпочтений (пространство/внешний вид) помочь клиенту выбрать 1–2 модели в рамках бюджета",
+     "actions": [
+      {
+       "tool": "model_select",
+       "why": "Рекомендовать с умом, не перегружая выбором"
+      }
+     ],
+     "deliverables": [
+      "Текст сообщения для сужения выбора + 1 карточка с вариантами"
+     ],
+     "timing": "Этап сравнения, связаться через 2–3 дня",
+     "talking_points": [
+      "Объяснить различия между моделями",
+      "Соотнести с запросами по пространству и внешнему виду",
+      "Предложить очную встречу для сравнения"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_select",
+      "why": "Выбор внутри бренда",
+      "result": {
+       "card_type": "generic",
+       "title": "Сужаем выбор среди наших моделей",
+       "subtitle": "Рекомендуем с умом, не перегружая",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Кандидат 1 · Haval H6",
+         "value": "Сбалансированное пространство, надёжность для семьи",
+         "note": "Выбирайте, если важны вместительность и практичность"
+        },
+        {
+         "label": "Кандидат 2 · Haval Big Dog",
+         "value": "Брутальный дизайн, высокая узнаваемость",
+         "note": "Выбирайте, если в приоритете стиль и характер"
+        },
+        {
+         "label": "Рекомендация",
+         "value": "В пределах 1,5 млн ₽ остановитесь на этих двух",
+         "note": "Очный осмотр поможет принять решение быстрее всего"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Елена, у каждой из этих моделей свои плюсы. Если важнее вместительность и надёжность для семьи — берите H6. Если хотите выделяться и чтобы автомобиль имел характер — Big Dog. По пространству обе подходят, разница в том, что вам ближе: основательность или индивидуальность. Не гадайте по картинкам — я поставлю обе машины рядом, вы придёте, сядете и за пять минут решите. Забронируем время на выходные?"
+   }
+  },
+  "wang": {
+   "title": "Алексей · Haval H6 против RAV4",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "Toyota RAV4",
+   "budget": "до 1,5 млн ₽",
+   "concerns": [
+    "безопасность",
+    "пространство",
+    "ликвидность"
+   ],
+   "dialogue": [
+    {
+     "who": "Менеджер",
+     "role": "sales",
+     "text": "Алексей, здравствуйте! Видел, вы интересовались Haval H6. Сегодня заглянете?"
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Да, но никак не решусь. Друг советует Toyota RAV4, говорит, иномарка лучше держит цену."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "У меня ребёнок двух лет, безопасность на первом месте, и места должно хватать."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Боюсь, что китайский автомобиль будет сыпаться, потом не продать, быстро потеряет в цене."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "对比竞品",
+     "evidence": "Клиент уже сравнивает Haval H6 и RAV4, главные критерии — безопасность и пространство, горячий лид, близкий к сделке"
+    },
+    "plan": {
+     "goal": "Помочь клиенту уверенно выбрать H6 с помощью честного сравнения, пригласить на тест-драйв в салон",
+     "actions": [
+      {
+       "tool": "model_comparison",
+       "why": "Клиент сравнивает, нужны объективные данные по важным для него параметрам"
+      }
+     ],
+     "deliverables": [
+      "Скрипт для приглашения на тест-драйв в WhatsApp + 1 карточка сравнения"
+     ],
+     "timing": "связаться в течение 2 дней, при ответе реагировать сразу",
+     "talking_points": [
+      "Акцент на безопасность, пространство и ликвидность",
+      "По ликвидности честно признать отставание, но дать контраргументы",
+      "Пригласить в салон для личного знакомства с автомобилем"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_comparison",
+      "why": "Клиент сравнивает, нужны аргументы",
+      "result": {
+       "card_type": "comparison",
+       "our_car": "GWM Haval H6",
+       "rival_car": "Toyota RAV4",
+       "image": "havalh6.jpg",
+       "summary": "В вашем бюджете Haval H6 выигрывает по ключевым для вас параметрам — безопасность и пространство. По ликвидности мы отстаём, но разница в цене покупки и длинная гарантия компенсируют это.",
+       "dimensions": [
+        {
+         "name": "Безопасность",
+         "ours": "Haval H6: 6 подушек + L2 ассистент",
+         "rival": "RAV4: базовая активная безопасность",
+         "winner": "ours",
+         "comment": "С двухлетним ребёнком спокойнее на H6"
+        },
+        {
+         "name": "Пространство",
+         "ours": "Haval H6: длиннее колёсная база, больше багажник",
+         "rival": "RAV4: достаточно, но тесновато",
+         "winner": "ours",
+         "comment": "Коляска и крупные вещи влезут без проблем"
+        },
+        {
+         "name": "Ликвидность",
+         "ours": "Haval H6: ликвидность растёт с каждым годом",
+         "rival": "RAV4: традиционно высокая ликвидность",
+         "winner": "rival",
+         "comment": "Но учтите разницу в цене покупки и длинную гарантию — за несколько лет владения H6 обойдётся дешевле"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Алексей, я прекрасно понимаю ваши сомнения между этими двумя моделями. Я подготовил для вас честное сравнение по самым важным параметрам. По безопасности и пространству H6 объективно сильнее: 6 подушек, L2, больше места для пассажиров и багажа — с ребёнком это очень удобно. По ликвидности не буду лукавить: RAV4 традиционно держит цену лучше. Но посмотрите на разницу в цене нового автомобиля и на длительную гарантию H6 — в итоге за несколько лет владения H6 обойдётся вам дешевле. Цифры — это хорошо, но лучше один раз увидеть и пощупать. Приезжайте в салон, я подготовлю обе машины, сами всё оцените и протестируете. Как вам удобно в эти выходные?"
+   }
+  },
+  "testdrive": {
+   "title": "Г-жа Анна · Заинтересована, но не была в салоне",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "около 2 млн ₽",
+   "concerns": [
+    "внедорожные качества",
+    "комплектация"
+   ],
+   "dialogue": [
+    {
+     "who": "Продавец",
+     "role": "sales",
+     "text": "Анна, Tank 300 Вы присмотрели, осталось только приехать и протестировать."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Хочется, но в последнее время очень занята, никак не выкрою время."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Как появится свободное время, тогда и договоримся."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "到店试驾",
+     "evidence": "Клиент явно заинтересован, но постоянно откладывает визит, ссылаясь на занятость — горячий лид, требующий финального касания"
+    },
+    "plan": {
+     "goal": "Организовать тест-драйв с конкретной датой и временем",
+     "actions": [
+      {
+       "tool": "test_drive_booking",
+       "why": "Предложить конкретные временные слоты + закрепить автомобиль + подарок за визит, чтобы снизить барьер принятия решения"
+      }
+     ],
+     "deliverables": [
+      "Текст сообщения в WhatsApp для записи на тест-драйв + 1 карточка бронирования"
+     ],
+     "timing": "Горячий лид, быстрая обработка; напоминание перед назначенным временем",
+     "talking_points": [
+      "Предложить 2-3 временных слота на выбор",
+      "Подчеркнуть, что автомобиль уже зарезервирован",
+      "Использовать подарок за визит как дополнительный стимул"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "test_drive_booking",
+      "why": "Запись на тест-драйв",
+      "result": {
+       "card_type": "generic",
+       "title": "Тест-драйв · Бронирование авто и времени",
+       "subtitle": "Выберите один из двух слотов, чтобы упростить решение",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Модель для теста",
+         "value": "GWM Tank 300",
+         "note": "Автомобиль уже подготовлен"
+        },
+        {
+         "label": "Рекомендуемое время",
+         "value": "Сб 10:30 / Вс 15:00",
+         "note": "Достаточно выбрать один"
+        },
+        {
+         "label": "Салон",
+         "value": "XX Tank Center (название/адрес)",
+         "note": "Навигатор покажет дорогу"
+        },
+        {
+         "label": "Подарок за визит",
+         "value": "Подарок при тест-драйве XX (название)",
+         "note": "Повод приехать"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Анна, понимаю, что Вы заняты. Давайте упростим: не нужно самой выбирать время — я подготовил два готовых варианта: суббота в 10:30 или воскресенье в 15:00. Просто ответьте одной буквой. Автомобиль уже ждёт Вас, приедете — сразу за руль. Кстати, в эти дни за тест-драйв положен небольшой подарок (название), так что заодно и его получите. Суббота или воскресенье? Решайте!"
+   }
+  },
+  "deal": {
+   "title": "Иван Петрович · После тест-драйва готов обсуждать цену",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "чуть больше 2 млн ₽",
+   "concerns": [
+    "цена",
+    "скидки"
+   ],
+   "dialogue": [
+    {
+     "who": "Менеджер",
+     "role": "sales",
+     "text": "Иван Петрович, вчера после тест-драйва вы остались довольны, так что давайте обсудим цену."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "С машиной всё хорошо, теперь посмотрим, какую цену вы предложите."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Если скидка будет хорошей, сегодня же оформлю."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "商务谈判",
+     "evidence": "Клиент доволен тест-драйвом, сам инициирует обсуждение цены и даёт сигнал «готов купить сегодня» — горячий лид на стадии закрытия"
+    },
+    "plan": {
+     "goal": "Предложить прозрачную смету + действующую акцию для оформления заказа сегодня",
+     "actions": [
+      {
+       "tool": "quote_offer",
+       "why": "Постатейная смета + временное предложение — честно и прозрачно подводим к сделке"
+      }
+     ],
+     "deliverables": [
+      "Одно сообщение в WhatsApp для оформления заказа + 1 смета"
+     ],
+     "timing": "Горячий лид, ответ в день обращения, напоминание об окончании акции",
+     "talking_points": [
+      "Чётко разбить по статьям, показать выгоду",
+      "Создать разумную срочность через временную акцию",
+      "Держать底线, но показать лояльность"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "quote_offer",
+      "why": "Предложить смету и скидку для оформления",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Смета на текущий период",
+       "subtitle": "Подробная смета, временное предложение — честно и прозрачно",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Рекомендованная розничная цена",
+         "value": "XX.XX млн ₽",
+         "note": "Заполнитель"
+        },
+        {
+         "label": "Скидка в текущем периоде",
+         "value": "Скидка X.X млн ₽",
+         "note": "С учётом акций дилера и производителя"
+        },
+        {
+         "label": "Льготный кредит",
+         "value": "до X XXX ₽ выгоды",
+         "note": "Только в этом месяце"
+        },
+        {
+         "label": "Подарочный набор",
+         "value": "Тонировка, коврики, первое ТО",
+         "note": "При заказе сегодня"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Иван Петрович, по делу! Не буду ходить вокруг да около, сразу выложу всё как есть: на эту машину скидка до X.X млн ₽, плюс льготный кредит в этом месяце, а ещё тонировка, коврики и первое ТО в подарок при заказе сегодня. Я выбил максимум, вы сами видите — предложение честное. Акция действует только до конца месяца, так что если оформите сегодня, всё успеваете. Может, сразу перейдём к документам?"
+   }
+  },
+  "delivered": {
+   "title": "Елена Петровна · Автомобиль получен, забота + рекомендации",
+   "intent_car": "Great Wall Haval H6",
+   "rival_car": "",
+   "budget": "Сделка завершена",
+   "concerns": [
+    "Эксплуатация",
+    "Рекомендации"
+   ],
+   "dialogue": [
+    {
+     "who": "Менеджер",
+     "role": "sales",
+     "text": "Елена Петровна, машина уже неделю у Вас, всё нравится?"
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Всё хорошо, только некоторые функции ещё не освоила."
+    },
+    {
+     "who": "Клиент",
+     "role": "cust",
+     "text": "Подруги увидели мою машину, двое уже спрашивают."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "S",
+     "node": "已提车",
+     "evidence": "Клиентка эксплуатирует автомобиль неделю, упомянула интерес знакомых — подходящий момент для заботы и стимулирования рекомендаций."
+    },
+    "plan": {
+     "goal": "Обеспечить качественную заботу после покупки, повысить удовлетворённость и естественно предложить программу рекомендаций",
+     "actions": [
+      {
+       "tool": "care_referral",
+       "why": "Сначала забота (эксплуатация/ТО), затем естественное предложение бонусов за рекомендации"
+      }
+     ],
+     "deliverables": [
+      "Текст сообщения в мессенджере: забота + рекомендации",
+      "1 карточка заботы"
+     ],
+     "timing": "Через 3 дня после выдачи авто, напоминание перед первым ТО — забота по ключевым точкам",
+     "talking_points": [
+      "Искренняя забота",
+      "Полные ответы на вопросы",
+      "Естественное упоминание программы «приведи друга», без навязывания"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "care_referral",
+      "why": "Забота + рекомендации",
+      "result": {
+       "card_type": "generic",
+       "title": "Забота после покупки + программа рекомендаций",
+       "subtitle": "Сначала забота, потом рекомендации — без излишней навязчивости",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Забота об эксплуатации",
+         "value": "Звонок через 3 дня + напоминание о ТО",
+         "note": "Повышение удовлетворённости"
+        },
+        {
+         "label": "Канал консультаций",
+         "value": "По любым вопросам обращайтесь в любое время",
+         "note": "Эксплуатация без проблем"
+        },
+        {
+         "label": "Подарок за рекомендацию",
+         "value": "Оба получают подарок XX (заполнить)",
+         "note": "Естественное предложение, без давления"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Елена Петровна, рад, что машина Вас радует! По поводу функций, которые Вы ещё не освоили, я подготовлю короткое видео на две минуты и пришлю Вам — посмотрите, всё сразу станет понятно. О дате первого ТО я тоже напомню заранее, Вам не нужно об этом беспокоиться.\nКстати, если подруги действительно заинтересуются, пусть просто назовут Ваше имя при обращении ко мне — я предложу им такие же условия, как у Вас. И по нашей программе «приведи друга» мы оба получим подарки (заполнить). Буду рад помочь Вашим знакомым, чтобы Вы не пожалели о рекомендации."
+   }
+  }
+ },
+ "es": {
+  "brand": {
+   "title": "Sr. García · Desconfía de los todoterreno chinos",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "Jeep Wrangler",
+   "budget": "Unos $400,000 MXN",
+   "concerns": [
+    "Confianza en la marca",
+    "Capacidad todoterreno"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendedor",
+     "role": "sales",
+     "text": "Señor García, ¿ha seguido pensando en el Tank 300 que vimos la vez pasada?"
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Sí, pero no termino de convencerme. Por ese precio, ¿por qué no mejor me estiro un poco y me compro un Wrangler?"
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Un todoterreno chino… me preocupa que tenga fallas menores y que no mantenga su valor."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "C",
+     "node": "认可品牌",
+     "evidence": "El cliente compara con el Wrangler y cuestiona repetidamente la calidad de los todoterreno chinos; aún no reconoce la marca, es un lead frío temprano"
+    },
+    "plan": {
+     "goal": "Eliminar la duda de que 'un todoterreno chino es inferior a uno extranjero' y generar confianza inicial en la marca Tank",
+     "actions": [
+      {
+       "tool": "brand_proof",
+       "why": "El cliente no confía en la marca, necesita respaldo duro como ventas, reputación y premios"
+      }
+     ],
+     "deliverables": [
+      "Un mensaje de WhatsApp para generar confianza en la marca + 1 imagen de fortaleza de marca"
+     ],
+     "timing": "Lead frío, contactar cada 3 a 5 días sin presionar",
+     "talking_points": [
+      "Tank es una marca independiente de todoterrenos, no una marca genérica",
+      "Respaldo de ventas y parque vehicular",
+      "Testimonios de dueños reales",
+      "Invitarlo al concesionario para que vea y pruebe el vehículo"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "brand_proof",
+      "why": "Usar hechos duros para disipar dudas",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Respaldo de marca",
+       "subtitle": "Respondemos con datos a la pregunta '¿sirven los todoterreno chinos?'",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Posición en el segmento",
+         "value": "Líder en ventas de todoterreno de manufactura china",
+         "note": "Marca especializada, no genérica"
+        },
+        {
+         "label": "Parque vehicular",
+         "value": "Marca Tank: XX mil usuarios globales",
+         "note": "Placeholder: insertar cifra real"
+        },
+        {
+         "label": "Reconocimiento de autoridad",
+         "value": "Múltiples premios a todoterrenos",
+         "note": "Placeholder: insertar premios reales"
+        },
+        {
+         "label": "Opinión de dueños",
+         "value": "Satisfacción del XX%, N relatos de travesías reales",
+         "note": "Placeholder: incluir testimonios"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Señor García, entiendo perfectamente su duda. Si yo fuera a gastar $400,000 MXN en un coche, también lo pensaría dos veces. Tank no es una 'alternativa barata'; es la marca de todoterrenos que长城 creó específicamente para esto. Las ventas y el parque vehicular hablan por sí solos, y la reputación en todoterreno la han construido los dueños reales, kilómetro a kilómetro.\nY en cuanto a las fallas menores y la reventa, tiene razón en preocuparse. No le voy a dar garantías de palabra; venga al concesionario, le muestro los comentarios de dueños reales y los datos de valor de reventa, y se sube al coche para que lo toque. Usted decide. ¿Le aparto una unidad para el fin de semana?"
+   }
+  },
+  "product": {
+   "title": "Sra. López · Reconoce la marca pero no sabe por qué es buena",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "",
+   "budget": "Menos de $400,000 MXN",
+   "concerns": [
+    "Seguridad",
+    "Espacio"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendedor",
+     "role": "sales",
+     "text": "Sra. López, veo que le gusta la Haval H6, ¿qué le gustaría saber más a fondo?"
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Sí, la marca me da confianza, pero no sé exactamente qué la hace tan buena."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Tengo hijos pequeños, me importa mucho la seguridad y que tenga espacio para cargar."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "了解产品",
+     "evidence": "La cliente ya reconoce la marca, hay que explicarle los puntos fuertes en seguridad/espacio; es una pista tibia"
+    },
+    "plan": {
+     "goal": "Explicar 2-3 puntos clave de la H6 en seguridad y espacio para que se interese",
+     "actions": [
+      {
+       "tool": "product_highlight",
+       "why": "Destacar los puntos que le importan (seguridad/espacio) sin abrumar con datos"
+      }
+     ],
+     "deliverables": [
+      "Un mensaje de WhatsApp con los puntos clave + 1 imagen destacada"
+     ],
+     "timing": "Pista tibia, dar seguimiento cada 2-4 días",
+     "talking_points": [
+      "Solo hablar de seguridad y espacio",
+      "Usar ejemplos cotidianos (viajes con niños)",
+      "Invitar a que venga al concesionario a probarlo"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "product_highlight",
+      "why": "Destacar los puntos clave según sus intereses",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Haval H6 · Puntos clave para usted",
+       "subtitle": "Solo lo que le importa: seguridad y espacio",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Seguridad",
+         "value": "6 bolsas de aire de serie + asistencias L2",
+         "note": "Viajes con niños más tranquilos"
+        },
+        {
+         "label": "Espacio",
+         "value": "Distancia entre ejes más larga de su segmento, maletero amplio",
+         "note": "Carga carriola y bultos grandes sin problema"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Sra. López, le resumo justo lo que más le importa: Primero, seguridad: la H6 trae 6 bolsas de aire y asistencias de conducción nivel 2, ideal para viajes largos con los niños. Segundo, espacio: tiene la distancia entre ejes más larga de su categoría, los asientos traseros son amplios y la cajuela le cabe la carriola y todo lo que necesite. \nPero esto se aprende mejor viéndolo en vivo. Tráigase a los niños y venga al concesionario, siéntese, meta la carriola y lo vive. ¿Qué día de esta semana le queda bien?"
+   }
+  },
+  "budget": {
+   "title": "Sr. García · Le gusta pero duda del precio",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "",
+   "budget": "Presupuesto indefinido",
+   "concerns": [
+    "Precio"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendedor",
+     "role": "sales",
+     "text": "Don García, la H6 le gusta de verdad, ¿el problema es el precio?"
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Sí, el auto me encanta, pero no sé cuánto sale en total ni si la mensualidad me queda."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Tampoco tengo el presupuesto completamente definido."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确预算",
+     "evidence": "El cliente está interesado en el auto pero con presupuesto indefinido y duda del precio; hay que desglosar precio total y mensualidad. Es un lead tibio."
+    },
+    "plan": {
+     "goal": "Desglosar precio total y mensualidad, reducir la preocupación por el precio y ayudar al cliente a fijar su presupuesto",
+     "actions": [
+      {
+       "tool": "finance_calc",
+       "why": "Usar precio total más financiamiento para transparentar los costos y disminuir la ansiedad por el monto total."
+      }
+     ],
+     "deliverables": [
+      "Un mensaje de WhatsApp explicando precio total y mensualidad + 1 tarjeta de simulación"
+     ],
+     "timing": "Lead tibio, seguimiento en 2-3 días",
+     "talking_points": [
+      "No presionar por el presupuesto",
+      "Enfatizar que la mensualidad es accesible",
+      "Ofrecer varias opciones para que tenga control"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "finance_calc",
+      "why": "Desglose de precio total y financiamiento",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Haval H6 · Precio total y simulación de financiamiento",
+       "subtitle": "Transparentamos los costos, enfocándonos en la mensualidad más que en el total",
+       "image": "havaldog.jpg",
+       "items": [
+        {
+         "label": "Precio de referencia (sin extras)",
+         "value": "MXN $XX.XX",
+         "note": "Placeholder: llenar según versión"
+        },
+        {
+         "label": "Precio total (con impuestos y seguro)",
+         "value": "Aprox. MXN $XX.XX",
+         "note": "Placeholder: lista de precios completa"
+        },
+        {
+         "label": "Opción de enganche",
+         "value": "Desde 30% ≈ MXN $X.X",
+         "note": "El mínimo es negociable"
+        },
+        {
+         "label": "Mensualidad estimada",
+         "value": "Aprox. MXN $X,XXX / mes",
+         "note": "Ejemplo a 36 meses"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Don García, si el auto le gusta, el precio lo resolvemos. Le preparé un desglose claro de la H6: cuánto sale en total, el enganche mínimo y la mensualidad a 36 meses, para que usted vea de inmediato si le queda. No necesita definir el presupuesto ahora, con esto ya tiene una idea. Cuando guste, venga al concesionario y le revisamos los descuentos y planes de financiamiento para que ahorre aún más."
+   }
+  },
+  "model": {
+   "title": "Sra. García · Eligiendo entre dos modelos propios",
+   "intent_car": "GWM Haval H6 / Haval Big Dog",
+   "rival_car": "",
+   "budget": "Menos de MXN $350,000",
+   "concerns": [
+    "Espacio",
+    "Apariencia"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendedor",
+     "role": "sales",
+     "text": "Sra. García, ya definió su presupuesto, ¿está indecisa entre la H6 y la Big Dog?"
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Sí, la H6 me parece más segura, pero la Big Dog es bonita."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Necesito espacio suficiente y también quiero una apariencia con personalidad, ¿me ayuda a decidir?"
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确车型",
+     "evidence": "La cliente ya tiene presupuesto definido y duda entre dos modelos de la misma marca; necesita reducir a 1~2 opciones según sus preocupaciones. Es un lead tibio."
+    },
+    "plan": {
+     "goal": "Considerando sus preocupaciones (espacio/apariencia), ayudarle a reducir a 1~2 candidatos dentro del presupuesto.",
+     "actions": [
+      {
+       "tool": "model_select",
+       "why": "Hacer una recomendación selectiva entre los modelos propios, sin recomendar demasiados a la vez."
+      }
+     ],
+     "deliverables": [
+      "Un mensaje de WeChat para ayudarle a reducir opciones + 1 tarjeta de selección."
+     ],
+     "timing": "Periodo de comparación, seguimiento en 2~3 días.",
+     "talking_points": [
+      "Explicar claramente las diferencias entre los dos modelos.",
+      "Relacionar con espacio/apariencia.",
+      "Concretar una cita para comparar en el concesionario."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_select",
+      "why": "Selección interna de la marca",
+      "result": {
+       "card_type": "generic",
+       "title": "Para ayudarle a reducir opciones entre nuestros modelos",
+       "subtitle": "Recomendación selectiva, sin abrumar con muchas opciones",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Candidato 1 · Haval H6",
+         "value": "Más equilibrada en espacio, más estable para uso familiar",
+         "note": "Si valora capacidad y tranquilidad, elija esta."
+        },
+        {
+         "label": "Candidato 2 · Haval Big Dog",
+         "value": "Apariencia más robusta y con personalidad, alta identidad visual",
+         "note": "Si valora el estilo y la actitud, elija esta."
+        },
+        {
+         "label": "Recomendación de selección",
+         "value": "Por menos de MXN $350,000, quédese con estas dos opciones.",
+         "note": "Comparar en el concesionario es la forma más rápida de decidir."
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Sra. García, cada una tiene sus ventajas, se las explico: si valora más un espacio equilibrado y tranquilidad familiar, la H6 es más estable; si quiere una apariencia con personalidad y que se distinga en la calle, entonces la Big Dog. El espacio que le importa es suficiente en ambas, la diferencia principal está entre 'seguridad' y 'personalidad'. No se complique viendo fotos, le tengo las dos listas para que venga al concesionario, se siente y compare; en cinco minutos tendrá respuesta. ¿Le aparto un fin de semana?"
+   }
+  },
+  "wang": {
+   "title": "Sr. Hernández · GWM H6 vs. RAV4",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "Toyota RAV4",
+   "budget": "Menos de $300,000 MXN",
+   "concerns": [
+    "Seguridad",
+    "Espacio",
+    "Plusvalía"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendedor",
+     "role": "sales",
+     "text": "Sr. Hernández, buenos días. La vez pasada lo vi interesado en la Haval H6, ¿qué tal si la volvemos a ver hoy?"
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Sí, la verdad estoy indeciso. Un amigo me recomendó la Toyota RAV4, dice que las japonesas tienen mejor plusvalía."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Mi hijo tiene apenas dos años, para mí la seguridad es lo más importante, y el espacio también tiene que ser suficiente."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Me preocupa que los autos chinos tengan muchos detalles, que después sea difícil venderlos y pierdan valor rápido."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "对比竞品",
+     "evidence": "El cliente ya está comparando precios entre la Haval H6 y la RAV4, prioriza seguridad/espacio, es un lead caliente cercano al cierre."
+    },
+    "plan": {
+     "goal": "Usar una comparación honesta y convincente para afianzar al cliente en la H6 y agendar una prueba de manejo.",
+     "actions": [
+      {
+       "tool": "model_comparison",
+       "why": "El cliente está comparando, necesita datos concretos sobre los puntos que le importan."
+      }
+     ],
+     "deliverables": [
+      "Un mensaje de WhatsApp para agendar prueba de manejo + 1 tarjeta comparativa"
+     ],
+     "timing": "Seguimiento en 2 días, responder de inmediato si hay interacción.",
+     "talking_points": [
+      "Enfatizar diferencias en seguridad/espacio/plusvalía.",
+      "Reconocer la desventaja en plusvalía y compensarla.",
+      "Llevar a una prueba de manejo presencial."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_comparison",
+      "why": "El cliente está comparando, necesita una comparación concesionaria.",
+      "result": {
+       "card_type": "comparison",
+       "our_car": "GWM Haval H6",
+       "rival_car": "Toyota RAV4",
+       "image": "havalh6.jpg",
+       "summary": "Al mismo precio, la Haval H6 gana en seguridad y espacio, que son sus prioridades. La plusvalía se compensa con menor precio de compra y garantía extendida.",
+       "dimensions": [
+        {
+         "name": "Seguridad",
+         "ours": "Haval H6: 6 bolsas de aire + asistencias nivel 2",
+         "rival": "RAV4: seguridad activa básica",
+         "winner": "ours",
+         "comment": "Más tranquilidad al viajar con su hijo pequeño."
+        },
+        {
+         "name": "Espacio",
+         "ours": "Haval H6: mayor distancia entre ejes, cajuela más amplia",
+         "rival": "RAV4: suficiente pero más justa",
+         "winner": "ours",
+         "comment": "Cabe la carriola y todo el equipaje."
+        },
+        {
+         "name": "Plusvalía",
+         "ours": "Haval H6: la plusvalía de autos chinos ha mejorado rápido",
+         "rival": "RAV4: plusvalía más alta por ser japonesa",
+         "winner": "rival",
+         "comment": "Compensación: menor precio de compra + garantía larga = menor costo total a largo plazo."
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Sr. Hernández, entiendo perfectamente su indecisión entre estos dos modelos. Le hice una comparación honesta con los puntos que más le importan: en seguridad y espacio, la H6 claramente le gana — trae 6 bolsas de aire y asistencias de manejo, y la cajuela es más grande, ideal para cuando sale con su hijo. En plusvalía, no le voy a engañar: la RAV4 es mejor, pero no se fije solo en eso. La H6 cuesta menos desde el inicio y tiene una garantía más larga, así que a la larga el costo de tenerla es muy parecido. Pero los números no se sienten igual que ver los autos en persona. ¿Por qué no pasa un rato por la agencia? Le tengo ambas unidades listas para que las vea, las toque y las maneje. ¿Le queda bien este fin de semana?"
+   }
+  },
+  "testdrive": {
+   "title": "Sra. López · Interesada, sin visita",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "Aprox. $400,000 MXN",
+   "concerns": [
+    "Off-road",
+    "Equipamiento"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendedor",
+     "role": "sales",
+     "text": "Sra. López, la Tank 300 le tiene echado el ojo, solo falta que venga a darle una vuelta."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Sí quiero ir, pero últimamente ando muy ocupada, no encuentro el momento."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Cuando tenga tiempo, le aviso y agendamos."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "到店试驾",
+     "evidence": "Cliente con intención clara pero sin concretar visita, excusándose con 'ocupada'; lead caliente que necesita un empujón final."
+    },
+    "plan": {
+     "goal": "Concretar una prueba de manejo con fecha y hora definidas",
+     "actions": [
+      {
+       "tool": "test_drive_booking",
+       "why": "Ofrecer horarios concretos + apartar unidad + regalo por visita, reduce el costo de decisión de ir al concesionario."
+      }
+     ],
+     "deliverables": [
+      "Un mensaje de WhatsApp para concretar la visita + 1 tarjeta de reserva de prueba de manejo"
+     ],
+     "timing": "Lead caliente, seguimiento rápido; recordar antes de la cita acordada",
+     "talking_points": [
+      "Dar dos o tres horarios para que elija",
+      "Enfatizar que ya le tenemos la unidad apartada",
+      "Usar el regalo por visita como motivo para acudir"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "test_drive_booking",
+      "why": "Concretar prueba de manejo",
+      "result": {
+       "card_type": "generic",
+       "title": "Prueba de manejo · Le apartamos unidad y horario",
+       "subtitle": "Elija entre dos horarios, le facilitamos la decisión",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Modelo a probar",
+         "value": "GWM Tank 300",
+         "note": "Unidad lista para usted"
+        },
+        {
+         "label": "Horarios sugeridos",
+         "value": "Sábado 10:30 / Domingo 15:00",
+         "note": "Elija uno"
+        },
+        {
+         "label": "Concesionario",
+         "value": "XX Tank Center (placeholder: nombre/dirección)",
+         "note": "Llegue con GPS"
+        },
+        {
+         "label": "Regalo por visita",
+         "value": "Obsequio al probarla (placeholder)",
+         "note": "Un motivo extra para venir"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Sra. López, entiendo que anda ocupada, así que vamos a hacerlo sencillo: no tiene que pensar en horarios, ya le tengo dos opciones: sábado a las 10:30 o domingo a las 3:00 pm. Solo respóndame con una letra. La unidad ya está apartada para usted, llega y la maneja. Ah, y estos días tenemos un detalle (placeholder) para quienes vienen a probarla, así se lo lleva de paso. ¿Sábado o domingo, qué prefiere?"
+   }
+  },
+  "deal": {
+   "title": "Sr. Hernández · Satisfecho con la prueba de manejo, negociando precio",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "Poco más de 200 mil pesos",
+   "concerns": [
+    "Precio",
+    "Descuentos"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendedor",
+     "role": "sales",
+     "text": "Señor Hernández, después de la prueba de ayer quedó satisfecho, así que hablemos de precios."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "El auto está bien, solo falta ver qué precio final me pueden dar."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Si el descuento es atractivo, hoy mismo lo aparto."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "商务谈判",
+     "evidence": "Cliente satisfecho con la prueba, toma la iniciativa para negociar y da señal de 'puedo decidir hoy', lead caliente a punto de cierre."
+    },
+    "plan": {
+     "goal": "Presentar cotización transparente + oferta limitada vigente para concretar pedido hoy",
+     "actions": [
+      {
+       "tool": "quote_offer",
+       "why": "Cotización desglosada + política limitada, avanzar con honestidad y transparencia hacia el cierre."
+      }
+     ],
+     "deliverables": [
+      "Un mensaje de WhatsApp para concretar pedido + 1 cotización"
+     ],
+     "timing": "Lead caliente, respuesta el mismo día, recordatorio de vencimiento de oferta",
+     "talking_points": [
+      "Desglosar con claridad y honestidad",
+      "Oferta limitada genera urgencia razonable",
+      "Mantener margen pero mostrar buena voluntad"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "quote_offer",
+      "why": "Cotización + descuento para impulsar cierre",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Cotización actual",
+       "subtitle": "Desglose claro, oferta limitada, transparencia total",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Precio de lista",
+         "value": "XX.XX MXN",
+         "note": "Referencia"
+        },
+        {
+         "label": "Descuento vigente",
+         "value": "Descuento total X.X MXN",
+         "note": "Incluye políticas de fábrica y concesionario"
+        },
+        {
+         "label": "Subsidio financiero",
+         "value": "Hasta XXXX MXN de subsidio",
+         "note": "Válido solo este mes"
+        },
+        {
+         "label": "Paquete de regalos",
+         "value": "Película, alfombras, primer servicio, etc.",
+         "note": "Al apartar hoy"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Señor Hernández, vamos al grano. No le doy vueltas: le pongo las cartas sobre la mesa. Este modelo tiene un descuento total de X.X MXN, más el subsidio financiero de este mes, y el paquete de regalos que incluye película, alfombras y primer servicio, todo al apartar hoy. Es el mejor precio que pude conseguir, usted notará la buena voluntad. Esta oferta es solo por este mes, y si aparta hoy, la aprovecha. ¿Qué le parece si hacemos el papeleo ahora?"
+   }
+  },
+  "delivered": {
+   "title": "Sra. García · Vehículo entregado, hacer seguimiento y solicitar referidos",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "",
+   "budget": "Vendido",
+   "concerns": [
+    "Uso del vehículo",
+    "Referidos"
+   ],
+   "dialogue": [
+    {
+     "who": "Ventas",
+     "role": "sales",
+     "text": "Sra. García, ya tiene una semana con su camioneta, ¿todo bien?"
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Muy bien, aunque todavía no domino algunas funciones."
+    },
+    {
+     "who": "Cliente",
+     "role": "cust",
+     "text": "Mis amigos vieron que ya tengo el auto y dos de ellos están preguntando."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "S",
+     "node": "已提车",
+     "evidence": "La cliente ya tiene el vehículo una semana y menciona que conocidos están preguntando; es momento de seguimiento posventa y solicitar referidos."
+    },
+    "plan": {
+     "goal": "Brindar seguimiento posventa para aumentar satisfacción y solicitar referidos de manera natural",
+     "actions": [
+      {
+       "tool": "care_referral",
+       "why": "Primero dar seguimiento (uso del auto/primer servicio) y luego mencionar incentivo por referido"
+      }
+     ],
+     "deliverables": [
+      "Mensaje de WhatsApp de seguimiento + solicitud de referidos",
+      "1 tarjeta de seguimiento"
+     ],
+     "timing": "Llamada a los 3 días de la entrega, recordatorio antes del primer servicio; seguimiento por hitos",
+     "talking_points": [
+      "Primero mostrar interés genuino",
+      "Resolver dudas",
+      "Mencionar programa de referidos sin presionar"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "care_referral",
+      "why": "Seguimiento + referidos",
+      "result": {
+       "card_type": "generic",
+       "title": "Seguimiento posventa + Referidos",
+       "subtitle": "Primero el cuidado, luego los referidos, sin ser oportunista",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Seguimiento de uso",
+         "value": "Llamada a los 3 días + recordatorio de primer servicio",
+         "note": "Aumenta satisfacción"
+        },
+        {
+         "label": "Canal de consultas",
+         "value": "Ante cualquier duda, pregúnteme",
+         "note": "Tranquilidad al conducir"
+        },
+        {
+         "label": "Incentivo por referido",
+         "value": "Recomiende y ambos reciben XX (placeholder)",
+         "note": "Se menciona de forma natural, sin presionar"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Sra. García, ¡qué bueno que todo va bien! Si tiene dudas sobre las funciones, le preparo un videíto de dos minutos explicando lo básico, así lo aprende rápido. También le recordaré cuándo toca el primer servicio, no se preocupe.\nPor cierto, si sus amigos están interesados, dígales que mencionen su nombre y vienen conmigo. Les daré el mismo trato que a usted, y ambos recibirán un detalle por la recomendación (placeholder). Usted me refiere y yo los atiendo de maravilla, no le quedo mal."
+   }
+  }
+ },
+ "fr": {
+  "brand": {
+   "title": "Monsieur Martin · Toujours méfiant envers le tout-terrain chinois",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "Jeep Wrangler",
+   "budget": "environ 20 000 €",
+   "concerns": [
+    "Confiance en la marque",
+    "Tout-terrain"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendeur",
+     "role": "sales",
+     "text": "Monsieur Martin, le Tank 300 que vous avez vu la dernière fois, vous y avez repensé depuis ?"
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "J'y ai pensé, mais j'ai des doutes. Pour ce prix, pourquoi ne pas mettre un peu plus et prendre un Wrangler ?"
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Un tout-terrain chinois… j'ai peur des petits soucis et de la mauvaise revente."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "C",
+     "node": "认可品牌",
+     "evidence": "Le client utilise le Wrangler comme référence et remet en question le tout-terrain chinois, n'a pas encore reconnu la marque, prospect froid"
+    },
+    "plan": {
+     "goal": "Dissiper les doutes sur le tout-terrain chinois par rapport aux marques étrangères, établir une confiance initiale envers la marque Tank",
+     "actions": [
+      {
+       "tool": "brand_proof",
+       "why": "Le client ne fait pas confiance à la marque, besoin de preuves tangibles (ventes, réputation, récompenses)"
+      }
+     ],
+     "deliverables": [
+      "Un message WeChat pour établir la confiance en la marque + 1 image de force de la marque"
+     ],
+     "timing": "Prospect froid, contact léger tous les 3 à 5 jours, sans pression",
+     "talking_points": [
+      "Tank est une marque tout-terrain indépendante, pas une marque générique",
+      "Ventes et nombre de propriétaires comme preuve",
+      "Avis de vrais propriétaires",
+      "Inviter à venir voir en concession"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "brand_proof",
+      "why": "Utiliser des preuves tangibles pour dissiper les doutes",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Preuve de force de la marque",
+       "subtitle": "Des preuves tangibles pour répondre à la question 'Le tout-terrain chinois est-il fiable ?'",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Position dans la catégorie",
+         "value": "Leader des ventes de tout-terrain chinois",
+         "note": "Marque tout-terrain professionnelle, pas une marque générique"
+        },
+        {
+         "label": "Nombre de propriétaires",
+         "value": "XX 000 propriétaires mondiaux de la marque Tank",
+         "note": "À remplir avec un chiffre réel"
+        },
+        {
+         "label": "Reconnaissance officielle",
+         "value": "Plusieurs prix de tout-terrain",
+         "note": "À remplir avec de vrais prix"
+        },
+        {
+         "label": "Avis des propriétaires",
+         "value": "Satisfaction XX %, N récits de traversées",
+         "note": "À remplir avec des témoignages"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Monsieur Martin, je comprends tout à fait vos inquiétudes. À votre place, pour un achat de 20 000 €, je réfléchirais aussi à deux fois. Le Tank n'est pas un 'remplacement bon marché' : c'est une marque tout-terrain dédiée de Great Wall Motors. Ses ventes et son nombre de propriétaires parlent d'eux-mêmes, et la réputation tout-terrain a été bâtie par de vrais propriétaires, kilomètre après kilomètre.\nQuant aux petits soucis et à la revente, vous avez raison de vous en soucier. Je ne vais pas vous faire de promesses en l'air : venez en concession, je vous montrerai les retours clients réels et les données de valeur résiduelle. Vous pourrez même monter à bord et vous faire votre propre opinion. Je vous réserve un véhicule pour ce week-end ?"
+   }
+  },
+  "product": {
+   "title": "Mme Dubois · Connaît la marque mais ne sait pas ce qui la distingue",
+   "intent_car": "Great Wall Haval H6",
+   "rival_car": "",
+   "budget": "Moins de 30 000 €",
+   "concerns": [
+    "Sécurité",
+    "Espace"
+   ],
+   "dialogue": [
+    {
+     "who": "Commercial",
+     "role": "sales",
+     "text": "Madame Dubois, vous appréciez le Haval H6, vous voulez surtout en savoir plus sur ses points forts ?"
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Oui, la marque m'inspire confiance, mais je ne vois pas vraiment ce qui le rend meilleur."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "J'ai des enfants, donc je privilégie la sécurité et la capacité de chargement."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "了解产品",
+     "evidence": "La cliente connaît déjà la marque, il faut lui expliquer les atouts clés autour de la sécurité et de l'espace. Piste tiède."
+    },
+    "plan": {
+     "goal": "En se concentrant sur la sécurité et l'espace, présenter 2 à 3 atouts majeurs du H6 pour susciter son intérêt.",
+     "actions": [
+      {
+       "tool": "product_highlight",
+       "why": "Mettre en avant les points forts selon ses préoccupations (sécurité/espace), éviter de noyer sous les chiffres."
+      }
+     ],
+     "deliverables": [
+      "Un message WeChat qui présente les atouts clés + une image des points forts."
+     ],
+     "timing": "Piste tiède, relance tous les 2 à 4 jours.",
+     "talking_points": [
+      "Se concentrer uniquement sur la sécurité et l'espace.",
+      "Mise en situation (sorties avec enfants).",
+      "Conclure par une invitation à venir essayer le véhicule en concession."
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "product_highlight",
+      "why": "Sélectionner les points forts selon ses préoccupations.",
+      "result": {
+       "card_type": "generic",
+       "title": "Great Wall Haval H6 · Les atouts clés pour vous",
+       "subtitle": "Uniquement ce qui vous intéresse : sécurité & espace",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Sécurité",
+         "value": "6 airbags de série + conduite assistée de niveau 2",
+         "note": "Pour voyager serein avec vos enfants"
+        },
+        {
+         "label": "Espace",
+         "value": "Empattement le plus long de sa catégorie, places arrière spacieuses et grand coffre",
+         "note": "Poussette et gros bagages tiennent"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Madame Dubois, je vais être direct sur vos deux priorités : côté sécurité, le H6 est équipé de 6 airbags et d'une conduite assistée de niveau 2, de quoi rouler tranquille avec les enfants. Côté espace, il a l'empattement le plus long de sa catégorie, les places arrière sont confortables et le coffre peut accueillir poussette et gros bagages. Mais les chiffres ne remplacent pas une vraie sensation. Venez avec vos enfants en concession, montez à bord, ouvrez le coffre, vous verrez tout de suite. Quand seriez-vous disponible cette semaine ?"
+   }
+  },
+  "budget": {
+   "title": "M. Dupont · Intéressé mais hésite sur le prix",
+   "intent_car": "GWM Haval Big Dog",
+   "rival_car": "",
+   "budget": "Budget flou",
+   "concerns": [
+    "Prix"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendeur",
+     "role": "sales",
+     "text": "M. Dupont, vous aimez vraiment le Big Dog, mais le prix bloque ?"
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Oui, la voiture me convient, mais je ne sais pas exactement combien ça coûte au final et si je peux supporter les mensualités."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Mon budget n'est pas encore totalement fixé non plus."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确预算",
+     "evidence": "Le client est intéressé par le véhicule mais a un budget flou et hésite sur le prix. Il faut expliquer clairement le prix total et les mensualités. Lead tiède.",
+     "plan": {
+      "goal": "Calculer clairement le prix total et les mensualités, réduire les inquiétudes sur le prix, aider le client à fixer son budget",
+      "actions": [
+       {
+        "tool": "finance_calc",
+        "why": "Utiliser le prix total + le crédit pour rendre l'argent transparent, atténuer l'anxiété sur le prix global."
+       }
+      ],
+      "deliverables": [
+       "Un message WeChat expliquant clairement le prix total et les mensualités + 1 carte de simulation"
+      ],
+      "timing": "Lead tiède, suivi dans 2~3 jours",
+      "talking_points": [
+       "Ne pas forcer le budget",
+       "Souligner que les mensualités sont abordables",
+       "Proposer plusieurs options pour qu'il garde le contrôle"
+      ]
+     },
+     "tool_results": [
+      {
+       "tool": "finance_calc",
+       "why": "Prix total + simulation de crédit",
+       "result": {
+        "card_type": "generic",
+        "title": "GWM Haval Big Dog · Prix total & Simulation de crédit",
+        "subtitle": "Rendre l'argent transparent : voir les mensualités plutôt que le prix total",
+        "image": "havaldog.jpg",
+        "items": [
+         {
+          "label": "Prix de base indicatif",
+          "value": "XX.XX €",
+          "note": "À remplir selon la configuration réelle"
+         },
+         {
+          "label": "Prix total (taxes et assurance incluses)",
+          "value": "Environ XX.XX €",
+          "note": "Devis tout compris"
+         },
+         {
+          "label": "Apport personnel",
+          "value": "À partir de 30 % ≈ X.X €",
+          "note": "Seuil négociable"
+         },
+         {
+          "label": "Mensualité indicative",
+          "value": "Environ X.XXX € / mois",
+          "note": "Exemple sur 36 mois"
+         }
+        ],
+        "_stub": true
+       }
+      }
+     ],
+     "message": "M. Dupont, si la voiture vous plaît, c'est déjà ça. Pour le prix, on va le détailler clairement. J'ai préparé un calcul transparent pour le Big Dog : le prix total approximatif, l'apport minimum possible, et ce que ça donne en mensualités sur 36 mois. Comme ça, vous voyez tout de suite si c'est gérable. Pas besoin de fixer votre budget maintenant. Avec ces chiffres, vous aurez une idée. Quand vous voudrez passer à la concession, je vous détaillerai les offres et le plan de financement pour que vous économisiez encore plus."
+    }
+   }
+  },
+  "model": {
+   "title": "Mme Martin · Hésite entre deux modèles de notre gamme",
+   "intent_car": "GWM Haval H6 / Haval Big Dog",
+   "rival_car": "",
+   "budget": "Moins de 35 000 €",
+   "concerns": [
+    "Espace",
+    "Design"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendeur",
+     "role": "sales",
+     "text": "Madame Martin, le budget est fixé, et vous hésitez entre la H6 et la Big Dog ?"
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Oui, la H6 me semble plus stable, et la Big Dog est plus jolie."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Je veux assez d'espace et un design qui a du caractère. Pouvez-vous me conseiller ?"
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "W",
+     "node": "明确车型",
+     "evidence": "Budget client fixé, hésitation entre deux modèles de notre marque. Besoin de réduire à 1~2 modèles selon ses critères. Lead tiède."
+    },
+    "plan": {
+     "goal": "En fonction des critères (espace/design), aider la cliente à réduire à 1~2 modèles dans son budget",
+     "actions": [
+      {
+       "tool": "model_select",
+       "why": "Proposer des recommandations ciblées parmi nos modèles, sans en présenter trop à la fois."
+      }
+     ],
+     "deliverables": [
+      "Un message WeChat pour aider la cliente à réduire son choix + 1 fiche de sélection"
+     ],
+     "timing": "Phase de comparaison, suivi sous 2~3 jours",
+     "talking_points": [
+      "Expliquer les différences entre les deux modèles",
+      "Répondre aux critères espace/design",
+      "Conclure sur une comparaison en concession"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_select",
+      "why": "Sélection interne à la marque",
+      "result": {
+       "card_type": "generic",
+       "title": "Pour vous aider à réduire votre choix dans notre gamme",
+       "subtitle": "Des recommandations ciblées, sans vous submerger",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Option 1 · Haval H6",
+         "value": "Espace plus équilibré, plus stable pour la famille",
+         "note": "À choisir si vous privilégiez le volume et la tranquillité"
+        },
+        {
+         "label": "Option 2 · Haval Big Dog",
+         "value": "Design plus robuste et original, forte identité",
+         "note": "À choisir si vous privilégiez le look et l'attitude"
+        },
+        {
+         "label": "Recommandation",
+         "value": "Sous 35 000 €, concentrez-vous d'abord sur ces deux modèles",
+         "note": "La comparaison en concession est le plus rapide pour trancher"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Madame Martin, ces deux modèles ont chacun leurs atouts. Je vous les détaille : si vous privilégiez un espace équilibré et un usage familial serein, la H6 est plus stable ; si vous voulez un design qui a du caractère et se démarque, c'est la Big Dog. Les deux offrent l'espace dont vous avez besoin, la différence est entre « stabilité » et « personnalité ». Ne vous arrêtez pas aux photos : je vous réserve les deux en concession, vous pourrez les comparer en vous asseyant dedans. Cinq minutes suffisent pour vous décider. On vous bloque un créneau ce week-end ?"
+   }
+  },
+  "wang": {
+   "title": "M. Dubois · GWM H6 vs RAV4",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "Toyota RAV4",
+   "budget": "moins de 15 000 €",
+   "concerns": [
+    "sécurité",
+    "espace",
+    "valeur de revente"
+   ],
+   "dialogue": [
+    {
+     "who": "Commercial",
+     "role": "sales",
+     "text": "Bonjour Monsieur Dubois, je vois que vous vous intéressez au GWM H6, on en reparle aujourd'hui ?"
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Oui, mais j'hésite. Un ami me conseille de regarder le Toyota RAV4, il dit que les modèles de marque se revendent mieux."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Mon enfant a deux ans, la sécurité est ma priorité, et il faut de l'espace pour tout le matériel."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Je crains que la voiture chinoise ait des petits soucis, qu'elle soit difficile à revendre et perde vite de la valeur."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "对比竞品",
+     "evidence": "Le client compare déjà le GWM H6 et le RAV4, priorise sécurité/espace, c'est un lead chaud proche de l'achat"
+    },
+    "plan": {
+     "goal": "Aider le client à choisir le H6 via une comparaison honnête et crédible, puis l'inviter à un essai en concession",
+     "actions": [
+      {
+       "tool": "model_comparison",
+       "why": "Le client compare, il a besoin de données concrètes sur ses critères"
+      }
+     ],
+     "deliverables": [
+      "Un message WeChat d'invitation à l'essai + 1 carte comparative"
+     ],
+     "timing": "Suivi sous 2 jours, réponse immédiate en cas d'interaction",
+     "talking_points": [
+      "Insister sur les différences en sécurité/espace/revente",
+      "Reconnaître le point faible de la revente et le compenser",
+      "Conclure par une invitation à l'essai en concession"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "model_comparison",
+      "why": "Le client compare, besoin d'une comparaison nuancée",
+      "result": {
+       "card_type": "comparison",
+       "our_car": "GWM Haval H6",
+       "rival_car": "Toyota RAV4",
+       "image": "havalh6.jpg",
+       "summary": "À prix égal, le GWM H6 est meilleur sur la sécurité et l'espace, vos priorités. Pour la revente, l'écart de prix à l'achat et la longue garantie compensent.",
+       "dimensions": [
+        {
+         "name": "Sécurité",
+         "ours": "GWM H6 : 6 airbags de série + conduite assistée L2",
+         "rival": "RAV4 : sécurité active de base",
+         "winner": "ours",
+         "comment": "Plus rassurant avec un enfant en bas âge"
+        },
+        {
+         "name": "Espace",
+         "ours": "GWM H6 : empattement plus long, coffre plus grand",
+         "rival": "RAV4 : suffisant mais plus petit",
+         "winner": "ours",
+         "comment": "On peut y mettre la poussette et les bagages"
+        },
+        {
+         "name": "Valeur de revente",
+         "ours": "GWM H6 : la valeur de revente des modèles chinois progresse vite",
+         "rival": "RAV4 : meilleure valeur de revente",
+         "winner": "rival",
+         "comment": "Compensation : le prix d'achat plus bas + longue garantie réduisent le coût de possession"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Monsieur Dubois, je comprends tout à fait votre hésitation entre ces deux modèles. J'ai fait une comparaison concrète sur vos critères : en sécurité et espace, le H6 est clairement supérieur – 6 airbags et conduite L2 de série, habitacle et coffre plus grands, parfait avec un enfant de deux ans. Côté revente, je ne vais pas vous mentir : le RAV4 tient mieux sa cote, mais ne regardez pas que ça : le H6 coûte déjà moins cher à l'achat, et avec sa longue garantie, le coût de possession sur plusieurs années n'est pas plus élevé. Les chiffres ne remplacent pas les sensations : venez en concession, j'aurai les deux voitures à votre disposition pour un essai. Êtes-vous libre ce week-end ?"
+   }
+  },
+  "testdrive": {
+   "title": "Mme Lefèvre · Intéressée mais pas venue",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "Environ 45 000 €",
+   "concerns": [
+    "Tout-terrain",
+    "Équipements"
+   ],
+   "dialogue": [
+    {
+     "who": "Vente",
+     "role": "sales",
+     "text": "Mme Lefèvre, le Tank 300 vous plaît, il ne vous reste plus qu'à venir l'essayer."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "J'aimerais bien, mais je suis vraiment débordé en ce moment, je n'arrive pas à me libérer."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Dès que j'ai un moment, je vous recontacte pour prendre rendez-vous."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "到店试驾",
+     "evidence": "Client clairement intéressé mais ne s'est pas déplacé, repousse avec 'occupé', c'est un lead chaud qui a besoin d'un dernier coup de pouce"
+    },
+    "plan": {
+     "goal": "Obtenir un rendez-vous d'essai concret avec une date précise",
+     "actions": [
+      {
+       "tool": "test_drive_booking",
+       "why": "Proposer des créneaux précis + réserver le véhicule + cadeau de visite, pour réduire le coût décisionnel de la venue"
+      }
+     ],
+     "deliverables": [
+      "Un message WeChat pour inciter à la venue + 1 fiche de rendez-vous d'essai"
+     ],
+     "timing": "Lead chaud, relancer rapidement ; rappeler avant l'échéance",
+     "talking_points": [
+      "Proposer deux ou trois créneaux au choix",
+      "Insister sur le fait que le véhicule est réservé",
+      "Utiliser le cadeau de visite comme motif"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "test_drive_booking",
+      "why": "Inciter à l'essai en concession",
+      "result": {
+       "card_type": "generic",
+       "title": "Essai en concession · Véhicule réservé et créneaux dédiés",
+       "subtitle": "Choisissez entre deux ou trois créneaux pour faciliter votre décision",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Modèle à essayer",
+         "value": "GWM Tank 300",
+         "note": "Véhicule prêt pour vous"
+        },
+        {
+         "label": "Créneaux recommandés",
+         "value": "Samedi 10h30 / Dimanche 15h00",
+         "note": "À vous de choisir"
+        },
+        {
+         "label": "Concession",
+         "value": "XX Tank Center (à remplacer par le nom/adresse)",
+         "note": "Navigation directe"
+        },
+        {
+         "label": "Cadeau de visite",
+         "value": "Offert lors de l'essai (à remplacer)",
+         "note": "Un motif supplémentaire pour venir"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Mme Lefèvre, je comprends que vous êtes occupée. Alors simplifions les choses : pas besoin de chercher un créneau, je vous en propose deux tout prêts – ce samedi à 10h30 ou dimanche à 15h. Vous me répondez juste par une lettre. Le véhicule est réservé pour vous, vous pourrez l'essayer directement. Et en plus, une petite surprise vous attend pour cette visite (à préciser). Samedi ou dimanche, qu'en dites-vous ?"
+   }
+  },
+  "deal": {
+   "title": "Monsieur Lefèvre · Essai satisfait, passage aux négociations",
+   "intent_car": "GWM Tank 300",
+   "rival_car": "",
+   "budget": "Un peu plus de 25 000 €",
+   "concerns": [
+    "Prix",
+    "Remise"
+   ],
+   "dialogue": [
+    {
+     "who": "Vendeur",
+     "role": "sales",
+     "text": "Monsieur Lefèvre, après l'essai d'hier qui vous a plu, on peut parler tarifs."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "La voiture me convient, tout dépend du prix final que vous pouvez me faire."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Si la remise est intéressante, je signe aujourd'hui."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "H",
+     "node": "商务谈判",
+     "evidence": "Client satisfait de l'essai, négocie activement et donne le signal 'je signe aujourd'hui' : lead chaud prêt à conclure."
+    },
+    "plan": {
+     "goal": "Proposer un devis transparent avec une offre limitée dans le temps pour finaliser la commande aujourd'hui.",
+     "actions": [
+      {
+       "tool": "quote_offer",
+       "why": "Devis détaillé + offre à durée limitée pour conclure en toute transparence et bonne foi."
+      }
+     ],
+     "deliverables": [
+      "Un message WhatsApp de relance pour finaliser la commande + 1 devis"
+     ],
+     "timing": "Lead chaud, réponse le jour même, rappel de l'offre limitée.",
+     "talking_points": [
+      "Détailler clairement les prix pour montrer la transparence",
+      "Offre limitée pour créer une urgence raisonnable",
+      "Tenir la marge tout en étant attractif"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "quote_offer",
+      "why": "Devis + remise pour finaliser la vente",
+      "result": {
+       "card_type": "generic",
+       "title": "GWM Tank 300 · Devis du mois",
+       "subtitle": "Détail des prix, offre limitée, transparence",
+       "image": "tank300.jpg",
+       "items": [
+        {
+         "label": "Prix de base",
+         "value": "XX.XX €",
+         "note": "Indicatif"
+        },
+        {
+         "label": "Remise du mois",
+         "value": "Remise globale X.X €",
+         "note": "Constructeur + concession"
+        },
+        {
+         "label": "Aide au financement",
+         "value": "Jusqu'à XXXX €",
+         "note": "Valable ce mois-ci"
+        },
+        {
+         "label": "Pack cadeau",
+         "value": "Film pare-soleil, tapis, première révision",
+         "note": "Offert à la commande"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Monsieur Lefèvre, allons droit au but. Je vous fais une offre claire : sur ce modèle, la remise globale peut atteindre X.X €, avec en plus l'aide au financement du mois et le pack cadeau (film, tapis, première révision) offert à la commande. J'ai vraiment négocié pour vous, vous voyez que c'est une offre sérieuse. Cette offre est valable uniquement ce mois-ci, et si vous commandez aujourd'hui, vous en profitez. On passe commande tout de suite ?"
+   }
+  },
+  "delivered": {
+   "title": "Madame Dupont · Véhicule livré, suivi + parrainage",
+   "intent_car": "GWM Haval H6",
+   "rival_car": "",
+   "budget": "Vendu",
+   "concerns": [
+    "Utilisation",
+    "Parrainage"
+   ],
+   "dialogue": [
+    {
+     "who": "Commercial",
+     "role": "sales",
+     "text": "Madame Dupont, cela fait une semaine que vous avez la voiture, elle vous convient ?"
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Très bien, mais il y a encore quelques fonctions que je n'ai pas bien maîtrisées."
+    },
+    {
+     "who": "Client",
+     "role": "cust",
+     "text": "Mes amis m'ont vue avec la voiture, deux d'entre eux se renseignent."
+    }
+   ],
+   "demo": {
+    "perceive": {
+     "hwc": "S",
+     "node": "已提车",
+     "evidence": "Cliente livrée depuis une semaine, signale que son entourage s'intéresse ; c'est le moment pour le suivi de livraison et le parrainage."
+    },
+    "plan": {
+     "goal": "Assurer un suivi de livraison de qualité pour améliorer la satisfaction, puis proposer naturellement le parrainage",
+     "actions": [
+      {
+       "tool": "care_referral",
+       "why": "D'abord le suivi (utilisation/première révision) puis aborder le parrainage de manière naturelle."
+      }
+     ],
+     "deliverables": [
+      "Un message WeChat de suivi + parrainage, et une carte de suivi."
+     ],
+     "timing": "Appel 3 jours après la livraison, rappel avant la première révision ; suivi par étapes.",
+     "talking_points": [
+      "D'abord un suivi sincère",
+      "Répondre aux questions",
+      "Aborder le parrainage naturellement, sans insister"
+     ]
+    },
+    "tool_results": [
+     {
+      "tool": "care_referral",
+      "why": "Suivi + parrainage",
+      "result": {
+       "card_type": "generic",
+       "title": "Suivi de livraison + Parrainage",
+       "subtitle": "D'abord le suivi, ensuite le parrainage, sans pression",
+       "image": "havalh6.jpg",
+       "items": [
+        {
+         "label": "Suivi d'utilisation",
+         "value": "Appel à J+3 + rappel première révision",
+         "note": "Améliore la satisfaction"
+        },
+        {
+         "label": "Assistance questions",
+         "value": "N'hésitez pas à me demander pour les fonctions",
+         "note": "Conduite sereine"
+        },
+        {
+         "label": "Cadeau parrainage",
+         "value": "Chacun reçoit XX € (placeholder)",
+         "note": "Aborder naturellement, sans insister"
+        }
+       ],
+       "_stub": true
+      }
+     }
+    ],
+    "message": "Madame Dupont, ravi que la voiture vous convienne ! Pour les fonctions que vous n'avez pas encore maîtrisées, je vous prépare une petite vidéo de deux minutes que je vous envoie, vous n'aurez qu'à suivre les étapes. Je vous rappellerai aussi avant la première révision, pas besoin de vous en souvenir. Au fait, si vos amis sont vraiment intéressés, dites-leur de donner votre nom en venant me voir, je leur ferai le même tarif que le vôtre, et en plus, vous recevrez chacun un cadeau de parrainage (placeholder). Si vous me les présentez, je m'occuperai d'eux parfaitement, je ne vous ferai pas honte."
    }
   }
  }

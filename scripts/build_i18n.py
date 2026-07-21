@@ -46,9 +46,10 @@ using the car-sales business language and tone customary in {country}.
 HARD RULES:
 - Return ONLY a JSON object with the EXACT same structure and keys as the input.
 - Do NOT translate or change these keys' values: hwc, node, tool, card_type, winner, _stub, image, role, node_id. Keep them byte-for-byte.
-- Translate every other string value (title, texts, evidence, goal, why, deliverables, timing, talking_points, summary, labels, values, notes, names, message, the customer/sales speaker label 'who', etc.).
+- Translate every other string value (title, texts, evidence, goal, why, deliverables, timing, talking_points, summary, labels, values, notes, message, the customer/sales speaker label 'who', etc.).
 - Keep car model names as their official local names where they exist (e.g. 长城坦克300 -> GWM Tank 300), otherwise transliterate sensibly.
-- Convert currency to the local one implied by the market (keep the numbers/placeholders like XX).
+- LOCALIZE THE CUSTOMER'S NAME: replace the Chinese personal name with a common given name / surname typical of {country}. Use the SAME person consistently across the title, every dialogue 'text', and the message (e.g. the greeting). The salesperson label stays a generic word for "Sales".
+- LOCALIZE PRICES REALISTICALLY: for any price / budget / monthly payment, use a plausible CURRENT market figure for THIS vehicle in {country}, in the local currency — do NOT do a literal digit-for-digit swap of the Chinese amount. Keep placeholder tokens like XX, XX.XX, N unchanged.
 - Keep it natural, like a real local salesperson wrote it."""
 
 
