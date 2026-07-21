@@ -68,9 +68,12 @@ def _result_for(sc, mock: bool, lang: str, loc) -> dict:
     """产出引擎五步结果。
     占位：用预置 demo——非中文且有译文缓存则用译文；真跑：按 lang 现跑引擎。"""
     if mock:
-        d = (loc or sc)["demo"]
-        return {"perceive": d["perceive"], "plan": d["plan"],
-                "tool_results": d["tool_results"], "message": d["message"],
+        base = sc["demo"]
+        d = (loc or sc).get("demo", base)
+        return {"perceive": d.get("perceive", base["perceive"]),
+                "plan": d.get("plan", base["plan"]),
+                "tool_results": d.get("tool_results", base["tool_results"]),
+                "message": d.get("message", base["message"]),
                 "phase": os.getenv("SA_PHASE", "1")}
     return run_engine(_state_of(sc), sc["transcript"], sc.get("behaviors", ""),
                       get_profile(sc["node_id"]), perceived=None, lang=lang)

@@ -53,22 +53,44 @@ HARD RULES:
 - Keep it natural, like a real local salesperson wrote it."""
 
 
-def build_lang(lang):
+DEMO_KEYS = ("perceive", "plan", "tool_results", "message")
+
+
+def _valid(tr):
+    """译文结构是否完整（demo 四键齐全）。"""
+    return isinstance(tr, dict) and all(k in tr.get("demo", {}) for k in DEMO_KEYS)
+
+
+def build_lang(lang, tries=3):
     cfg = LANGUAGES[lang]
-    system = SYS.format(lang_name=cfg["name"], country=cfg["country"], guide=cfg["guide"])
+    system = (SYS.format(lang_name=cfg["name"], country=cfg["country"], guide=cfg["guide"])
+              + "\n- CRITICAL: 'demo' MUST keep exactly these top-level keys: perceive, plan, tool_results, message. "
+                "Do NOT nest plan/tool_results/message inside perceive.")
     out = {}
     for sid, sc in SCENARIOS.items():
         src = translatable(sid, sc)
         user = "Translate this JSON:\n" + json.dumps(src, ensure_ascii=False)
-        try:
-            raw = chat(system, user, json_mode=True)
-            tr = json.loads(raw)
-            # 保险：强制回填不可翻键，防模型手滑
-            _restore_keys(src, tr)
+        tr, ok = None, False
+        for _ in range(tries):
+            try:
+                tr = json.loads(chat(system, user, json_mode=True))
+                _restore_keys(src, tr)
+                if _valid(tr):
+                    ok = True
+                    break
+            except Exception as e:
+                tr = {"_err": str(e)}
+        if ok:
             out[sid] = tr
             print(f"  [{lang}] {sid} ✓")
-        except Exception as e:
-            print(f"  [{lang}] {sid} ✗ {e}  → 跳过(该场景回落中文)")
+        else:
+            # 结构翻不对：保留中文 demo（输入/标签仍是译文），绝不写坏结构
+            tr = tr if isinstance(tr, dict) else {}
+            tr["demo"] = copy.deepcopy(src["demo"])
+            for k in ("title", "intent_car", "rival_car", "budget", "concerns", "dialogue"):
+                tr.setdefault(k, src.get(k))
+            out[sid] = tr
+            print(f"  [{lang}] {sid} ⚠ 结构漂移，demo 保留中文")
     return out
 
 
