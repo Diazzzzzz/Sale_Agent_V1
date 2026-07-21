@@ -2,7 +2,10 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1B2D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>OmniSA · Sales Agent</title>
 <style>
   :root{
@@ -13,10 +16,15 @@
     --sans:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6}
-  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+  /* 防撑破：flex 子项可收缩 + 长文本任意换行（英文长词/长标签不再撑宽整页） */
+  .wrap :where(.bubble,.talk,.summary,.goal,.ev,.chip,.tags .t,.dv,.dcmt,.gi,.gtitle,.gsub,.tooldec,.dname,.plan-row){overflow-wrap:anywhere}
+  .exec-row>.step,.gcard>.gbody,.plan-row>*,.gi>*,.gate>*,.bubble{min-width:0}
+  .wrap{max-width:760px;margin:0 auto;
+    padding:calc(20px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
   .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
-  h1{font-size:19px;letter-spacing:-.01em}
+  h1{font-size:19px;letter-spacing:-.01em;flex:1 1 auto;min-width:0}
+  .top>a{flex:0 0 auto}   /* 真跑开关靠右 */
   .badge{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--accent-soft);color:var(--accent)}
   .badge.mock{background:#fff4e5;color:#b26a00}
   .sub{font-size:13px;color:var(--muted);margin:2px 0 14px}
@@ -35,7 +43,7 @@
   .io-tag{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);margin:0 0 6px}
   .io-tag .dot{width:7px;height:7px;border-radius:50%;background:#f0a020}
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-  .tags .t{font-size:11.5px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:3px 10px;color:#556}
+  .tags .t{font-size:11.5px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:3px 10px;color:#556;max-width:100%;white-space:normal;line-height:1.45}
   .tags .t b{color:var(--ink-soft)}
 
   .chat{display:flex;flex-direction:column;gap:10px;background:#fafbfd;border:1px solid var(--line);border-radius:16px;padding:16px}
@@ -130,6 +138,40 @@
 
   .reveal{opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s}
   .reveal.show{opacity:1;transform:none}
+
+  /* 轻投影质感 */
+  .step,.chat{box-shadow:0 1px 3px rgba(15,27,45,.045)}
+  .nodes a{box-shadow:0 1px 2px rgba(15,27,45,.03)}
+
+  /* ==================== 移动端适配 ==================== */
+  @media (max-width: 640px){
+    h1{font-size:16.5px}
+    .sub{font-size:12.5px;margin-bottom:12px}
+    /* 八节点：多行换行，全部可见、绝不撑破视口 */
+    .nodes{gap:6px}
+    .nodes a{padding:8px 12px;font-size:12.5px}
+    .langs{gap:5px}
+    .bubble{max-width:90%;font-size:14.5px;padding:10px 13px}
+    .step{padding:13px 14px}
+    .steplbl{font-size:15px}
+    /* 通用工具卡：小屏图片收窄，标签列变窄 */
+    .gcard{padding:11px;gap:10px}
+    .gcard .gimg{flex:0 0 72px}
+    .gimg img,.gph{width:72px;height:56px}
+    .gi .gk,.plan-row .k{flex-basis:58px}
+    /* 触控友好：按钮加大、平铺 */
+    .gate{gap:8px}
+    .gate button{padding:11px 16px;flex:1 1 auto;font-size:14px}
+    .gate .note{flex-basis:100%;order:9}
+    .ctrls{gap:8px}
+    .ctrls button{flex:1;padding:12px 10px}
+    .revise-bar button{flex:1 1 auto;padding:11px 12px}
+  }
+  @media (max-width: 380px){
+    h1{font-size:15px}
+    .bubble{max-width:94%}
+    .steplbl{font-size:14.5px}
+  }
 </style>
 </head>
 <body>
