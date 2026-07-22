@@ -75,8 +75,12 @@ def _result_for(sc, mock: bool, lang: str, loc) -> dict:
                 "tool_results": d.get("tool_results", base["tool_results"]),
                 "message": d.get("message", base["message"]),
                 "phase": os.getenv("SA_PHASE", "1")}
-    return run_engine(_state_of(sc), sc["transcript"], sc.get("behaviors", ""),
-                      get_profile(sc["node_id"]), perceived=None, lang=lang)
+    r = run_engine(_state_of(sc), sc["transcript"], sc.get("behaviors", ""),
+                   get_profile(sc["node_id"]), perceived=None, lang=lang)
+    # ③ 工具卡数据来自 tools/stubs.py(硬编码中文)，模型不翻它 → 非中文时用缓存里已翻译的工具卡覆盖
+    if loc and loc.get("demo", {}).get("tool_results"):
+        r["tool_results"] = loc["demo"]["tool_results"]
+    return r
 
 
 def _sc_view(sc, loc):
