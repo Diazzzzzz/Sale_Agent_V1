@@ -121,6 +121,30 @@ def chat(sid=None):
     )
 
 
+def _lan_ip():
+    """本机在局域网/热点里的 IP（默认路由出口）。取不到回落 127.0.0.1。"""
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("8.8.8.8", 80))
+        return s.getsockname()[0]
+    except Exception:
+        return "127.0.0.1"
+    finally:
+        s.close()
+
+
+@app.route("/qr")
+def qr():
+    """满屏扫码页：大家连同一热点，扫码进浏览器。?ip= 可手动指定 IP。"""
+    import segno
+    ip = request.args.get("ip") or _lan_ip()
+    port = request.host.split(":", 1)[1] if ":" in request.host else os.getenv("PORT", "5001")
+    url = f"http://{ip}:{port}/"
+    datauri = segno.make(url, error="m").png_data_uri(scale=9, border=3, dark="#141416")
+    return render_template("qr.html", datauri=datauri, url=url)
+
+
 @app.route("/api/revise", methods=["POST"])
 def api_revise():
     """⑤『改一版』：销售用自然语言提修改意见 → Agent 重写一版话术（只改④，不重播）。"""

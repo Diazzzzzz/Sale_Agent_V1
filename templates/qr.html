@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#141416">
+<title>OmniSA · 扫码体验</title>
+<style>
+  :root{
+    --ink:#141416; --red:#C8102E; --red-deep:#8E0B20; --red-tint:#F7E3E7;
+    --white:#FFFFFF; --mist:#F4F4F5; --line:#E2E2E5; --text:#333336; --muted:#6B6B72; --faint:#9A9AA2;
+    --font:"Inter","PingFang SC","Microsoft YaHei",system-ui,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:var(--mist);color:var(--text);min-height:100vh;
+    display:flex;align-items:center;justify-content:center;padding:32px;-webkit-font-smoothing:antialiased}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:44px 48px;text-align:center;max-width:540px;width:100%}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--red-deep);margin-bottom:16px}
+  .eyebrow .sq{width:9px;height:9px;border-radius:2px;background:var(--red)}
+  h1{font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin-bottom:10px}
+  h1 b{color:var(--red)}
+  .sub{font-size:14px;color:var(--muted);margin-bottom:30px;line-height:1.6}
+  .qr{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px;display:inline-block}
+  .qr img{display:block;width:270px;height:270px;image-rendering:pixelated}
+  .url{margin-top:26px;font-size:16px;font-weight:600;color:var(--ink);word-break:break-all;font-feature-settings:"tnum"}
+  .steps{margin-top:26px;text-align:left;font-size:14px;color:var(--text);line-height:1.5;
+    background:var(--mist);border-radius:14px;padding:18px 22px;display:grid;gap:12px}
+  .steps .row{display:flex;gap:11px;align-items:flex-start}
+  .steps .n{flex:0 0 22px;width:22px;height:22px;border-radius:999px;background:var(--red);color:var(--white);
+    font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .steps b{color:var(--ink);font-weight:600}
+  .foot{margin-top:22px;font-size:12px;color:var(--faint);line-height:1.6}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow"><span class="sq"></span>OmniSA · Sales Agent</div>
+    <h1>扫码<b>一起看</b></h1>
+    <p class="sub">连上同一个热点，用手机相机扫下方二维码，直接在浏览器打开。</p>
+    <div class="qr"><img src="{{ datauri }}" alt="QR"></div>
+    <div class="url">{{ url }}</div>
+    <div class="steps">
+      <div class="row"><span class="n">1</span><div>手机 Wi-Fi <b>连上主持人的热点</b></div></div>
+      <div class="row"><span class="n">2</span><div>打开<b>相机</b>对准二维码，点弹出的链接</div></div>
+      <div class="row"><span class="n">3</span><div>浏览器里就能点<b>八节点</b>、切五国语言体验</div></div>
+    </div>
+    <p class="foot">主持人断开热点或关闭程序后，链接即失效，无法再访问。</p>
+  </div>
+</body>
+</html>
